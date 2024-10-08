@@ -13,11 +13,11 @@ import DashboardPage from './pages/DashboardPage.jsx';
 import EditTypeOfServicePage from './pages/EditTypeOfServicePage.jsx';
 import DetailTypeOfServicePage from './pages/DetailTypeOfServicePage.jsx';
 import DetailServicePage from './pages/DetailServicePage.jsx';
+import DetailServicePageEmployee from './pages/DetailServicePageEmployee.jsx';
 import ConfirmedServicePage from './pages/ConfirmedServicePage.jsx';
 import EditServicePage from './pages/EditServicePage.jsx';
 import EditShiftRecordComponent from './components/AdminDashboard/Shifts/EditShiftRecordComponent.jsx';
 import RatingServiceComponent from './components/ClientDashboard/RatingServiceComponent.jsx';
-import ShiftRecordComponent from './components/EmployeeDashBoard/ShiftRecordComponent.jsx';
 import ScrollTopComponent from './components/ScrollTopComponent.jsx';
 
 const App = () => {
@@ -53,6 +53,11 @@ const App = () => {
                     />
 
                     <Route
+                        path='/services/employee/:serviceId'
+                        element={<DetailServicePageEmployee />}
+                    />
+
+                    <Route
                         path='/user/services/edit/:serviceId'
                         element={<EditServicePage />}
                     />
@@ -74,11 +79,6 @@ const App = () => {
                     <Route
                         path='/services/validate/:validationCode'
                         element={<ConfirmedServicePage />}
-                    />
-
-                    <Route
-                        path='/shiftRecords/:shiftRecordId'
-                        element={<ShiftRecordComponent />}
                     />
 
                     <Route

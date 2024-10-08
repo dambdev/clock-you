@@ -2,11 +2,10 @@ import endShiftRecordService from '../../services/shiftRecords/endShiftRecordSer
 
 const endShiftRecordsController = async (req, res, next) => {
     try {
-        const { shiftRecordId } = req.params;
-        const { clockOut } = req.body;
-        const startDateTime = new Date(clockOut);
+        const { shiftRecordId, location, clockOut } = req.body;
+        const endDateTime = new Date(clockOut);
 
-        await endShiftRecordService(shiftRecordId, startDateTime);
+        await endShiftRecordService(shiftRecordId, location, endDateTime);
 
         res.send({
             status: 'ok',

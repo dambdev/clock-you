@@ -1,24 +1,19 @@
-import { useState, useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import {
     fetchClockInShiftRecordServices,
     fetchClockOutShiftRecordServices,
 } from '../../services/shiftRecordServices';
-import toast from 'react-hot-toast';
 import MapComponent from '../MapComponent';
-import Modal from 'react-modal';
+import toast from 'react-hot-toast';
 
-const ShiftRecordComponent = ({
-    shiftRecordId,
-    onRequestClose,
-    initialLocation,
-    onShiftRecordSuccess,
-}) => {
-    const { authToken } = useContext(AuthContext);
+const ShiftRecordComponent = ({ detailData, authToken }) => {
+    const navigate = useNavigate();
 
     const [location, setLocation] = useState({
-        currentLocation: initialLocation || { lat: '', lng: '' },
+        currentLocation: { lat: null, lng: null },
     });
+    const [loading, setLoading] = useState(true);
 
     const getLocation = () => {
         return new Promise((resolve, reject) => {
@@ -26,16 +21,34 @@ const ShiftRecordComponent = ({
                 navigator.geolocation.getCurrentPosition(
                     (position) =>
                         resolve({
-                            lat: position.coords.latitudeIn,
-                            lng: position.coords.longitudeIn,
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
                         }),
-                    (error) => reject(error)
+                    (error) => {
+                        console.error('Geolocation error:', error);
+                        reject(error);
+                    }
                 );
             } else {
                 reject(new Error('Geolocalización no soportada'));
             }
         });
     };
+
+    useEffect(() => {
+        const fetchInitialLocation = async () => {
+            try {
+                const initialLocation = await getLocation();
+                setLocation({ currentLocation: initialLocation });
+            } catch (error) {
+                console.error('Error fetching initial location:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchInitialLocation();
+    }, []);
 
     const getStart = async (e) => {
         e.preventDefault();
@@ -47,14 +60,12 @@ const ShiftRecordComponent = ({
                 authToken,
                 clockIn,
                 location,
-                shiftRecordId
+                detailData.shiftRecordId
             );
 
             toast.success(data.message, {
                 id: 'ok',
             });
-            onRequestClose();
-            onShiftRecordSuccess();
         } catch (error) {
             toast.error(error.message, {
                 id: 'error',
@@ -66,17 +77,19 @@ const ShiftRecordComponent = ({
         e.preventDefault();
         const clockOut = new Date();
         try {
+            const location = await getLocation();
+            setLocation({ currentLocation: location });
             const data = await fetchClockOutShiftRecordServices(
                 authToken,
                 clockOut,
-                shiftRecordId
+                location,
+                detailData.shiftRecordId
             );
 
             toast.success(data.message, {
                 id: 'ok',
             });
-            onRequestClose();
-            onShiftRecordSuccess();
+            navigate('/user#MyServicesComponent');
         } catch (error) {
             toast.error(error.message, {
                 id: 'error',
@@ -85,7 +98,7 @@ const ShiftRecordComponent = ({
     };
 
     return (
-        <form className='mx-auto form-1024'>
+        <form className='mx-auto'>
             <fieldset>
                 <button
                     className='mt-4 mb-2 text-white bg-green-600'
@@ -93,7 +106,13 @@ const ShiftRecordComponent = ({
                 >
                     Registrar Entrada
                 </button>
-                <MapComponent location={location} />
+                {!loading &&
+                location.currentLocation.lat !== null &&
+                location.currentLocation.lng !== null ? (
+                    <MapComponent location={location} />
+                ) : (
+                    <p>Loading map...</p>
+                )}
                 <button className='mt-2 text-white bg-red-600' onClick={getEnd}>
                     Registrar Salida
                 </button>
@@ -102,27 +121,4 @@ const ShiftRecordComponent = ({
     );
 };
 
-const ShiftRecordModal = ({
-    isOpen,
-    onRequestClose,
-    shiftRecordId,
-    initialLocation,
-    onShiftRecordSuccess,
-}) => {
-    return (
-        <Modal
-            isOpen={isOpen}
-            onRequestClose={onRequestClose}
-            className='modal-content'
-        >
-            <ShiftRecordComponent
-                shiftRecordId={shiftRecordId}
-                onRequestClose={onRequestClose}
-                initialLocation={initialLocation}
-                onShiftRecordSuccess={onShiftRecordSuccess}
-            />
-        </Modal>
-    );
-};
-
-export default ShiftRecordModal;
+export default ShiftRecordComponent;

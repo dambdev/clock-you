@@ -51,20 +51,18 @@ export const fetchClockInShiftRecordServices = async (
     location,
     shiftRecordId
 ) => {
-    const res = await fetch(
-        `${VITE_API_URL}/shiftrecords/clockIn/${shiftRecordId}`,
-        {
-            method: 'PUT',
-            headers: {
-                Authorization: authToken,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                location,
-                clockIn,
-            }),
-        }
-    );
+    const res = await fetch(`${VITE_API_URL}/shiftrecords`, {
+        method: 'PUT',
+        headers: {
+            Authorization: authToken,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            shiftRecordId,
+            location,
+            clockIn,
+        }),
+    });
     const body = await res.json();
 
     if (body.status === 'error') {
@@ -77,15 +75,18 @@ export const fetchClockInShiftRecordServices = async (
 export const fetchClockOutShiftRecordServices = async (
     authToken,
     clockOut,
+    location,
     shiftRecordId
 ) => {
-    const res = await fetch(`${VITE_API_URL}/shiftrecords/${shiftRecordId}`, {
+    const res = await fetch(`${VITE_API_URL}/shiftrecords`, {
         method: 'PATCH',
         headers: {
             Authorization: authToken,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+            shiftRecordId,
+            location,
             clockOut,
         }),
     });

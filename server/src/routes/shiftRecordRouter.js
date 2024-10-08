@@ -34,13 +34,7 @@ router.post(
     newShiftRecordController
 );
 
-router.put(
-    '/shiftRecords/clockIn/:shiftRecordId',
-    authUser,
-    isEmployee,
-    shiftRecordExists,
-    startShiftRecordsController
-);
+router.put('/shiftRecords', authUser, isEmployee, startShiftRecordsController);
 
 router.put(
     '/shiftRecords/edit/:shiftRecordId',
@@ -50,12 +44,6 @@ router.put(
     editShiftRecordController
 );
 
-router.patch(
-    '/shiftRecords/:shiftRecordId',
-    authUser,
-    isEmployee,
-    shiftRecordExists,
-    endShiftRecordsController
-);
+router.patch('/shiftRecords', authUser, isEmployee, endShiftRecordsController);
 
 export default router;
