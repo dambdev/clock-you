@@ -1,11 +1,11 @@
-import { useParams } from 'react-router-dom';
-import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import { useParams } from 'react-router-dom';
+import { FaStar } from 'react-icons/fa';
+import { useState, useEffect, useContext } from 'react';
 import { fetchDetailServiceServices } from '../services/serviceServices.js';
 import ListEmployeeComponent from '../components/AdminDashboard/Services/ListEmployeeComponent.jsx';
-import toast from 'react-hot-toast';
 import MapComponent from '../components/MapComponent.jsx';
-import { FaStar } from 'react-icons/fa';
+import toast from 'react-hot-toast';
 
 const DetailServicePage = () => {
     const { serviceId } = useParams();
@@ -44,23 +44,21 @@ const DetailServicePage = () => {
         hour: '2-digit',
         minute: '2-digit',
     });
+
     const startDate = new Date(data.startDateTime).toLocaleDateString();
-    const endDate = new Date(data.endDateTime).toLocaleDateString();
 
     const clockIn = new Date(data.clockIn).toLocaleString();
     const clockOut = new Date(data.clockOut).toLocaleString();
 
     return (
         <section>
-            <form className='form-filters mx-auto'>
+            <form className='mx-auto'>
                 <fieldset>
                     <legend>Solicitud</legend>
                     <p className='mt-2'>{data.type}</p>
                     <p>{data.comments}</p>
-
                     <p>
-                        Solicitado desde el {startDate} a las {startTime} hasta
-                        el {endDate} a las {endTime}
+                        Solicitado el {startDate} de {startTime} a {endTime}
                     </p>
                     <p className='grow'>
                         En {data.address}, {data.city}, {data.postCode},{' '}
@@ -71,7 +69,7 @@ const DetailServicePage = () => {
                     <p className='font-extrabold'>Total: {data.totalPrice}€</p>
                 </fieldset>
             </form>
-            <form className='form-filters mx-auto'>
+            <form className='mx-auto'>
                 <fieldset>
                     <legend>Cliente</legend>
                     <p className='mt-2'>
@@ -86,7 +84,7 @@ const DetailServicePage = () => {
                 <ListEmployeeComponent serviceId={serviceId} />
             )}
             {data.status === 'completed' && (
-                <form className='form-filters mx-auto'>
+                <form className='mx-auto'>
                     <fieldset>
                         <legend>Empleado</legend>
                         <p className='mt-2'>
@@ -113,7 +111,6 @@ const DetailServicePage = () => {
                                 />
                             ))}
                         </div>
-
                         {location.currentLocation ? (
                             <div>
                                 <MapComponent location={location} />
