@@ -1,9 +1,12 @@
-const { VITE_START_TIME, VITE_END_TIME } = import.meta.env;
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
+
 import { fetchNewServiceServices } from '../services/serviceServices';
+
 import toast from 'react-hot-toast';
+
+const { VITE_START_TIME, VITE_END_TIME } = import.meta.env;
 
 const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
     const { authToken } = useContext(AuthContext);
@@ -25,9 +28,7 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
         return tomorrow.toISOString().split('T')[0];
     };
 
-    const [hours, setHours] = useState(1);
-
-    const timeIntervals = () => {
+    const timeIntervals = (hours) => {
         const options = [];
         const startHour = VITE_START_TIME;
         const endHour = VITE_END_TIME - hours;
@@ -40,44 +41,33 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
         return options;
     };
 
-    const valuesTimeInterval = timeIntervals();
+    const createNewServiceEntry = () => {
+        const initialHours = 1;
+        const initialNumberOfPeople = 1;
+        const initialPrice = 0;
+        const initialComments = '';
+        return {
+            date: getTomorrowDate(),
+            hours: initialHours,
+            numberOfPeople: initialNumberOfPeople,
+            time: timeIntervals(initialHours)[0],
+            totalPrice: initialHours * initialNumberOfPeople * initialPrice,
+            comments: initialComments,
+        };
+    };
 
-    const [startDateTime, setStartDateTime] = useState(() => {
-        const tomorrow = getTomorrowDate();
-        return `${tomorrow}T${valuesTimeInterval[0]}`;
-    });
+    const [services, setServices] = useState([createNewServiceEntry()]);
 
-    const [numberOfPeople, setNumberOfPeople] = useState(1);
     const [address, setAddress] = useState('');
     const [postCode, setPostCode] = useState('');
     const [city, setCity] = useState('');
-    const [comments, setComments] = useState('');
-    const [totalPrice, setTotalPrice] = useState(price);
 
-    useEffect(() => {
-        setTotalPrice(hours * numberOfPeople * price);
-    }, [hours, numberOfPeople, price]);
-
-    const resetInputs = (e) => {
-        e.preventDefault();
-        setHours(1);
-        setNumberOfPeople(1);
-        setAddress('');
-        setCity('');
-        setComments('');
-        setStartDateTime(() => {
-            const tomorrow = getTomorrowDate();
-            return `${tomorrow}T${valuesTimeInterval[0]}`;
-        });
-    };
-
-    const handleNewService = async (e) => {
-        e.preventDefault();
+    const handleNewService = async (entry) => {
         try {
-            const startDate = new Date(startDateTime);
+            const startDate = new Date(`${entry.date}T${entry.time}`);
 
             const endDate = new Date(
-                startDate.getTime() + hours * 60 * 60 * 1000
+                startDate.getTime() + entry.hours * 60 * 60 * 1000
             );
 
             const formattedStartDateTime = startDate
@@ -95,107 +85,181 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
                 typeOfServiceId,
                 formattedStartDateTime,
                 formattedEndDateTime,
-                numberOfPeople,
-                hours,
+                entry.numberOfPeople,
+                entry.hours,
                 address,
                 postCode,
                 city,
-                comments,
-                totalPrice
+                entry.comments,
+                entry.totalPrice
             );
 
-            toast.success(data.message, {
-                id: 'ok',
-            });
+            toast.success(data.message, { id: 'ok' });
 
             navigate('/user#OrdersComponent');
         } catch (error) {
-            toast.error(error.message, {
-                id: 'error',
-            });
+            toast.error(error.message, { id: 'error' });
         }
     };
 
+    const handleAddServiceEntry = () => {
+        setServices([...services, createNewServiceEntry()]);
+    };
+
+    const handleServiceChange = (index, field, value) => {
+        const updatedServices = services.map((service, i) => {
+            if (i === index) {
+                const newHours = field === 'hours' ? value : service.hours;
+                const newNumberOfPeople =
+                    field === 'numberOfPeople' ? value : service.numberOfPeople;
+
+                return {
+                    ...service,
+                    [field]: value,
+                    totalPrice:
+                        parseInt(newHours) *
+                        parseInt(newNumberOfPeople) *
+                        parseFloat(price),
+                };
+            }
+            return service;
+        });
+        setServices(updatedServices);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        services.forEach((entry) => {
+            handleNewService(entry);
+        });
+    };
+
     return (
-        <form className='profile-form' onSubmit={handleNewService}>
+        <form className='profile-form' onSubmit={handleSubmit}>
             <fieldset>
                 <legend>Solicítalo</legend>
-                <label htmlFor='date'>Fecha</label>
-                <input
-                    required
-                    type='date'
-                    id='date'
-                    value={startDateTime.split('T')[0]}
-                    min={getTomorrowDate()}
-                    onClick={noAuthenticated}
-                    onChange={(e) =>
-                        setStartDateTime(
-                            e.target.value + 'T' + startDateTime.split('T')[1]
-                        )
-                    }
-                />
-                <label htmlFor='hours'>Horas a contratar</label>
-                <select
-                    required
-                    id='hours'
-                    value={hours}
-                    onFocus={noAuthenticated}
-                    onChange={(e) => {
-                        setHours(e.target.value);
-                    }}
-                >
-                    <option value='1'>1</option>
-                    <option value='2'>2</option>
-                    <option value='3'>3</option>
-                    <option value='4'>4</option>
-                    <option value='5'>5</option>
-                    <option value='6'>6</option>
-                    <option value='7'>7</option>
-                    <option value='8'>8</option>
-                </select>
-                <label htmlFor='hours'>Personas a contratar</label>
-                <select
-                    required
-                    id='numberOfPeople'
-                    value={numberOfPeople}
-                    onFocus={noAuthenticated}
-                    onChange={(e) => setNumberOfPeople(e.target.value)}
-                >
-                    <option value='1'>1</option>
-                    <option value='2'>2</option>
-                    <option value='3'>3</option>
-                    <option value='4'>4</option>
-                    <option value='5'>5</option>
-                    <option value='6'>6</option>
-                    <option value='7'>7</option>
-                    <option value='8'>8</option>
-                    <option value='9'>9</option>
-                    <option value='10'>10</option>
-                </select>
-                <label htmlFor='time'>Hora de inicio</label>
-                <select
-                    required
-                    id='time'
-                    value={startDateTime.split('T')[1]}
-                    onFocus={noAuthenticated}
-                    onChange={(e) => {
-                        setStartDateTime(
-                            startDateTime.split('T')[0] + 'T' + e.target.value
-                        );
-                    }}
-                >
-                    <option value='' disabled>
-                        Selecciona:
-                    </option>
-                    {valuesTimeInterval.map((value) => (
-                        <option key={value} value={value}>
-                            {value}
-                        </option>
-                    ))}
-                </select>
+                {services.map((entry, index) => (
+                    <section
+                        key={index}
+                        className='flex flex-col gap-2 service-entry'
+                    >
+                        <label htmlFor={`date-${index}`}>Fecha</label>
+                        <input
+                            required
+                            type='date'
+                            id={`date-${index}`}
+                            onClick={noAuthenticated}
+                            value={entry.date}
+                            min={getTomorrowDate()}
+                            onChange={(e) =>
+                                handleServiceChange(
+                                    index,
+                                    'date',
+                                    e.target.value
+                                )
+                            }
+                        />
+                        <label htmlFor={`hours-${index}`}>
+                            Horas a contratar
+                        </label>
+                        <select
+                            required
+                            id={`hours-${index}`}
+                            onFocus={noAuthenticated}
+                            value={entry.hours}
+                            onChange={(e) =>
+                                handleServiceChange(
+                                    index,
+                                    'hours',
+                                    parseInt(e.target.value)
+                                )
+                            }
+                        >
+                            {Array.from({ length: 8 }, (_, i) => i + 1).map(
+                                (i) => (
+                                    <option key={i} value={i}>
+                                        {i}
+                                    </option>
+                                )
+                            )}
+                        </select>
+                        <label htmlFor={`numberOfPeople-${index}`}>
+                            Personas a contratar
+                        </label>
+                        <select
+                            required
+                            id={`numberOfPeople-${index}`}
+                            onFocus={noAuthenticated}
+                            value={entry.numberOfPeople}
+                            onChange={(e) =>
+                                handleServiceChange(
+                                    index,
+                                    'numberOfPeople',
+                                    parseInt(e.target.value)
+                                )
+                            }
+                        >
+                            {Array.from({ length: 10 }, (_, i) => i + 1).map(
+                                (i) => (
+                                    <option key={i} value={i}>
+                                        {i}
+                                    </option>
+                                )
+                            )}
+                        </select>
+                        <label htmlFor={`time-${index}`}>Hora de inicio</label>
+                        <select
+                            required
+                            id={`time-${index}`}
+                            onFocus={noAuthenticated}
+                            value={entry.time}
+                            onChange={(e) =>
+                                handleServiceChange(
+                                    index,
+                                    'time',
+                                    e.target.value
+                                )
+                            }
+                        >
+                            {timeIntervals(entry.hours).map((value) => (
+                                <option key={value} value={value}>
+                                    {value}
+                                </option>
+                            ))}
+                        </select>
+                        <label htmlFor={`totalPrice-${index}`}>
+                            Precio total
+                        </label>
+                        <input
+                            type='text'
+                            disabled
+                            placeholder={`${entry.totalPrice} €`}
+                        />
+                        <label htmlFor={`comments-${index}`}>Comentarios</label>
+                        <textarea
+                            required
+                            id='comments'
+                            minLength='10'
+                            maxLength='250'
+                            placeholder='Añada comentarios adicionales para describir con detalle sus necesidades sobre el servicio solicitado'
+                            onFocus={noAuthenticated}
+                            value={entry.comments}
+                            onChange={(e) =>
+                                handleServiceChange(
+                                    index,
+                                    'comments',
+                                    e.target.value
+                                )
+                            }
+                        ></textarea>
+                    </section>
+                ))}
+                <div className='mx-auto'>
+                    <button type='button' onClick={handleAddServiceEntry}>
+                        Añadir otro día
+                    </button>
+                </div>
 
-                <label htmlFor='totalPrice'>Precio total</label>
-                <input type='text' disabled placeholder={`${totalPrice} €`} />
                 <label htmlFor='address'>Dirección</label>
                 <input
                     required
@@ -212,8 +276,6 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
                     type='number'
                     id='postCode'
                     placeholder='Escribe aquí tu código postal'
-                    minLength='5'
-                    maxLength='5'
                     value={postCode}
                     onFocus={noAuthenticated}
                     onChange={(e) => setPostCode(e.target.value)}
@@ -228,27 +290,10 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
                     onFocus={noAuthenticated}
                     onChange={(e) => setCity(e.target.value)}
                 />
-                <label htmlFor='comments'>Comentarios</label>
-                <textarea
-                    required
-                    id='comments'
-                    placeholder='Añada comentarios adicionales para describir con detalle sus necesidades sobre el servicio solicitado'
-                    minLength='10'
-                    maxLength='250'
-                    rows='5'
-                    value={comments}
-                    onFocus={noAuthenticated}
-                    onChange={(e) => setComments(e.target.value)}
-                ></textarea>
                 <div className='mx-auto'>
-                    <button
-                        className='mr-4'
-                        type='submit'
-                        disabled={!authToken}
-                    >
+                    <button type='submit' disabled={!authToken}>
                         Solicitar
                     </button>
-                    <button onClick={resetInputs}>Limpiar</button>
                 </div>
             </fieldset>
         </form>
