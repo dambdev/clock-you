@@ -92,7 +92,7 @@
 
     form {
         margin-top: 1rem;
-        max-width: 46rem;
+        max-width: 768px;
 
         & img {
             margin-top: 1rem;
@@ -310,8 +310,8 @@
 }
 
 .leaflet-container {
-    height: 270px;
-    width: 270px;
+    height: 400px;
+    width: 100%;
     margin: auto;
     border-radius: 20px;
 }
@@ -341,11 +341,6 @@
 
     .manager-tabs {
         justify-content: center;
-    }
-
-    .leaflet-container {
-        height: 480px;
-        width: 480px;
     }
 
     .initial-content {
@@ -463,9 +458,9 @@
         min-width: 30.5rem;
     }
 
-    .leaflet-container {
-        width: 800px;
-    }
+    /* .leaflet-container {
+        width: 100%;
+    } */
 
     .hero-css-2 {
         & .articles-container {
