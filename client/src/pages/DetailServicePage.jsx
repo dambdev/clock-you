@@ -5,6 +5,7 @@ import { fetchDetailServiceServices } from '../services/serviceServices.js';
 import ListEmployeeComponent from '../components/AdminDashboard/Services/ListEmployeeComponent.jsx';
 import toast from 'react-hot-toast';
 import MapComponent from '../components/MapComponent.jsx';
+import { FaStar } from 'react-icons/fa';
 
 const DetailServicePage = () => {
     const { serviceId } = useParams();
@@ -35,11 +36,16 @@ const DetailServicePage = () => {
         DetailService();
     }, [serviceId, authToken]);
 
-    const time = new Date(data.startDateTime).toLocaleTimeString([], {
+    const startTime = new Date(data.startDateTime).toLocaleTimeString([], {
         hour: '2-digit',
         minute: '2-digit',
     });
-    const date = new Date(data.startDateTime).toLocaleDateString();
+    const endTime = new Date(data.endDateTime).toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+    });
+    const startDate = new Date(data.startDateTime).toLocaleDateString();
+    const endDate = new Date(data.endDateTime).toLocaleDateString();
 
     const clockIn = new Date(data.clockIn).toLocaleString();
     const clockOut = new Date(data.clockOut).toLocaleString();
@@ -52,14 +58,16 @@ const DetailServicePage = () => {
                     <p className='mt-2'>{data.type}</p>
                     <p>{data.comments}</p>
 
-                    <p className='font-extrabold'>
-                        Solicitado para el {date} a las {time}
+                    <p>
+                        Solicitado desde el {startDate} a las {startTime} hasta
+                        el {endDate} a las {endTime}
                     </p>
                     <p className='grow'>
                         En {data.address}, {data.city}, {data.postCode},{' '}
                         {data.province}
                     </p>
-                    <p>Horas Contratadas: {data.hours}</p>
+                    <p>Horas contratadas: {data.hours}</p>
+                    <p>Personas contratadas: {data.numberOfPeople}</p>
                     <p className='font-extrabold'>Total: {data.totalPrice}€</p>
                 </fieldset>
             </form>
@@ -92,6 +100,20 @@ const DetailServicePage = () => {
                                 {data.minutesWorked} Minutos
                             </p>
                         )}
+                        <div className='flex mb-2 justify-center'>
+                            {[...Array(5)].map((_, index) => (
+                                <FaStar
+                                    key={data.id}
+                                    size={30}
+                                    color={
+                                        index + 1 <= data.rating
+                                            ? '#ffc107'
+                                            : '#e4e5e9'
+                                    }
+                                />
+                            ))}
+                        </div>
+
                         {location.currentLocation ? (
                             <div>
                                 <MapComponent location={location} />
