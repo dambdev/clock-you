@@ -121,14 +121,23 @@ const OrdersComponent = () => {
             </form>
             <ul className='cards'>
                 {data.map((item) => {
-                    const time = new Date(
+                    const startTime = new Date(
                         item.startDateTime
                     ).toLocaleTimeString([], {
                         hour: '2-digit',
                         minute: '2-digit',
                     });
-                    const date = new Date(
+                    const endTime = new Date(
+                        item.endDateTime
+                    ).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                    });
+                    const startDate = new Date(
                         item.startDateTime
+                    ).toLocaleDateString();
+                    const endDate = new Date(
+                        item.endDateTime
                     ).toLocaleDateString();
                     return (
                         <li key={item.id} className='relative'>
@@ -140,8 +149,11 @@ const OrdersComponent = () => {
                                 )}
                             </div>
                             <h3>{item.type}</h3>
-                            <p className='font-extrabold'>
-                                El {date} a las {time}
+                            <p>
+                                Comienza el {startDate} a las {startTime}
+                            </p>
+                            <p>
+                                Finaliza el {endDate} a las {endTime}
                             </p>
                             <p className='grow'>{item.comments}</p>
                             <p className='grow'>
@@ -149,7 +161,8 @@ const OrdersComponent = () => {
                                 {item.province}
                             </p>
                             <p>Precio hora: {item.price}€</p>
-                            <p>Horas Contratadas: {item.hours}</p>
+                            <p>Horas contratadas: {item.hours}</p>
+                            <p>Personas contratadas: {item.numberOfPeople}</p>
                             <p className='font-extrabold'>
                                 Total: {item.totalPrice}€
                             </p>

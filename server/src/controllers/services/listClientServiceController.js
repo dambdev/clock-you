@@ -1,5 +1,4 @@
 import selectServiceByClientIdService from '../../services/services/selectServiceByClientIdService.js';
-import generateErrorUtil from '../../utils/generateErrorUtil.js';
 
 const listClientServiceController = async (req, res, next) => {
     try {
