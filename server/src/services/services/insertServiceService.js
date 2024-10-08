@@ -9,11 +9,14 @@ const insertServiceService = async (
     typeOfServiceId,
     userId,
     startDateTime,
+    endDateTime,
     hours,
-    comments,
+    numberOfPeople,
     address,
     city,
-    postCode
+    postCode,
+    comments,
+    totalPrice
 ) => {
     const pool = await getPool();
 
@@ -36,9 +39,16 @@ const insertServiceService = async (
 
     const [existService] = await pool.query(
         `
-        SELECT id FROM services WHERE typeOfServicesId = ? AND clientId = ? AND startDateTime = ? AND hours = ? AND deletedAt IS NULL
+        SELECT id FROM services WHERE typeOfServicesId = ? AND clientId = ? AND startDateTime = ? AND endDateTime = ?  AND numberOfPeople = ? AND hours = ? AND deletedAt IS NULL
         `,
-        [typeOfServiceId, userId, startDateTime, hours]
+        [
+            typeOfServiceId,
+            userId,
+            startDateTime,
+            endDateTime,
+            numberOfPeople,
+            hours,
+        ]
     );
 
     if (existAddress.length && existService.length)
@@ -46,15 +56,6 @@ const insertServiceService = async (
             'Ya has solicitado un servicio con estas características',
             401
         );
-
-    const [price] = await pool.query(
-        `
-        SELECT price FROM typeOfServices WHERE id = ?
-        `,
-        [typeOfServiceId]
-    );
-
-    const resultPrice = price[0].price * hours;
 
     const addressId = uuid();
 
@@ -71,25 +72,27 @@ const insertServiceService = async (
 
     await pool.query(
         `
-        INSERT INTO services(id, startDateTime, hours, comments, validationCode, clientId, addressId, typeOfServicesId, totalPrice) VALUES (?,?,?,?,?,?,?,?,?)
+        INSERT INTO services(id, startDateTime, endDateTime, numberOfPeople, hours, comments, validationCode, clientId, addressId, typeOfServicesId, totalPrice) VALUES (?,?,?,?,?,?,?,?,?,?,?)
         `,
         [
             serviceId,
             startDateTime,
+            endDateTime,
+            numberOfPeople,
             hours,
             comments,
             validationCode,
             userId,
             addressId,
             typeOfServiceId,
-            resultPrice,
+            totalPrice,
         ]
     );
 
     const [data] = await pool.query(
         `
         SELECT s.status,
-        t.type, t.city AS province, t.price, s.hours, s.totalPrice, s.startDateTime, a.address, a.postCode, a.city, s.comments, u.email, u.firstName, u.lastName, u.phone
+        t.type, t.city AS province, t.price, s.hours, s.totalPrice, s.startDateTime, s.endDateTime, s.numberOfPeople, a.address, a.postCode, a.city, s.comments, u.email, u.firstName, u.lastName, u.phone
         FROM addresses a
         INNER JOIN services s
         ON a.id = s.addressId
@@ -102,16 +105,18 @@ const insertServiceService = async (
         [userId, serviceId]
     );
 
-    const utcDateTime = new Date(data[0].startDateTime);
+    const utcStartDateTime = new Date(data[0].startDateTime);
+    const utcEndDateTime = new Date(data[0].endDateTime);
 
-    const localDateTime = new Date(utcDateTime).toLocaleString();
+    const localStartDateTime = new Date(utcStartDateTime).toLocaleString();
+    const localEndDateTime = new Date(utcEndDateTime).toLocaleString();
 
     const emailSubject = `Nuevo pedido`;
 
     const emailBody = `
     <html>
         <body>
-            <table bgcolor="#3c3c3c" width="670" border="0" cellspacing="0" cellpadding="0" align="center" style="margin: 0 auto" > <tbody> <tr> <td> <table bgcolor="#3c3c3c" width="670" border="0" cellspacing="0" cellpadding="0" align="left" > <tbody> <tr> <td align="left" style=" padding: 20px 40px; color: #fff; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; " > <p style=" margin: 10px 0 20px; font-size: 35px; font-weight: bold; color: #fff; " > <img src="https://raw.githubusercontent.com/mander92/ClockYou/main/docs/logo-email.png" alt="Logo" style="width: 40px; margin: 0 -3px -10px 0" /> ClockYou </p> <p style="margin: 0 0 15px; font-size: 20px; color: #fff;"> ${data[0].type} en ${data[0].province}</p> <br /></p> <p style="margin: 0 0 10px; font-size: 16px; color: #fff;"> El ${localDateTime} en Calle: ${data[0].address}, ${data[0].postCode}, ${data[0].city} </p> <p style="margin: 25px 0 5px; font-size: 18px; color: #fff;"> Por favor, asigne un empleado para continuar con el proceso.</p> <p style="margin: 50px 0 2px; color: #fff;"> Gracias por confiar en nosotros. </p> <p style="margin: 0 0 10px; color: #fff;">&copy; ClockYou 2024</p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table>
+            <table bgcolor="#3c3c3c" width="670" border="0" cellspacing="0" cellpadding="0" align="center" style="margin: 0 auto" > <tbody> <tr> <td> <table bgcolor="#3c3c3c" width="670" border="0" cellspacing="0" cellpadding="0" align="left" > <tbody> <tr> <td align="left" style=" padding: 20px 40px; color: #fff; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; " > <p style=" margin: 10px 0 20px; font-size: 35px; font-weight: bold; color: #fff; " > <img src="https://raw.githubusercontent.com/mander92/ClockYou/main/docs/logo-email.png" alt="Logo" style="width: 40px; margin: 0 -3px -10px 0" /> ClockYou </p> <p style="margin: 0 0 15px; font-size: 20px; color: #fff;"> ${data[0].type} en ${data[0].province}</p> <br /></p> <p style="margin: 0 0 10px; font-size: 16px; color: #fff;"> Comienza el ${localStartDateTime} y finaliza el ${localEndDateTime} en Calle: ${data[0].address}, ${data[0].postCode}, ${data[0].city} </p> <p style="margin: 25px 0 5px; font-size: 18px; color: #fff;"> Por favor, asigne un empleado para continuar con el proceso.</p> <p style="margin: 50px 0 2px; color: #fff;"> Gracias por confiar en nosotros. </p> <p style="margin: 0 0 10px; color: #fff;">&copy; ClockYou 2024</p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table>
         </body>
     </html>
 `;
