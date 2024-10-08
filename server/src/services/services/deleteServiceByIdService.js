@@ -27,11 +27,25 @@ const deleteServiceByIdService = async (userId, serviceId) => {
             401
         );
 
+    const [addressId] = await pool.query(
+        `
+            SELECT addressId FROM services WHERE id = ?
+            `,
+        [serviceId]
+    );
+
     await pool.query(
         `
-        UPDATE services SET deletedAt = CURRENT_TIMESTAMP, status = 'canceled' WHERE id = ? 
+        UPDATE services SET deletedAt = CURRENT_TIMESTAMP, status = 'canceled' WHERE id = ?
         `,
         [serviceId]
+    );
+
+    await pool.query(
+        `
+            UPDATE addresses SET deletedAt = CURRENT_TIMESTAMP WHERE id = ?
+            `,
+        [addressId[0].addressId]
     );
 };
 

@@ -8,7 +8,10 @@ const updateServiceByIdService = async (
     city,
     comments,
     startDateTime,
-    hours
+    endDateTime,
+    totalPrice,
+    hours,
+    numberOfPeople
 ) => {
     const pool = await getPool();
 
@@ -37,42 +40,20 @@ const updateServiceByIdService = async (
         [address, postCode, city, addressId[0].addressId]
     );
 
-    const [typeId] = await pool.query(
-        `
-        SELECT typeOfServicesId FROM services WHERE id = ?
-        `,
-        [serviceId]
-    );
-
-    const [price] = await pool.query(
-        `
-        SELECT price FROM typeOfServices WHERE id = ?
-        `,
-        [typeId[0].typeOfServicesId]
-    );
-
-    const resultPrice = price[0].price * hours;
-
     await pool.query(
         `
-        UPDATE services SET comments = ?, startDateTime = ?, hours = ?, totalPrice = ?
-        WHERE id = ?
+        UPDATE services SET comments = ?, startDateTime = ?, endDateTime = ?, totalPrice = ?, hours = ?, numberOfPeople= ? WHERE id = ?
         `,
-        [comments, startDateTime, hours, resultPrice, serviceId]
+        [
+            comments,
+            startDateTime,
+            endDateTime,
+            totalPrice,
+            hours,
+            numberOfPeople,
+            serviceId,
+        ]
     );
-
-    const [data] = await pool.query(
-        `
-        SELECT s.startDateTime, s.hours, s.totalPrice, a.address, a.city, a.postCode
-        FROM services s
-        INNER JOIN addresses a
-        ON a.id = s.addressId
-        WHERE s.id = ?
-        `,
-        [serviceId]
-    );
-
-    return data[0];
 };
 
 export default updateServiceByIdService;

@@ -1,5 +1,4 @@
-const { VITE_START_RESERVATION_HOUR, VITE_END_RESERVATION_HOUR } = import.meta
-    .env;
+const { VITE_START_TIME, VITE_END_TIME } = import.meta.env;
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
@@ -16,54 +15,18 @@ const EditServicePage = () => {
 
     const navigate = useNavigate();
 
-    const [data, setData] = useState([]);
-    const [hours, setHours] = useState(0);
-    const [startDateTime, setDateTime] = useState('');
-    const [address, setAddress] = useState('');
-    const [postCode, setPostCode] = useState('');
-    const [city, setCity] = useState('');
-    const [comments, setComments] = useState('');
-
-    useEffect(() => {
-        const getService = async () => {
-            try {
-                const data = await fetchDetailServiceServices(
-                    serviceId,
-                    authToken
-                );
-                setData(data);
-                setHours(data.hours);
-                setDateTime(data.startDateTime);
-                setAddress(data.address);
-                setPostCode(data.postCode);
-                setCity(data.city);
-                setComments(data.comments);
-            } catch (error) {
-                toast.error(error.message, {
-                    id: 'error',
-                });
-            }
-        };
-
-        getService();
-    }, [serviceId, authToken]);
-
-    const time = new Date(startDateTime).toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
-    });
-
     const getTomorrowDate = () => {
-        const today = new Date();
-        const tomorrow = new Date(today);
-        tomorrow.setDate(today.getDate() + 1);
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
         return tomorrow.toISOString().split('T')[0];
     };
 
+    const [hours, setHours] = useState(1);
+
     const timeIntervals = () => {
         const options = [];
-        const startHour = VITE_START_RESERVATION_HOUR;
-        const endHour = VITE_END_RESERVATION_HOUR;
+        const startHour = VITE_START_TIME;
+        const endHour = VITE_END_TIME - hours;
         for (let i = startHour * 60; i <= endHour * 60; i += 30) {
             const hours = Math.floor(i / 60);
             const minutes = i % 60;
@@ -75,11 +38,61 @@ const EditServicePage = () => {
 
     const valuesTimeInterval = timeIntervals();
 
+    const [data, setData] = useState([]);
+    const [startDateTime, setStartDateTime] = useState('');
+    const [address, setAddress] = useState('');
+    const [postCode, setPostCode] = useState('');
+    const [city, setCity] = useState('');
+    const [comments, setComments] = useState('');
+    const [numberOfPeople, setNumberOfPeople] = useState();
+    const [totalPrice, setTotalPrice] = useState('');
+
+    useEffect(() => {
+        setTotalPrice(hours * numberOfPeople * data.price);
+    }, [hours, numberOfPeople, data.price]);
+
+    useEffect(() => {
+        const getService = async () => {
+            try {
+                const data = await fetchDetailServiceServices(
+                    serviceId,
+                    authToken
+                );
+                setData(data);
+                setHours(data.hours);
+                setStartDateTime(data.startDateTime);
+                setAddress(data.address);
+                setPostCode(data.postCode);
+                setCity(data.city);
+                setComments(data.comments);
+                setNumberOfPeople(data.numberOfPeople);
+                setTotalPrice(data.totalPrice);
+            } catch (error) {
+                toast.error(error.message, {
+                    id: 'error',
+                });
+            }
+        };
+
+        getService();
+    }, [serviceId, authToken]);
+
     const handleEditService = async (e) => {
         e.preventDefault();
 
         try {
-            const formattedDateTime = new Date(startDateTime)
+            const startDate = new Date(startDateTime);
+
+            const endDate = new Date(
+                startDate.getTime() + hours * 60 * 60 * 1000
+            );
+
+            const formattedStartDateTime = startDate
+                .toISOString()
+                .slice(0, 19)
+                .replace('T', ' ');
+
+            const formattedEndDateTime = endDate
                 .toISOString()
                 .slice(0, 19)
                 .replace('T', ' ');
@@ -90,8 +103,11 @@ const EditServicePage = () => {
                 address,
                 hours,
                 city,
-                formattedDateTime,
+                formattedStartDateTime,
+                formattedEndDateTime,
+                totalPrice,
                 postCode,
+                numberOfPeople,
                 authToken
             );
             toast.success(data.message, {
@@ -142,29 +158,12 @@ const EditServicePage = () => {
                     value={startDateTime.split('T')[0]}
                     min={getTomorrowDate()}
                     onChange={(e) =>
-                        setDateTime(
+                        setStartDateTime(
                             e.target.value + 'T' + startDateTime.split('T')[1]
                         )
                     }
                 />
-                <label htmlFor='time'>Hora comienzo servicio</label>
-                <select
-                    required
-                    id='time'
-                    value={time}
-                    onChange={(e) =>
-                        setDateTime(
-                            startDateTime.split('T')[0] + 'T' + e.target.value
-                        )
-                    }
-                >
-                    {valuesTimeInterval.map((opcion) => (
-                        <option key={opcion} value={opcion}>
-                            {opcion}
-                        </option>
-                    ))}
-                </select>
-                <label htmlFor='hours'>Horas</label>
+                <label htmlFor='hours'>Horas contratadas</label>
                 <select
                     id='hours'
                     value={hours}
@@ -172,7 +171,7 @@ const EditServicePage = () => {
                     required
                 >
                     <option value='' disabled>
-                        A contratar:
+                        Selecciona la cantidad:
                     </option>
                     <option value='1'>1</option>
                     <option value='2'>2</option>
@@ -183,6 +182,46 @@ const EditServicePage = () => {
                     <option value='7'>7</option>
                     <option value='8'>8</option>
                 </select>
+                <label htmlFor='hours'>Personas contratadas</label>
+                <select
+                    required
+                    id='numberOfPeople'
+                    value={numberOfPeople}
+                    onChange={(e) => setNumberOfPeople(e.target.value)}
+                >
+                    <option value='' disabled>
+                        Selecciona la cantidad:
+                    </option>
+                    <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                    <option value='5'>5</option>
+                    <option value='6'>6</option>
+                    <option value='7'>7</option>
+                    <option value='8'>8</option>
+                    <option value='9'>9</option>
+                    <option value='10'>10</option>
+                </select>
+                <label htmlFor='time'>Hora de inicio</label>
+                <select
+                    required
+                    id='time'
+                    value={startDateTime.split('T')[1]}
+                    onChange={(e) => {
+                        setStartDateTime(
+                            startDateTime.split('T')[0] + 'T' + e.target.value
+                        );
+                    }}
+                >
+                    {valuesTimeInterval.map((opcion) => (
+                        <option key={opcion} value={opcion}>
+                            {opcion}
+                        </option>
+                    ))}
+                </select>
+                <label htmlFor='totalPrice'>Precio total</label>
+                <input type='text' disabled placeholder={`${totalPrice} €`} />
                 <label htmlFor='address'>Dirección</label>
                 <input
                     type='text'
