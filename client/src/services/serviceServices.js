@@ -4,11 +4,14 @@ export const fetchNewServiceServices = async (
     authToken,
     typeOfServiceId,
     startDateTime,
+    endDateTime,
+    numberOfPeople,
     hours,
     address,
     postCode,
     city,
-    comments
+    comments,
+    totalPrice
 ) => {
     const res = await fetch(`${VITE_API_URL}/services/${typeOfServiceId}`, {
         method: 'POST',
@@ -18,11 +21,14 @@ export const fetchNewServiceServices = async (
         },
         body: JSON.stringify({
             startDateTime,
+            endDateTime,
+            numberOfPeople,
             hours,
             address,
             postCode,
             city,
             comments,
+            totalPrice,
         }),
     });
 
@@ -135,7 +141,10 @@ export const fetchEditServiceServices = async (
     hours,
     city,
     startDateTime,
+    endDateTime,
+    totalPrice,
     postCode,
+    numberOfPeople,
     authToken
 ) => {
     const res = await fetch(`${VITE_API_URL}/services/${serviceId}`, {
@@ -150,7 +159,10 @@ export const fetchEditServiceServices = async (
             hours,
             city,
             startDateTime,
+            endDateTime,
+            totalPrice,
             postCode,
+            numberOfPeople,
         }),
     });
 
