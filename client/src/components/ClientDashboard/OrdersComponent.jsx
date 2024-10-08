@@ -149,11 +149,9 @@ const OrdersComponent = () => {
                                 )}
                             </div>
                             <h3>{item.type}</h3>
+                            <p>El día {startDate}</p>
                             <p>
-                                Comienza el {startDate} a las {startTime}
-                            </p>
-                            <p>
-                                Finaliza el {endDate} a las {endTime}
+                                de {startTime} a {endTime}
                             </p>
                             <p className='grow'>{item.comments}</p>
                             <p className='grow'>
@@ -163,9 +161,7 @@ const OrdersComponent = () => {
                             <p>Precio hora: {item.price}€</p>
                             <p>Horas contratadas: {item.hours}</p>
                             <p>Personas contratadas: {item.numberOfPeople}</p>
-                            <p className='font-extrabold'>
-                                Total: {item.totalPrice}€
-                            </p>
+                            <p>Total: {item.totalPrice}€</p>
                             {item.status === 'pending' && (
                                 <NavLink to={`/user/services/edit/${item.id}`}>
                                     Editar

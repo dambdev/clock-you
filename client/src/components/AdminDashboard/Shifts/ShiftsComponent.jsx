@@ -173,25 +173,13 @@ const ShiftsComponent = () => {
                             <p className='grow'>
                                 En {item.address}, {item.city}
                             </p>
-                            <p>Horas: {item.hours}</p>
-                            {startDateTime && (
-                                <p className='font-extrabold'>
-                                    Previsto: {startDateTime}
-                                </p>
-                            )}
-                            {clockIn && (
-                                <p className='font-extrabold'>
-                                    Entrada: {clockIn}
-                                </p>
-                            )}
-                            {clockOut && (
-                                <p className='font-extrabold'>
-                                    Salida: {clockOut}
-                                </p>
-                            )}
+                            <p>Horas contratadas: {item.hours}</p>
+                            {startDateTime && <p>Previsto: {startDateTime}</p>}
+                            {clockIn && <p>Entrada: {clockIn}</p>}
+                            {clockOut && <p>Salida: {clockOut}</p>}
                             {item.totalHoursWorked !== null ||
                             item.totalMinutesWorked !== null ? (
-                                <p className='font-extrabold'>
+                                <p>
                                     Total: {item.hoursWorked} Horas{' '}
                                     {item.minutesWorked} Minutos
                                 </p>
@@ -220,8 +208,8 @@ const ShiftsComponent = () => {
                 {totals.map((total) => (
                     <li key={total.employeeId} className='relative'>
                         <h3>{`${total.firstName} ${total.lastName}`}</h3>
-                        <p className='font-extrabold mb-2'>
-                            Trabajado: {total.totalHoursWorked} Horas{' '}
+                        <p className='mb-2'>
+                            Lleva trabajado: {total.totalHoursWorked} Horas y{' '}
                             {total.totalMinutesWorked} Minutos
                         </p>
                     </li>
