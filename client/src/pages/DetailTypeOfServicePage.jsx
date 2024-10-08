@@ -55,7 +55,10 @@ const NewServicePage = () => {
                     <p>{data.price} €</p>
                 </fieldset>
             </form>
-            <NewServiceFormComponent typeOfServiceId={data.id} />
+            <NewServiceFormComponent
+                typeOfServiceId={data.id}
+                price={data.price}
+            />
         </section>
     );
 };
