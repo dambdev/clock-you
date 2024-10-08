@@ -63,13 +63,13 @@ const Header = () => {
     return (
         <header id='mainHeader'>
             <nav className='container my-2 mx-auto mainnav flex flex-wrap'>
-                <a className='flex items-center' href='/'>
+                <NavLink className='flex items-center' to={'/'}>
                     <img className='w-14' src='/logo-test.png' alt='clockYou' />
 
                     <span className='text-2xl pl-1.5 serif-FONT-regular hidden sm:inline-flex'>
                         ClockYou
                     </span>
-                </a>
+                </NavLink>
 
                 <ul
                     id='navdinamica'
