@@ -2,7 +2,19 @@
 
 @layer components {
     :root {
-        --percentageTranslate: 10%;
+        --percentageTranslate: 25%;
+    }
+
+    #root > header {
+        position: sticky;
+        top: 0;
+        background-color: var(--white-color);
+        z-index: 1;
+
+        &.sombreado {
+            background-color: #fafafa;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        }
     }
 
     .menuburguer {
@@ -100,18 +112,6 @@
     @media only screen and (min-width: 640px) {
         :root {
             --percentageTranslate: 40%;
-        }
-
-        #root > header {
-            position: sticky;
-            top: 0;
-            background-color: var(--white-color);
-            z-index: 1;
-
-            &.sombreado {
-                background-color: #fafafa;
-                box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-            }
         }
     }
 

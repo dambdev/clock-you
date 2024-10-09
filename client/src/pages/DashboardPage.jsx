@@ -52,8 +52,7 @@ const DashboardPage = () => {
                 {renderNavLink(
                     'ProfileComponent',
                     'Mi Perfil',
-                    activeSection === 'ProfileComponent' &&
-                        'activeSelectedLink less-than-4-buttons'
+                    activeSection === 'ProfileComponent' && 'activeSelectedLink'
                 )}
                 {userRole === 'admin' && (
                     <>

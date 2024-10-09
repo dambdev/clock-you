@@ -6,18 +6,18 @@ const HomePage = () => {
         <>
             <section className='mx-auto isolate relative hero-css bgr-img'>
                 <article className='initial-content'>
-                    <h1 className='my-4'>{`Bienvenido a ${VITE_APP_TITLE}`}</h1>
+                    <h1 className='mb-4'>{`Bienvenido a ${VITE_APP_TITLE}`}</h1>
                     <h2>
                         Encuentra cualquier servicio que necesites, con la
                         comodidad de no moverte
                     </h2>
                 </article>
             </section>
-            <section className='hero-css-2'>
+            <section className='hero-css-2 py-6'>
                 <div>
-                    <h2 className='my-12'>¿Cómo funciona?</h2>
+                    <h2>¿Cómo funciona?</h2>
                     <div className='articles-container'>
-                        <article>
+                        <article className='mt-6'>
                             <img src='./step-1-pShop.webp' alt='' />
                             <h3>Busca lo que necesitas</h3>
                             <p className='text-center'>
@@ -25,7 +25,7 @@ const HomePage = () => {
                                 clases particulares, cuidado de mascotas...
                             </p>
                         </article>
-                        <article className='mt-12'>
+                        <article className='mt-6'>
                             <img src='./step-2.webp' alt='' />
                             <h3>El profesional ideal</h3>
                             <p className='text-center'>
@@ -36,7 +36,7 @@ const HomePage = () => {
                     </div>
                 </div>
             </section>
-            <section className='mt-12 hero-css-3'>
+            <section className='hero-css-3'>
                 <ContactFormComponent />
             </section>
         </>
