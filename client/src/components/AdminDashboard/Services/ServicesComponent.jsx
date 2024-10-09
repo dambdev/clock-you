@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import ListServicesComponent from './ListServicesComponent.jsx';
 import RegisterServicesComponent from './RegisterServicesComponent.jsx';
-import toTopFast from '../../../hooks/toTopFast.js';
 
 const ServicesComponent = () => {
     const [activeSection, setActiveSection] = useState('ListServicesComponent');
@@ -27,7 +26,6 @@ const ServicesComponent = () => {
                     }
                     onClick={(e) => {
                         handleChange('ListServicesComponent', e);
-                        toTopFast(e);
                     }}
                 >
                     Ver Todos
@@ -39,7 +37,6 @@ const ServicesComponent = () => {
                     }
                     onClick={(e) => {
                         handleChange('RegisterServicesComponent', e);
-                        toTopFast(e);
                     }}
                 >
                     Registrar

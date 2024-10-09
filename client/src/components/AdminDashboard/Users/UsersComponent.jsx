@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import ListUserComponent from './ListUserComponent';
 import RegisterAdminUserComponent from './RegisterAdminUserComponent';
-import toTopFast from '../../../hooks/toTopFast';
 
 const UsersComponent = () => {
     const [activeSection, setActiveSection] = useState('ListUserComponent');
@@ -27,7 +26,6 @@ const UsersComponent = () => {
                     }
                     onClick={(e) => {
                         handleChange('ListUserComponent', e);
-                        toTopFast(e);
                     }}
                 >
                     Ver Todos
@@ -39,7 +37,6 @@ const UsersComponent = () => {
                     }
                     onClick={(e) => {
                         handleChange('RegisterAdminUserComponent', e);
-                        toTopFast(e);
                     }}
                 >
                     Registrar

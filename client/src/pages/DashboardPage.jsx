@@ -10,7 +10,6 @@ import ContractsComponent from '../components/AdminDashboard/Contracts/Contracts
 import ShiftsComponent from '../components/AdminDashboard/Shifts/ShiftsComponent';
 import MyServicesComponent from '../components/EmployeeDashBoard/MyServicesComponent';
 import OrdersComponent from '../components/ClientDashboard/OrdersComponent';
-import toTopFast from '../hooks/toTopFast';
 
 const DashboardPage = () => {
     const { authToken } = useContext(AuthContext);
@@ -39,13 +38,7 @@ const DashboardPage = () => {
     };
 
     const renderNavLink = (section, label, extraClass = '') => (
-        <NavLink
-            className={extraClass}
-            to={`#${section}`}
-            onClick={(e) => {
-                toTopFast(e);
-            }}
-        >
+        <NavLink className={extraClass} to={`#${section}`}>
             {label}
         </NavLink>
     );
@@ -59,7 +52,8 @@ const DashboardPage = () => {
                 {renderNavLink(
                     'ProfileComponent',
                     'Mi Perfil',
-                    activeSection === 'ProfileComponent' && 'activeSelectedLink'
+                    activeSection === 'ProfileComponent' &&
+                        'activeSelectedLink less-than-4-buttons'
                 )}
                 {userRole === 'admin' && (
                     <>
