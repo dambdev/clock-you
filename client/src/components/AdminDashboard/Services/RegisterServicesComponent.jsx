@@ -11,6 +11,7 @@ const RegisterNewTypeOfServiceController = () => {
     const [city, setCity] = useState('');
     const [price, setPrice] = useState('');
     const [image, setImage] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState(null);
 
     const resetInputs = (e) => {
         e.preventDefault();
@@ -18,6 +19,8 @@ const RegisterNewTypeOfServiceController = () => {
         setDescription('');
         setCity('');
         setPrice('');
+        setImage(null);
+        setPreviewUrl(null);
     };
 
     const handleRegisterNewTypeOfService = async (e) => {
@@ -43,8 +46,20 @@ const RegisterNewTypeOfServiceController = () => {
         }
     };
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        setImage(file);
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => setPreviewUrl(reader.result);
+            reader.readAsDataURL(file);
+        } else {
+            setPreviewUrl(null);
+        }
+    };
+
     return (
-        <form className='mx-auto'>
+        <form className='mx-auto' onSubmit={handleRegisterNewTypeOfService}>
             <fieldset>
                 <legend>Servicio</legend>
                 <label htmlFor='type'>Tipo</label>
@@ -106,17 +121,15 @@ const RegisterNewTypeOfServiceController = () => {
                     type='file'
                     className='hidden'
                     accept='image/png, image/jpg, image/jpeg, image/tiff'
-                    onChange={(e) => {
-                        setImage(e.target.files[0]);
-                    }}
+                    onChange={handleImageChange}
                 ></input>
+                {previewUrl && (
+                    <div>
+                        <img src={previewUrl} alt='Preview' />
+                    </div>
+                )}
                 <div className='mx-auto'>
-                    <button
-                        className='mr-4'
-                        onClick={handleRegisterNewTypeOfService}
-                    >
-                        Registrar
-                    </button>
+                    <button className='mr-4'>Registrar</button>
                     <button onClick={resetInputs}>Limpiar</button>
                 </div>
             </fieldset>

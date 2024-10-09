@@ -12,13 +12,19 @@ const AvatarComponent = () => {
     const userId = user?.id;
 
     const [avatar, setAvatar] = useState(null);
-    const [avatarPreview, setAvatarPreview] = useState(false);
+    const [previewUrl, setPreviewUrl] = useState(null);
     const [enableEditAvatar, setEnableEditAvatar] = useState(false);
 
-    const handleFile = (e) => {
+    const handleAvatarChange = (e) => {
         const file = e.target.files[0];
         setAvatar(file);
-        setAvatarPreview(URL.createObjectURL(file));
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => setPreviewUrl(reader.result);
+            reader.readAsDataURL(file);
+        } else {
+            setPreviewUrl(null);
+        }
     };
 
     const handleEditAvatar = async (e) => {
@@ -49,7 +55,7 @@ const AvatarComponent = () => {
             <img
                 className='user-avatar mx-auto'
                 src={
-                    avatarPreview ||
+                    previewUrl ||
                     (user?.avatar
                         ? `${VITE_API_URL}/${user.avatar}`
                         : '/default-avatar.png')
@@ -70,7 +76,7 @@ const AvatarComponent = () => {
                         accept='image/png, image/jpg, image/jpeg, image/tiff'
                         className='hidden'
                         required
-                        onChange={handleFile}
+                        onChange={handleAvatarChange}
                     />
                 </div>
             ) : (

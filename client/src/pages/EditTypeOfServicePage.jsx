@@ -20,14 +20,19 @@ const EditTypeOfServicePage = () => {
     const [price, setPrice] = useState('');
     const [image, setImage] = useState('');
     const [enableEditImage, setEnableEditImage] = useState(false);
-    const [imgPreview, setImgPreview] = useState(false);
+    const [previewUrl, setPreviewUrl] = useState(null);
 
-    const handleFile = (e) => {
+    const handleImageChange = (e) => {
         const file = e.target.files[0];
         setImage(file);
-        setImgPreview(URL.createObjectURL(file));
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => setPreviewUrl(reader.result);
+            reader.readAsDataURL(file);
+        } else {
+            setPreviewUrl(null);
+        }
     };
-
     useEffect(() => {
         const getTypeOfService = async () => {
             try {
@@ -128,7 +133,7 @@ const EditTypeOfServicePage = () => {
                     <fieldset>
                         <img
                             src={
-                                imgPreview ||
+                                previewUrl ||
                                 (data?.image ? `${VITE_API_URL}/${image}` : '')
                             }
                             alt={`${data.description}`}
@@ -147,7 +152,7 @@ const EditTypeOfServicePage = () => {
                                     type='file'
                                     className='hidden'
                                     accept='image/png, image/jpg, image/jpeg, image/tiff'
-                                    onChange={handleFile}
+                                    onChange={handleImageChange}
                                 />
                             </>
                         ) : (
