@@ -73,7 +73,6 @@ const EditTypeOfServicePage = () => {
 
     const handleEditService = async (e) => {
         e.preventDefault();
-
         try {
             const data = await fetchEditTypeOfServiceServices(
                 typeOfServiceId,
@@ -92,7 +91,8 @@ const EditTypeOfServicePage = () => {
         }
     };
 
-    const handleDeleteService = async () => {
+    const handleDeleteService = async (e) => {
+        e.preventDefault();
         if (
             window.confirm(
                 '¿Estás seguro de querer eliminar el servicio?\n¡¡¡Esta acción no se puede deshacer!!!'

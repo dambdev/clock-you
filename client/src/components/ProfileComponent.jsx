@@ -78,7 +78,8 @@ const ProfileComponent = () => {
         }
     };
 
-    const handleDeleteUser = async () => {
+    const handleDeleteUser = async (e) => {
+        e.preventDefault();
         if (
             window.confirm(
                 '¿Estás seguro de querer eliminar tu cuenta?\n¡¡¡Esta acción no se puede deshacer!!!'
