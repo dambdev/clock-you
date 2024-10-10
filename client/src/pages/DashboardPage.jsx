@@ -87,14 +87,14 @@ const DashboardPage = () => {
                         'OrdersComponent',
                         'Pedidos',
                         activeSection === 'OrdersComponent' &&
-                            'activeSelectedLink less-than-4-buttons'
+                            'activeSelectedLink'
                     )}
                 {userRole === 'employee' &&
                     renderNavLink(
                         'MyServicesComponent',
                         'Servicios',
                         activeSection === 'MyServicesComponent' &&
-                            'activeSelectedLink less-than-4-buttons'
+                            'activeSelectedLink'
                     )}
             </section>
             {sectionComponents[activeSection]}

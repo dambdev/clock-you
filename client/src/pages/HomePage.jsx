@@ -1,5 +1,6 @@
-const { VITE_APP_TITLE } = import.meta.env;
 import ContactFormComponent from '../components/ContactFormComponent.jsx';
+
+const { VITE_APP_TITLE } = import.meta.env;
 
 const HomePage = () => {
     return (
