@@ -1,12 +1,12 @@
-import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useState, useContext } from 'react';
 
+import { AuthContext } from '../context/AuthContext';
 import { fetchNewServiceServices } from '../services/serviceServices';
 
-import toast from 'react-hot-toast';
-
 const { VITE_START_TIME, VITE_END_TIME } = import.meta.env;
+
+import toast from 'react-hot-toast';
 
 const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
     const { authToken } = useContext(AuthContext);
@@ -15,10 +15,9 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
 
     const noAuthenticated = () => {
         if (!authToken) {
-            toast.error(
-                'Debes iniciar sesión para poder enviar el formulario',
-                { id: 'ok' }
-            );
+            toast('Debes de iniciar sesión para poder enviar el formulario', {
+                id: 'ok',
+            });
         }
     };
 
@@ -42,25 +41,39 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
     };
 
     const createNewServiceEntry = () => {
-        const initialHours = 1;
-        const initialNumberOfPeople = 1;
-        const initialPrice = 0;
-        const initialComments = '';
         return {
             date: getTomorrowDate(),
-            hours: initialHours,
-            numberOfPeople: initialNumberOfPeople,
-            time: timeIntervals(initialHours)[0],
-            totalPrice: initialHours * initialNumberOfPeople * initialPrice,
-            comments: initialComments,
+            hours: 1,
+            numberOfPeople: 1,
+            time: timeIntervals(1)[0],
+            totalPrice: 0,
+            comments: '',
         };
     };
 
-    const [services, setServices] = useState([createNewServiceEntry()]);
-
+    const [serviceEntries, setServiceEntries] = useState([
+        createNewServiceEntry(),
+    ]);
+    const [currentEntryIndex, setCurrentEntryIndex] = useState(0);
     const [address, setAddress] = useState('');
     const [postCode, setPostCode] = useState('');
     const [city, setCity] = useState('');
+
+    const currentEntry = serviceEntries[currentEntryIndex];
+
+    const totalAccumulatedPrice = serviceEntries.reduce(
+        (acc, entry) => acc + entry.totalPrice,
+        0
+    );
+
+    const resetInputs = (e) => {
+        e.preventDefault();
+        setServiceEntries([createNewServiceEntry()]);
+        setCurrentEntryIndex(0);
+        setAddress('');
+        setPostCode('');
+        setCity('');
+    };
 
     const handleNewService = async (entry) => {
         try {
@@ -102,164 +115,162 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
         }
     };
 
-    const handleAddServiceEntry = () => {
-        setServices([...services, createNewServiceEntry()]);
-    };
+    const handleServiceChange = (field, value) => {
+        setServiceEntries((prevEntries) => {
+            const newEntries = [...prevEntries];
+            const serviceEntry = newEntries[currentEntryIndex];
+            const newHours = field === 'hours' ? value : serviceEntry.hours;
+            const newNumberOfPeople =
+                field === 'numberOfPeople'
+                    ? value
+                    : serviceEntry.numberOfPeople;
 
-    const handleServiceChange = (index, field, value) => {
-        const updatedServices = services.map((service, i) => {
-            if (i === index) {
-                const newHours = field === 'hours' ? value : service.hours;
-                const newNumberOfPeople =
-                    field === 'numberOfPeople' ? value : service.numberOfPeople;
-
-                return {
-                    ...service,
-                    [field]: value,
-                    totalPrice:
-                        parseInt(newHours) *
-                        parseInt(newNumberOfPeople) *
-                        parseFloat(price),
-                };
-            }
-            return service;
+            newEntries[currentEntryIndex] = {
+                ...serviceEntry,
+                [field]: value,
+                totalPrice:
+                    parseInt(newHours) *
+                    parseInt(newNumberOfPeople) *
+                    parseFloat(price),
+            };
+            return newEntries;
         });
-        setServices(updatedServices);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        services.forEach((entry) => {
+        serviceEntries.forEach((entry) => {
             handleNewService(entry);
         });
+    };
+
+    const handleAddServiceEntry = () => {
+        setServiceEntries((prevEntries) => [
+            ...prevEntries,
+            createNewServiceEntry(),
+        ]);
+        setCurrentEntryIndex(serviceEntries.length);
+    };
+
+    const handleSwitchEntry = (index) => {
+        setCurrentEntryIndex(index);
     };
 
     return (
         <form className='profile-form' onSubmit={handleSubmit}>
             <fieldset>
                 <legend>Solicítalo</legend>
-                {services.map((entry, index) => (
-                    <section
-                        key={index}
-                        className='flex flex-col gap-2 service-entry'
+                <section className='flex flex-col gap-2'>
+                    <label htmlFor='date'>Fecha</label>
+                    <input
+                        required
+                        type='date'
+                        id='date'
+                        onClick={noAuthenticated}
+                        value={currentEntry.date}
+                        min={getTomorrowDate()}
+                        onChange={(e) =>
+                            handleServiceChange('date', e.target.value)
+                        }
+                    />
+                    <label htmlFor='hours'>Horas a contratar</label>
+                    <select
+                        required
+                        id='hours'
+                        onFocus={noAuthenticated}
+                        value={currentEntry.hours}
+                        onChange={(e) =>
+                            handleServiceChange(
+                                'hours',
+                                parseInt(e.target.value)
+                            )
+                        }
                     >
-                        <label htmlFor={`date-${index}`}>Fecha</label>
-                        <input
-                            required
-                            type='date'
-                            id={`date-${index}`}
-                            onClick={noAuthenticated}
-                            value={entry.date}
-                            min={getTomorrowDate()}
-                            onChange={(e) =>
-                                handleServiceChange(
-                                    index,
-                                    'date',
-                                    e.target.value
-                                )
-                            }
-                        />
-                        <label htmlFor={`hours-${index}`}>
-                            Horas a contratar
-                        </label>
-                        <select
-                            required
-                            id={`hours-${index}`}
-                            onFocus={noAuthenticated}
-                            value={entry.hours}
-                            onChange={(e) =>
-                                handleServiceChange(
-                                    index,
-                                    'hours',
-                                    parseInt(e.target.value)
-                                )
-                            }
-                        >
-                            {Array.from({ length: 8 }, (_, i) => i + 1).map(
-                                (i) => (
-                                    <option key={i} value={i}>
-                                        {i}
-                                    </option>
-                                )
-                            )}
-                        </select>
-                        <label htmlFor={`numberOfPeople-${index}`}>
-                            Personas a contratar
-                        </label>
-                        <select
-                            required
-                            id={`numberOfPeople-${index}`}
-                            onFocus={noAuthenticated}
-                            value={entry.numberOfPeople}
-                            onChange={(e) =>
-                                handleServiceChange(
-                                    index,
-                                    'numberOfPeople',
-                                    parseInt(e.target.value)
-                                )
-                            }
-                        >
-                            {Array.from({ length: 10 }, (_, i) => i + 1).map(
-                                (i) => (
-                                    <option key={i} value={i}>
-                                        {i}
-                                    </option>
-                                )
-                            )}
-                        </select>
-                        <label htmlFor={`time-${index}`}>Hora de inicio</label>
-                        <select
-                            required
-                            id={`time-${index}`}
-                            onFocus={noAuthenticated}
-                            value={entry.time}
-                            onChange={(e) =>
-                                handleServiceChange(
-                                    index,
-                                    'time',
-                                    e.target.value
-                                )
-                            }
-                        >
-                            {timeIntervals(entry.hours).map((value) => (
-                                <option key={value} value={value}>
-                                    {value}
+                        {Array.from({ length: 8 }, (_, i) => i + 1).map((i) => (
+                            <option key={i} value={i}>
+                                {i}
+                            </option>
+                        ))}
+                    </select>
+                    <label htmlFor='numberOfPeople'>Personas a contratar</label>
+                    <select
+                        required
+                        id='numberOfPeople'
+                        onFocus={noAuthenticated}
+                        value={currentEntry.numberOfPeople}
+                        onChange={(e) =>
+                            handleServiceChange(
+                                'numberOfPeople',
+                                parseInt(e.target.value)
+                            )
+                        }
+                    >
+                        {Array.from({ length: 10 }, (_, i) => i + 1).map(
+                            (i) => (
+                                <option key={i} value={i}>
+                                    {i}
                                 </option>
-                            ))}
-                        </select>
-                        <label htmlFor={`totalPrice-${index}`}>
-                            Precio total
-                        </label>
-                        <input
-                            type='text'
-                            disabled
-                            placeholder={`${entry.totalPrice} €`}
-                        />
-                        <label htmlFor={`comments-${index}`}>Comentarios</label>
-                        <textarea
-                            required
-                            id='comments'
-                            minLength='10'
-                            maxLength='250'
-                            placeholder='Añada comentarios adicionales para describir con detalle sus necesidades sobre el servicio solicitado'
-                            onFocus={noAuthenticated}
-                            value={entry.comments}
-                            onChange={(e) =>
-                                handleServiceChange(
-                                    index,
-                                    'comments',
-                                    e.target.value
-                                )
-                            }
-                        ></textarea>
-                    </section>
-                ))}
+                            )
+                        )}
+                    </select>
+                    <label htmlFor='time'>Hora de inicio</label>
+                    <select
+                        required
+                        id='time'
+                        onFocus={noAuthenticated}
+                        value={currentEntry.time}
+                        onChange={(e) =>
+                            handleServiceChange('time', e.target.value)
+                        }
+                    >
+                        {timeIntervals(currentEntry.hours).map((value) => (
+                            <option key={value} value={value}>
+                                {value}
+                            </option>
+                        ))}
+                    </select>
+                    <label htmlFor='totalPrice'>Precio</label>
+                    <input
+                        type='text'
+                        disabled
+                        placeholder={`${currentEntry.totalPrice} €`}
+                    />
+                    <label htmlFor='comments'>Comentarios</label>
+                    <textarea
+                        required
+                        id='comments'
+                        minLength='10'
+                        maxLength='250'
+                        placeholder='Añada comentarios adicionales para describir con detalle sus necesidades sobre el servicio solicitado'
+                        onFocus={noAuthenticated}
+                        value={currentEntry.comments}
+                        onChange={(e) =>
+                            handleServiceChange('comments', e.target.value)
+                        }
+                    ></textarea>
+                </section>
                 <div className='mx-auto'>
                     <button type='button' onClick={handleAddServiceEntry}>
                         Añadir otro día
                     </button>
+                    {serviceEntries.length > 1 && (
+                        <>
+                            <select
+                                className='ml-4'
+                                value={currentEntryIndex}
+                                onChange={(e) =>
+                                    handleSwitchEntry(parseInt(e.target.value))
+                                }
+                            >
+                                {serviceEntries.map((_, idx) => (
+                                    <option key={idx} value={idx}>
+                                        Día {idx + 1}
+                                    </option>
+                                ))}
+                            </select>
+                        </>
+                    )}
                 </div>
-
                 <label htmlFor='address'>Dirección</label>
                 <input
                     required
@@ -290,10 +301,21 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
                     onFocus={noAuthenticated}
                     onChange={(e) => setCity(e.target.value)}
                 />
+                <label htmlFor='totalPrice'>Total</label>
+                <input
+                    type='text'
+                    disabled
+                    placeholder={`${totalAccumulatedPrice} €`}
+                />
                 <div className='mx-auto'>
-                    <button type='submit' disabled={!authToken}>
+                    <button
+                        className='mr-4'
+                        type='submit'
+                        disabled={!authToken}
+                    >
                         Solicitar
                     </button>
+                    <button onClick={resetInputs}>Limpiar</button>
                 </div>
             </fieldset>
         </form>
