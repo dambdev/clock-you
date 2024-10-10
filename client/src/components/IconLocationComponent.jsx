@@ -1,5 +1,5 @@
 import { icon } from 'leaflet';
-import inconMap from '../assets/iconMap.svg';
+import inconMap from '/iconMap.svg';
 
 export const IconLocationComponent = icon({
     iconUrl: inconMap,
