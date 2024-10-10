@@ -395,11 +395,21 @@ form {
     }
 
     .hero-css-2 {
+        padding: 5rem;
+
+        & h2 {
+            margin-bottom: 2rem;
+        }
+
         & .articles-container {
             display: flex;
-            justify-content: center;
             align-items: center;
         }
+    }
+
+    .hero-css-3 {
+        padding-top: 5rem;
+        padding-bottom: 3rem;
     }
 
     .flex-1024 {
@@ -438,6 +448,12 @@ form {
 
     [class*='hero-css']:not(.hero-css-3) {
         height: calc(100dvh - 72px);
+    }
+
+    .hero-css-2 {
+        & h2 {
+            margin-bottom: 5rem;
+        }
     }
 
     .hero-css-3 {
