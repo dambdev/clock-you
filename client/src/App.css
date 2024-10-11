@@ -99,10 +99,6 @@ legend {
     color: var(--white-color);
     z-index: 2;
     width: 96%;
-
-    & + img {
-        display: block;
-    }
 }
 
 .container:has(.hero-css) {
@@ -114,7 +110,7 @@ legend {
     height: calc(100dvh - 72px);
     text-align: center;
     &.bgr-img {
-        background-image: url(./landing.webp);
+        background-image: url(/landing.webp);
         background-size: cover;
         background-position: center;
     }
