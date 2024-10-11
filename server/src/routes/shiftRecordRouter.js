@@ -12,7 +12,7 @@ import {
     editShiftRecordController,
     detailShiftRecordController,
     startShiftRecordsController,
-    endShiftRecordsController,
+    exitShiftRecordsController,
 } from '../controllers/shiftRecords/index.js';
 
 const router = express.Router();
@@ -44,6 +44,6 @@ router.put(
     editShiftRecordController
 );
 
-router.patch('/shiftRecords', authUser, isEmployee, endShiftRecordsController);
+router.patch('/shiftRecords', authUser, isEmployee, exitShiftRecordsController);
 
 export default router;

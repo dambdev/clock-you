@@ -1,7 +1,7 @@
 import getPool from '../../db/getPool.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 
-const endShiftRecordService = async (shiftRecordId, location, endDateTime) => {
+const exitShiftRecordService = async (shiftRecordId, location, endDateTime) => {
     const pool = await getPool();
 
     const [serviceId] = await pool.query(
@@ -48,4 +48,4 @@ const endShiftRecordService = async (shiftRecordId, location, endDateTime) => {
     return;
 };
 
-export default endShiftRecordService;
+export default exitShiftRecordService;
