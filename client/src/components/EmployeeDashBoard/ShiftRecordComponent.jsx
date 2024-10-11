@@ -10,28 +10,46 @@ import toast from 'react-hot-toast';
 const ShiftRecordComponent = ({ detailData, authToken }) => {
     const navigate = useNavigate();
 
-    const [location, setLocation] = useState({
-        currentLocation: { lat: null, lng: null },
-    });
-    const [loading, setLoading] = useState(true);
+    const [location, setLocation] = useState({});
 
-    const getLocation = () => {
+    const getLocation = async () => {
+        if (!navigator.geolocation) {
+            throw new Error('Geolocalización no soportada');
+        }
         return new Promise((resolve, reject) => {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) =>
-                        resolve({
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude,
-                        }),
-                    (error) => {
-                        console.error('Geolocation error:', error);
-                        reject(error);
+            navigator.geolocation.getCurrentPosition(
+                (position) =>
+                    resolve({
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    }),
+                (error) => {
+                    console.error('Error de geolocalización:', error);
+
+                    let mensajeError;
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            mensajeError =
+                                'Permiso denegado para acceder a la ubicación';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            mensajeError =
+                                'La información de la ubicación no está disponible';
+                            break;
+                        case error.TIMEOUT:
+                            mensajeError =
+                                'La solicitud de ubicación ha superado el tiempo de espera';
+                            break;
+                        default:
+                            mensajeError =
+                                'Error desconocido al acceder a la ubicación';
+                            break;
                     }
-                );
-            } else {
-                reject(new Error('Geolocalización no soportada'));
-            }
+
+                    reject(new Error(mensajeError));
+                    toast.error(mensajeError, { id: 'error' });
+                }
+            );
         });
     };
 
@@ -41,9 +59,10 @@ const ShiftRecordComponent = ({ detailData, authToken }) => {
                 const initialLocation = await getLocation();
                 setLocation({ currentLocation: initialLocation });
             } catch (error) {
-                console.error('Error fetching initial location:', error);
-            } finally {
-                setLoading(false);
+                console.error(
+                    'Error al obtener la ubicación inicial:',
+                    error.message
+                );
             }
         };
 
@@ -66,6 +85,8 @@ const ShiftRecordComponent = ({ detailData, authToken }) => {
             toast.success(data.message, {
                 id: 'ok',
             });
+
+            navigate('/user#MyServicesComponent');
         } catch (error) {
             toast.error(error.message, {
                 id: 'error',
@@ -89,6 +110,7 @@ const ShiftRecordComponent = ({ detailData, authToken }) => {
             toast.success(data.message, {
                 id: 'ok',
             });
+
             navigate('/user#MyServicesComponent');
         } catch (error) {
             toast.error(error.message, {
@@ -106,12 +128,12 @@ const ShiftRecordComponent = ({ detailData, authToken }) => {
                 >
                     Registrar Entrada
                 </button>
-                {!loading &&
+                {location.currentLocation &&
                 location.currentLocation.lat !== null &&
                 location.currentLocation.lng !== null ? (
                     <MapComponent location={location} />
                 ) : (
-                    <p>Loading map...</p>
+                    <p>Cargando mapa...</p>
                 )}
                 <button className='mt-2 text-white bg-red-600' onClick={getEnd}>
                     Registrar Salida

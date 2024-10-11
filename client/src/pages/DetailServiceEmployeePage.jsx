@@ -7,7 +7,7 @@ import ShiftRecordComponent from '../components/EmployeeDashBoard/ShiftRecordCom
 import MapComponent from '../components/MapComponent.jsx';
 import toast from 'react-hot-toast';
 
-const DetailServicePageEmployee = () => {
+const DetailServiceEmployeepage = () => {
     const { serviceId } = useParams();
     const { authToken } = useContext(AuthContext);
 
@@ -15,7 +15,7 @@ const DetailServicePageEmployee = () => {
     const [location, setLocation] = useState({});
 
     useEffect(() => {
-        const DetailService = async () => {
+        const detailService = async () => {
             try {
                 const data = await fetchDetailServiceServices(
                     serviceId,
@@ -24,16 +24,20 @@ const DetailServicePageEmployee = () => {
 
                 setData(data);
                 setLocation({
-                    currentLocation: {
+                    startLocation: {
                         lat: data.latitudeIn,
                         lng: data.longitudeIn,
+                    },
+                    exitLocation: {
+                        lat: data.latitudeOut,
+                        lng: data.longitudeOut,
                     },
                 });
             } catch (error) {
                 toast.error(error.message, { id: 'error' });
             }
         };
-        DetailService();
+        detailService();
     }, [serviceId, authToken]);
 
     const startTime = new Date(data.startDateTime).toLocaleTimeString([], {
@@ -110,12 +114,12 @@ const DetailServicePageEmployee = () => {
                             ))}
                         </div>
 
-                        {location.currentLocation ? (
+                        {location.startLocation && location.exitLocation ? (
                             <div>
                                 <MapComponent location={location} />
                             </div>
                         ) : (
-                            <span>Cargando el mapa</span>
+                            <span>Cargando mapa...</span>
                         )}
                     </fieldset>
                 </form>
@@ -124,4 +128,4 @@ const DetailServicePageEmployee = () => {
     );
 };
 
-export default DetailServicePageEmployee;
+export default DetailServiceEmployeepage;

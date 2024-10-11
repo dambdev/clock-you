@@ -1,11 +1,12 @@
-import { AuthContext } from '../context/AuthContext';
-import { useParams } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
+import { useParams } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
+import toast from 'react-hot-toast';
+
+import { AuthContext } from '../context/AuthContext';
 import { fetchDetailServiceServices } from '../services/serviceServices.js';
 import ListEmployeeComponent from '../components/AdminDashboard/Services/ListEmployeeComponent.jsx';
 import MapComponent from '../components/MapComponent.jsx';
-import toast from 'react-hot-toast';
 
 const DetailServicePage = () => {
     const { serviceId } = useParams();
@@ -15,7 +16,7 @@ const DetailServicePage = () => {
     const [location, setLocation] = useState({});
 
     useEffect(() => {
-        const DetailService = async () => {
+        const detailService = async () => {
             try {
                 const data = await fetchDetailServiceServices(
                     serviceId,
@@ -24,16 +25,20 @@ const DetailServicePage = () => {
 
                 setData(data);
                 setLocation({
-                    currentLocation: {
+                    startLocation: {
                         lat: data.latitudeIn,
                         lng: data.longitudeIn,
+                    },
+                    exitLocation: {
+                        lat: data.latitudeOut,
+                        lng: data.longitudeOut,
                     },
                 });
             } catch (error) {
                 toast.error(error.message, { id: 'error' });
             }
         };
-        DetailService();
+        detailService();
     }, [serviceId, authToken]);
 
     const startTime = new Date(data.startDateTime).toLocaleTimeString([], {
@@ -111,12 +116,12 @@ const DetailServicePage = () => {
                                 />
                             ))}
                         </div>
-                        {location.currentLocation ? (
+                        {location.startLocation && location.exitLocation ? (
                             <div>
                                 <MapComponent location={location} />
                             </div>
                         ) : (
-                            <span>Cargando el mapa</span>
+                            <span>Cargando mapa...</span>
                         )}
                     </fieldset>
                 </form>

@@ -1,10 +1,12 @@
-const { VITE_API_URL } = import.meta.env;
 import { AuthContext } from '../../../context/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
+import toast from 'react-hot-toast';
+
 import { fetchAllUsersServices } from '../../../services/userServices.js';
 import { fetchNewShiftRecordServices } from '../../../services/shiftRecordServices.js';
-import toast from 'react-hot-toast';
+
+const { VITE_API_URL } = import.meta.env;
 
 const ListEmployeeComponent = ({ serviceId }) => {
     const { authToken } = useContext(AuthContext);
