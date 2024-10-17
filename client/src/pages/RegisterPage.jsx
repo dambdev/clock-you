@@ -7,6 +7,12 @@ import toast from 'react-hot-toast';
 const RegisterPage = () => {
     const navigate = useNavigate();
 
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
+    };
+
     const { user } = useUser();
     const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -46,7 +52,7 @@ const RegisterPage = () => {
                     id: 'ok',
                 });
 
-                navigate('/login');
+                delayedNavigation('/login');
             }
         } catch (error) {
             toast.error(error.message, {

@@ -13,6 +13,12 @@ const ListEmployeeComponent = ({ serviceId }) => {
 
     const navigate = useNavigate();
 
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
+    };
+
     const role = 'employee';
 
     const [data, setData] = useState([]);
@@ -65,7 +71,7 @@ const ListEmployeeComponent = ({ serviceId }) => {
                 id: 'ok',
             });
 
-            navigate('/user#ContractsComponent');
+            delayedNavigation('/user#ContractsComponent');
         } catch (error) {
             toast.error(error.message, {
                 id: 'error',

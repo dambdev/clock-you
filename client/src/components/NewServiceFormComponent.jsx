@@ -13,6 +13,12 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
 
     const navigate = useNavigate();
 
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
+    };
+
     const noAuthenticated = () => {
         if (!authToken) {
             toast('Debes de iniciar sesión para poder enviar el formulario', {
@@ -109,7 +115,7 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
 
             toast.success(data.message, { id: 'ok' });
 
-            navigate('/user#OrdersComponent');
+            delayedNavigation('/user#OrdersComponent');
         } catch (error) {
             toast.error(error.message, { id: 'error' });
         }

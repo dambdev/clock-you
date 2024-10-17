@@ -174,7 +174,11 @@ const ShiftsComponent = () => {
                                 En {item.address}, {item.city}
                             </p>
                             <p>Horas contratadas: {item.hours}</p>
-                            {startDateTime && <p>Previsto: {startDateTime}</p>}
+                            {startDateTime && (
+                                <p className='font-extrabold'>
+                                    Previsto: {startDateTime}
+                                </p>
+                            )}
                             {clockIn && <p>Entrada: {clockIn}</p>}
                             {clockOut && <p>Salida: {clockOut}</p>}
                             {item.totalHoursWorked !== null ||

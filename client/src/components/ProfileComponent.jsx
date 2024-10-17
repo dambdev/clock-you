@@ -15,6 +15,12 @@ const ProfileComponent = () => {
 
     const navigate = useNavigate();
 
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
+    };
+
     const userId = user?.id;
 
     const [firstName, setFirstName] = useState('');
@@ -91,7 +97,7 @@ const ProfileComponent = () => {
                     id: 'ok',
                 });
                 authLogout();
-                navigate('/');
+                delayedNavigation('/');
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',

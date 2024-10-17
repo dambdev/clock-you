@@ -4,9 +4,15 @@ import { fetchConfirmServiceServices } from '../services/serviceServices.js';
 import toast from 'react-hot-toast';
 
 const ConfirmedServicePage = () => {
+    const { validationCode } = useParams();
+
     const navigate = useNavigate();
 
-    const { validationCode } = useParams();
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
+    };
 
     useEffect(() => {
         const confirmService = async () => {
@@ -17,7 +23,7 @@ const ConfirmedServicePage = () => {
                     id: 'ok',
                 });
 
-                navigate('/');
+                delayedNavigation('/');
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',
@@ -27,6 +33,8 @@ const ConfirmedServicePage = () => {
 
         confirmService();
     }, []);
+
+    return <h3 className='mt-8 text-center'>Confirmando servicio...</h3>;
 };
 
 export default ConfirmedServicePage;

@@ -13,7 +13,14 @@ import toast from 'react-hot-toast';
 const EditTypeOfServicePage = () => {
     const { typeOfServiceId } = useParams();
     const { authToken } = useContext(AuthContext);
+
     const navigate = useNavigate();
+
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
+    };
 
     const [data, setData] = useState([]);
     const [description, setDescription] = useState('');
@@ -64,7 +71,8 @@ const EditTypeOfServicePage = () => {
                 toast.success(data.message, {
                     id: 'ok',
                 });
-                navigate('/user#ServicesComponent');
+
+                delayedNavigation('/user#ServicesComponent');
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',
@@ -88,7 +96,7 @@ const EditTypeOfServicePage = () => {
             toast.success(data.message, {
                 id: 'ok',
             });
-            navigate('/user#ServicesComponent');
+            delayedNavigation('/user#ServicesComponent');
         } catch (error) {
             toast.error(error.message, {
                 id: 'error',
@@ -111,7 +119,7 @@ const EditTypeOfServicePage = () => {
                 toast.success(data.message, {
                     id: 'ok',
                 });
-                navigate('/user#ServicesComponent');
+                delayedNavigation('/user#ServicesComponent');
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',

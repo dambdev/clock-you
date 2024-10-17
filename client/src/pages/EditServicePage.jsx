@@ -15,6 +15,12 @@ const EditServicePage = () => {
 
     const navigate = useNavigate();
 
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
+    };
+
     const getTomorrowDate = () => {
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
@@ -113,7 +119,8 @@ const EditServicePage = () => {
             toast.success(data.message, {
                 id: 'ok',
             });
-            navigate('/user#OrdersComponent');
+
+            delayedNavigation('/user#OrdersComponent');
         } catch (error) {
             toast.error(error.message, {
                 id: 'error',
@@ -135,7 +142,7 @@ const EditServicePage = () => {
                 toast.success(data.message, {
                     id: 'ok',
                 });
-                navigate('/user#OrdersComponent');
+                delayedNavigation('/user#OrdersComponent');
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',

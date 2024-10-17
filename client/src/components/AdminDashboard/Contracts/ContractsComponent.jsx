@@ -137,6 +137,7 @@ const ContractsComponent = () => {
             <CalendarComponent
                 events={calendarEvents}
                 onSelectEvent={handleSelectEvent}
+                defaultView={'week'}
             />
         </>
     );

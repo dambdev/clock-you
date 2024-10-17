@@ -6,6 +6,12 @@ import toast from 'react-hot-toast';
 const ChangeRecoverPasswordPage = () => {
     const navigate = useNavigate();
 
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
+    };
+
     const [recoverPasswordCode, setRecoverPasswordCode] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [repeatedPassword, setRepeatedPassword] = useState('');
@@ -30,7 +36,7 @@ const ChangeRecoverPasswordPage = () => {
 
                 toast.success(data, { id: 'ok' });
 
-                navigate('/login');
+                delayedNavigation('/login');
             }
         } catch (error) {
             toast.error(error.message, {

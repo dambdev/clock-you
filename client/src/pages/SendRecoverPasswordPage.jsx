@@ -6,6 +6,12 @@ import { fetchSendRecoverPasswordUserServices } from '../services/userServices.j
 const SendRecoverPasswordPage = () => {
     const navigate = useNavigate();
 
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
+    };
+
     const [email, setEmail] = useState('');
 
     const resetInputs = (e) => {
@@ -22,7 +28,7 @@ const SendRecoverPasswordPage = () => {
                 id: 'ok',
             });
 
-            navigate('/password');
+            delayedNavigation('/password');
         } catch (error) {
             toast.error(error.message, {
                 id: 'error',

@@ -121,7 +121,7 @@ const DetailServicePage = () => {
                                 <MapComponent location={location} />
                             </div>
                         ) : (
-                            <span>Cargando mapa...</span>
+                            <p>Cargando mapa...</p>
                         )}
                     </fieldset>
                 </form>

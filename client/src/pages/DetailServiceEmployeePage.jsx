@@ -83,7 +83,11 @@ const DetailServiceEmployeepage = () => {
                 </fieldset>
             </form>
             {data.status === 'confirmed' && (
-                <ShiftRecordComponent detailData={data} authToken={authToken} />
+                <ShiftRecordComponent
+                    shiftRecordId={data.shiftRecordId}
+                    clockIn={data.clockIn}
+                    authToken={authToken}
+                />
             )}
             {data.status === 'completed' && (
                 <form className='mx-auto'>
@@ -119,7 +123,7 @@ const DetailServiceEmployeepage = () => {
                                 <MapComponent location={location} />
                             </div>
                         ) : (
-                            <span>Cargando mapa...</span>
+                            <p>Cargando mapa...</p>
                         )}
                     </fieldset>
                 </form>

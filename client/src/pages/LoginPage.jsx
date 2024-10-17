@@ -11,6 +11,12 @@ const LoginPage = () => {
 
     const navigate = useNavigate();
 
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
+    };
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -27,7 +33,7 @@ const LoginPage = () => {
 
             authLogin(authToken.data);
 
-            navigate('/');
+            delayedNavigation('/');
         } catch (error) {
             toast.error(error.message, {
                 id: 'error',

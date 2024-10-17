@@ -4,8 +4,15 @@ import { fetchActiveUserServices } from '../services/userServices';
 import toast from 'react-hot-toast';
 
 const ValidateUserPage = () => {
-    const navigate = useNavigate();
     const { registrationCode } = useParams();
+
+    const navigate = useNavigate();
+
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
+    };
 
     useEffect(() => {
         const activateUser = async () => {
@@ -16,18 +23,17 @@ const ValidateUserPage = () => {
                     id: 'ok',
                 });
 
-                navigate('/login');
+                delayedNavigation('/login');
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',
                 });
-
-                navigate('/login');
             }
         };
-
-        if (registrationCode) activateUser();
+        activateUser();
     }, []);
+
+    return <h3 className='mt-8 text-center'>Validando usuario...</h3>;
 };
 
 export default ValidateUserPage;
