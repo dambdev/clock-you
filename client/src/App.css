@@ -92,13 +92,12 @@ legend {
 }
 
 .initial-content {
-    position: absolute;
-    left: 50%;
-    top: 10%;
-    transform: translateX(-50%);
-    color: var(--white-color);
-    z-index: 2;
-    width: 96%;
+    & h1,
+    h2 {
+        color: var(--white-color);
+        width: min(90%, 100%);
+        margin: auto;
+    }
 }
 
 .container:has(.hero-css) {
