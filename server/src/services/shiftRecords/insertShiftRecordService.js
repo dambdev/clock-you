@@ -2,20 +2,20 @@ import { v4 as uuid } from 'uuid';
 import { CLIENT_URL } from '../../../env.js';
 
 import getPool from '../../db/getPool.js';
-import generateErrorUtil from '../../utils/generateErrorUtil.js';
 import sendMailUtils from '../../utils/sendMailUtil.js';
+import generateErrorUtil from '../../utils/generateErrorUtil.js';
 
 const insertShiftRecordService = async (serviceId, employeeId) => {
     const pool = await getPool();
 
     const [created] = await pool.query(
         `
-        SELECT serviceId FROM shiftRecords WHERE serviceId = ? 
+        SELECT serviceId FROM shiftRecords WHERE serviceId = ? AND employeeId = ?
         `,
-        [serviceId]
+        [serviceId, employeeId]
     );
 
-    if (created.length) generateErrorUtil('El turno ya está asignado', 401);
+    if (created.length) generateErrorUtil('El empleado ya está asignado', 401);
 
     const id = uuid();
 
@@ -26,17 +26,9 @@ const insertShiftRecordService = async (serviceId, employeeId) => {
         [id, employeeId, serviceId]
     );
 
-    await pool.query(
-        `
-        UPDATE services SET status = 'accepted' WHERE id = ?
-        `,
-        [serviceId]
-    );
-
     const [pedido] = await pool.query(
         `
-        SELECT s.status,
-        t.type, t.city AS province, s.validationCode, s.totalPrice, s.startDateTime, a.address, a.postCode, a.city, u.email
+        SELECT t.type, t.city AS province, s.status, s.validationCode, s.totalPrice, s.startDateTime, s.endDateTime, a.address, a.postCode, a.city, u.email
         FROM addresses a
         INNER JOIN services s
         ON a.id = s.addressId
@@ -49,19 +41,42 @@ const insertShiftRecordService = async (serviceId, employeeId) => {
         [serviceId]
     );
 
-    const localDateTime = new Date(pedido[0].startDateTime).toLocaleString();
+    if (pedido[0].status === 'pending') {
+        const startTime = new Date(pedido[0].startDateTime).toLocaleTimeString(
+            [],
+            {
+                hour: '2-digit',
+                minute: '2-digit',
+            }
+        );
+        const endTime = new Date(pedido[0].endDateTime).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+        });
 
-    const emailSubject = `Su Servicio ha sido aceptado`;
+        const startDate = new Date(
+            pedido[0].startDateTime
+        ).toLocaleDateString();
 
-    const emailBody = `
-    <html>
-        <body>
-            <table bgcolor="#3c3c3c" width="670" border="0" cellspacing="0" cellpadding="0" align="center" style="margin: 0 auto" > <tbody> <tr> <td> <table bgcolor="#3c3c3c" width="670" border="0" cellspacing="0" cellpadding="0" align="left" > <tbody> <tr> <td align="left" style=" padding: 20px 40px; color: #fff; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; " > <p style=" margin: 10px 0 20px; font-size: 35px; font-weight: bold; color: #fff;" > <img src="https://raw.githubusercontent.com/DavidMiras/clock-you/main/client/public/logo-test.png" alt="Logo" style="width: 40px; margin: 0 -3px -10px 0" /> ClockYou </p> <p style="margin: 0 0 15px; font-size: 20px; color: #fff;"> Resumen de su pedido </p> <p style="margin: 0 0 10px; font-size: 16px; color: #fff;"> Tipo De Servicio: ${pedido[0].type} en ${pedido[0].province} </p> <p style="margin: 0 0 10px; font-size: 16px; color: #fff;">El ${localDateTime} en Calle: ${pedido[0].address}, ${pedido[0].postCode}, ${pedido[0].city} </p> <p style="margin: 0 0 10px; font-size: 16px; color: #fff;"> Total: ${pedido[0].totalPrice}€ </p> <p style="margin: 25px 0 5px; font-size: 18px; color: #fff;"> Por favor, confirme su petición haciendo click en el siguiente enlace: </p> <br /> <p> <a style=" display: inline-block; margin: 0 0 5px; padding: 10px 25px 15px; background-color: #008aff; font-size: 20px; color: #fff; width: auto; text-decoration: none; font-weight: bold; " href="${CLIENT_URL}/services/validate/${pedido[0].validationCode}" >Confirmar petición</a > </p> <p style="margin: 50px 0 2px; color: #fff;"> Gracias por confiar en ClockYou. </p> <p style="margin: 0 0 10px; color: #fff;">&copy; ClockYou 2024</p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table>
-        </body>
-    </html>
-`;
+        const emailSubject = `Su Servicio ha sido aceptado`;
 
-    await sendMailUtils(pedido[0].email, emailSubject, emailBody);
+        const emailBody = `
+        <html>
+            <body>
+                <table bgcolor="#3c3c3c" width="670" border="0" cellspacing="0" cellpadding="0" align="center" style="margin: 0 auto" > <tbody> <tr> <td> <table bgcolor="#3c3c3c" width="670" border="0" cellspacing="0" cellpadding="0" align="left" > <tbody> <tr> <td align="left" style=" padding: 20px 40px; color: #fff; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; " > <p style=" margin: 10px 0 20px; font-size: 35px; font-weight: bold; color: #fff;" > <img src="https://raw.githubusercontent.com/DavidMiras/clock-you/main/client/public/logo-test.png" alt="Logo" style="width: 40px; margin: 0 -3px -10px 0" /> ClockYou </p> <p style="margin: 0 0 25px; font-size: 20px; color: #fff;"> Resumen de su pedido </p> <p style="margin: 0 0 10px; font-size: 16px; color: #fff;">${pedido[0].type} en ${pedido[0].province} </p> <p style="margin: 0 0 10px; font-size: 16px; color: #fff;">Día: ${startDate} de ${startTime} a ${endTime}</p> <p style="margin: 0 0 10px; font-size: 16px; color: #fff;">Dirección: ${pedido[0].address}, ${pedido[0].postCode}, ${pedido[0].city}</p> <p style="margin: 0 0 25px; font-size: 16px; color: #fff;"> Total: ${pedido[0].totalPrice}€ </p> <p style="margin: 0 0 5px; font-size: 18px; color: #fff;"> Por favor, confirme su petición haciendo click en el siguiente enlace: </p> <br /> <p> <a style=" display: inline-block; margin: 0 0 5px; padding: 10px 25px 15px; background-color: #008aff; font-size: 20px; color: #fff; width: auto; text-decoration: none; font-weight: bold; " href="${CLIENT_URL}/services/validate/${pedido[0].validationCode}" >Confirmar petición</a > </p> <p style="margin: 25px 0 2px; color: #fff;"> Gracias por confiar en ClockYou. </p> <p style="margin: 0 0 10px; color: #fff;">&copy; ClockYou 2024</p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table>
+            </body>
+        </html>
+    `;
+
+        await sendMailUtils(pedido[0].email, emailSubject, emailBody);
+
+        await pool.query(
+            `
+            UPDATE services SET status = 'accepted' WHERE id = ?
+            `,
+            [serviceId]
+        );
+    }
 };
 
 export default insertShiftRecordService;

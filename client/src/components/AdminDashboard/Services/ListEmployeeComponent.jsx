@@ -1,5 +1,4 @@
 import { AuthContext } from '../../../context/AuthContext.jsx';
-import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import toast from 'react-hot-toast';
 
@@ -8,16 +7,8 @@ import { fetchNewShiftRecordServices } from '../../../services/shiftRecordServic
 
 const { VITE_API_URL } = import.meta.env;
 
-const ListEmployeeComponent = ({ serviceId }) => {
+const ListEmployeeComponent = ({ serviceId, onEmployeeAssigned }) => {
     const { authToken } = useContext(AuthContext);
-
-    const navigate = useNavigate();
-
-    const delayedNavigation = (path) => {
-        setTimeout(() => {
-            navigate(path);
-        }, 750);
-    };
 
     const role = 'employee';
 
@@ -71,7 +62,7 @@ const ListEmployeeComponent = ({ serviceId }) => {
                 id: 'ok',
             });
 
-            delayedNavigation('/user#ContractsComponent');
+            onEmployeeAssigned();
         } catch (error) {
             toast.error(error.message, {
                 id: 'error',

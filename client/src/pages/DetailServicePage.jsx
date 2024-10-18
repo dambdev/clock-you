@@ -14,6 +14,7 @@ const DetailServicePage = () => {
 
     const [data, setData] = useState([]);
     const [location, setLocation] = useState({});
+    const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
         const detailService = async () => {
@@ -39,7 +40,7 @@ const DetailServicePage = () => {
             }
         };
         detailService();
-    }, [serviceId, authToken]);
+    }, [serviceId, authToken, refresh]);
 
     const startTime = new Date(data.startDateTime).toLocaleTimeString([], {
         hour: '2-digit',
@@ -59,6 +60,17 @@ const DetailServicePage = () => {
         <section>
             <form className='mx-auto'>
                 <fieldset>
+                    <legend>Cliente</legend>
+                    <p className='mt-2'>
+                        {data.firstName} {data.lastName}
+                    </p>
+                    <p>{data.email}</p>
+                    <p>{data.dni}</p>
+                    <p>{data.phone}</p>
+                </fieldset>
+            </form>
+            <form className='mx-auto'>
+                <fieldset>
                     <legend>Solicitud</legend>
                     <p className='mt-2'>{data.type}</p>
                     <p>{data.comments}</p>
@@ -74,21 +86,26 @@ const DetailServicePage = () => {
                     <p className='font-extrabold'>Total: {data.totalPrice}€</p>
                 </fieldset>
             </form>
-            <form className='mx-auto'>
-                <fieldset>
-                    <legend>Cliente</legend>
-                    <p className='mt-2'>
-                        {data.firstName} {data.lastName}
-                    </p>
-                    <p>{data.email}</p>
-                    <p>{data.dni}</p>
-                    <p>{data.phone}</p>
-                </fieldset>
-            </form>
-            {data.status === 'pending' && (
-                <ListEmployeeComponent serviceId={serviceId} />
-            )}
-            {data.status === 'completed' && (
+            {data.status !== 'completed' ? (
+                <>
+                    <form className='mx-auto'>
+                        <fieldset>
+                            <legend>Empleados asignados</legend>
+                            {Array.isArray(data.employees) &&
+                                data.employees.map((employee) => (
+                                    <p key={employee.id} className='mt-2'>
+                                        {employee.firstNameEmployee}{' '}
+                                        {employee.lastNameEmployee}
+                                    </p>
+                                ))}
+                        </fieldset>
+                    </form>
+                    <ListEmployeeComponent
+                        serviceId={serviceId}
+                        onEmployeeAssigned={() => setRefresh((prev) => !prev)}
+                    />
+                </>
+            ) : (
                 <form className='mx-auto'>
                     <fieldset>
                         <legend>Empleado</legend>
