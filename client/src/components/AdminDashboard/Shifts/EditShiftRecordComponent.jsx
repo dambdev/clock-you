@@ -24,8 +24,12 @@ const EditShiftRecordComponent = ({
                     shiftRecordId,
                     authToken
                 );
-                const clockInDate = new Date(data.clockIn);
-                const clockOutDate = new Date(data.clockOut);
+                const clockInDate = data.clockIn
+                    ? new Date(data.clockIn)
+                    : 'null';
+                const clockOutDate = data.clockOut
+                    ? new Date(data.clockOut)
+                    : 'null';
 
                 const formatDateToLocal = (date) => {
                     const year = date.getFullYear();
@@ -36,8 +40,12 @@ const EditShiftRecordComponent = ({
                     return `${year}-${month}-${day}T${hours}:${minutes}`;
                 };
 
-                setClockIn(formatDateToLocal(clockInDate));
-                setClockOut(formatDateToLocal(clockOutDate));
+                {
+                    clockIn && setClockIn(formatDateToLocal(clockInDate));
+                }
+                {
+                    clockOut && setClockOut(formatDateToLocal(clockOutDate));
+                }
             } catch (error) {
                 toast.error(error.message, { id: 'error' });
             }
@@ -78,34 +86,32 @@ const EditShiftRecordComponent = ({
     };
 
     return (
-        <>
-            <section className='mx-auto flex-1024'>
-                <form className='profile-form' onSubmit={handleEditShiftRecord}>
-                    <fieldset>
-                        <legend>Horarios</legend>
-                        <label htmlFor='clockin'>Entrada</label>
-                        <input
-                            id='clockin'
-                            value={clockIn}
-                            onChange={(e) => {
-                                setClockIn(e.target.value);
-                            }}
-                            type='datetime-local'
-                        />
-                        <label htmlFor='clockin'>Salida</label>
-                        <input
-                            type='datetime-local'
-                            htmlFor='clockout'
-                            id='clockout'
-                            value={clockOut}
-                            onChange={(e) => setClockOut(e.target.value)}
-                        />
+        <section className='mx-auto'>
+            <form className='profile-form' onSubmit={handleEditShiftRecord}>
+                <fieldset>
+                    <legend>Horarios</legend>
+                    <label htmlFor='clockin'>Entrada</label>
+                    <input
+                        id='clockin'
+                        value={clockIn}
+                        onChange={(e) => {
+                            setClockIn(e.target.value);
+                        }}
+                        type='datetime-local'
+                    />
+                    <label htmlFor='clockin'>Salida</label>
+                    <input
+                        type='datetime-local'
+                        htmlFor='clockout'
+                        id='clockout'
+                        value={clockOut}
+                        onChange={(e) => setClockOut(e.target.value)}
+                    />
 
-                        <button className='mt-2'>Guardar</button>
-                    </fieldset>
-                </form>
-            </section>
-        </>
+                    <button className='mt-2'>Guardar</button>
+                </fieldset>
+            </form>
+        </section>
     );
 };
 

@@ -5,14 +5,12 @@ const { VITE_APP_TITLE } = import.meta.env;
 const HomePage = () => {
     return (
         <>
-            <section className='mx-auto isolate relative hero-css bgr-img'>
-                <article className='initial-content'>
-                    <h1 className='mb-4'>{`Bienvenido a ${VITE_APP_TITLE}`}</h1>
-                    <h2>
-                        Encuentra cualquier servicio que necesites, con la
-                        comodidad de no moverte
-                    </h2>
-                </article>
+            <section className='hero-css initial-content bgr-img'>
+                <h1 className='pt-12 pb-4'>{`Bienvenido a ${VITE_APP_TITLE}`}</h1>
+                <h2>
+                    Encuentra cualquier servicio que necesites, con la comodidad
+                    de no moverte
+                </h2>
             </section>
             <section className='hero-css-2 py-6'>
                 <div>

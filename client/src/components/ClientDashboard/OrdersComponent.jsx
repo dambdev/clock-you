@@ -136,9 +136,6 @@ const OrdersComponent = () => {
                     const startDate = new Date(
                         item.startDateTime
                     ).toLocaleDateString();
-                    const endDate = new Date(
-                        item.endDateTime
-                    ).toLocaleDateString();
                     return (
                         <li key={item.id} className='relative'>
                             <div className='icon-container'>
@@ -178,8 +175,9 @@ const OrdersComponent = () => {
                                 <NavLink
                                     disabled={''}
                                     onClick={() => {
-                                        toast(
-                                            'Cuando el servicio esté completado lo podrá valorar.'
+                                        toast.error(
+                                            'Cuando el servicio esté completado lo podrá valorar.',
+                                            { id: 'error' }
                                         );
                                     }}
                                 >

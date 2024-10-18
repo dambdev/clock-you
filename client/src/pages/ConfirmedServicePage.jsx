@@ -23,7 +23,7 @@ const ConfirmedServicePage = () => {
                     id: 'ok',
                 });
 
-                delayedNavigation('/');
+                delayedNavigation('/user#OrdersComponent');
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',

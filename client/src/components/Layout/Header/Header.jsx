@@ -2,7 +2,6 @@ import { useContext, useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { FaUser, FaUserTie } from 'react-icons/fa';
-import { FaUserClock } from 'react-icons/fa6';
 import useUser from '../../../hooks/useUser';
 import './Header.css';
 
@@ -78,10 +77,8 @@ const Header = () => {
                     <li className='identifyUserIcon'>
                         {user?.role === 'admin' ? (
                             <FaUserTie />
-                        ) : user?.role === 'client' ? (
-                            <FaUser />
                         ) : user?.role === 'employee' ? (
-                            <FaUserClock />
+                            <FaUser />
                         ) : (
                             ''
                         )}
