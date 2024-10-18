@@ -13,6 +13,7 @@ import {
     detailShiftRecordController,
     startShiftRecordsController,
     exitShiftRecordsController,
+    deleteShiftRecordController,
 } from '../controllers/shiftRecords/index.js';
 
 const router = express.Router();
@@ -45,5 +46,13 @@ router.put(
 );
 
 router.patch('/shiftRecords', authUser, isEmployee, exitShiftRecordsController);
+
+router.delete(
+    '/shiftRecords/:shiftRecordId',
+    authUser,
+    isAdmin,
+    shiftRecordExists,
+    deleteShiftRecordController
+);
 
 export default router;

@@ -141,6 +141,7 @@ Clases Particulares, Entrenamientos Personales, Cuidado de Mascotas, Limpiezas A
 -   **GET** - `/shiftrecords` - Admin lista todos los registros horarios con filtros de búsqueda.
 -   **GET** - `/shiftrecords/:shiftRecordId` - Admin obtiene el detalle de un registro horario.
 -   **POST** - `/shiftrecords/:serviceId` - Admin asigna un empleado a un servicio.
+-   **PATCH** - `/shiftrecords/:shiftRecordId` - Empleado registra la hora de fin del servicio.
 -   **PUT** - `/shiftrecords/:shiftRecordId` - Empleado registra la hora de inicio del servicio.
 -   **PUT** - `/shiftrecords/edit/:shiftRecordId` - Admin edita los registros horarios del servicio.
--   **PATCH** - `/shiftrecords/:shiftRecordId` - Empleado registra la hora de fin del servicio.
+-   **DELETE** - `/shiftrecords/:shiftRecordId` - Admin borra un empleado de un servicio.

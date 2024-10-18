@@ -149,3 +149,23 @@ export const fetchEditShiftRecordServices = async (
 
     return body;
 };
+
+export const fetchDeleteShiftRecordServices = async (
+    authToken,
+    shiftRecordId
+) => {
+    const res = await fetch(`${VITE_API_URL}/shiftrecords/${shiftRecordId}`, {
+        method: 'DELETE',
+        headers: {
+            Authorization: authToken,
+        },
+    });
+
+    const body = await res.json();
+
+    if (body.status === 'error') {
+        throw new Error(body.message);
+    }
+
+    return body;
+};

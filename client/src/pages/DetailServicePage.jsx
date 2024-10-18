@@ -1,10 +1,11 @@
-import { FaStar } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
+import { FaStar, FaTrash } from 'react-icons/fa';
 import { useState, useEffect, useContext } from 'react';
 import toast from 'react-hot-toast';
 
 import { AuthContext } from '../context/AuthContext';
 import { fetchDetailServiceServices } from '../services/serviceServices.js';
+import { fetchDeleteShiftRecordServices } from '../services/shiftRecordServices';
 import ListEmployeeComponent from '../components/AdminDashboard/Services/ListEmployeeComponent.jsx';
 import MapComponent from '../components/MapComponent.jsx';
 
@@ -41,6 +42,24 @@ const DetailServicePage = () => {
         };
         detailService();
     }, [serviceId, authToken, refresh]);
+
+    const deleteShiftRecord = async (e, shiftRecordId) => {
+        e.preventDefault();
+        try {
+            const data = await fetchDeleteShiftRecordServices(
+                authToken,
+                shiftRecordId
+            );
+            toast.success(data.message, {
+                id: 'ok',
+            });
+            setRefresh((prev) => !prev);
+        } catch (error) {
+            toast.error(error.message, {
+                id: 'error',
+            });
+        }
+    };
 
     const startTime = new Date(data.startDateTime).toLocaleTimeString([], {
         hour: '2-digit',
@@ -96,6 +115,17 @@ const DetailServicePage = () => {
                                     <p key={employee.id} className='mt-2'>
                                         {employee.firstNameEmployee}{' '}
                                         {employee.lastNameEmployee}
+                                        <button
+                                            className='ml-4'
+                                            onClick={(e) =>
+                                                deleteShiftRecord(
+                                                    e,
+                                                    employee.shiftRecordId
+                                                )
+                                            }
+                                        >
+                                            <FaTrash />
+                                        </button>
                                     </p>
                                 ))}
                         </fieldset>
@@ -123,7 +153,7 @@ const DetailServicePage = () => {
                         <div className='flex mb-2 justify-center'>
                             {[...Array(5)].map((_, index) => (
                                 <FaStar
-                                    key={data.id}
+                                    key={index}
                                     size={30}
                                     color={
                                         index + 1 <= data.rating
