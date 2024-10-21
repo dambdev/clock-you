@@ -1,9 +1,10 @@
-import { AuthContext } from '../../../context/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
-import { fetchAllServicesServices } from '../../../services/serviceServices.js';
 import { useEffect, useState, useContext } from 'react';
-import CalendarComponent from '../../../components/CalendarComponent.jsx';
 import toast from 'react-hot-toast';
+
+import { AuthContext } from '../../../context/AuthContext.jsx';
+import { fetchAllServicesServices } from '../../../services/serviceServices.js';
+import CalendarComponent from '../../../components/CalendarComponent.jsx';
 
 const ContractsComponent = () => {
     const { authToken } = useContext(AuthContext);
@@ -113,23 +114,23 @@ const ContractsComponent = () => {
             <div>
                 {isVisible && (
                     <div className='manager-tabs colors'>
-                        <span style={{ backgroundColor: 'lightsalmon' }}>
-                            Pendiente
-                        </span>
                         <span style={{ backgroundColor: 'orange' }}>
                             Aceptado
                         </span>
-                        <span style={{ backgroundColor: 'lightgreen' }}>
-                            Confirmado
+                        <span style={{ backgroundColor: 'red' }}>
+                            Cancelado
                         </span>
                         <span style={{ backgroundColor: 'green' }}>
                             Completado
                         </span>
+                        <span style={{ backgroundColor: 'lightgreen' }}>
+                            Confirmado
+                        </span>
+                        <span style={{ backgroundColor: 'lightsalmon' }}>
+                            Pendiente
+                        </span>
                         <span style={{ backgroundColor: 'lightcoral' }}>
                             Rechazado
-                        </span>
-                        <span style={{ backgroundColor: 'red' }}>
-                            Cancelado
                         </span>
                     </div>
                 )}

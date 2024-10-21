@@ -1,9 +1,9 @@
-import { AuthContext } from '../../context/AuthContext.jsx';
-
-import { fetchClientAllServicesServices } from '../../services/serviceServices.js';
 import { useEffect, useState, useContext } from 'react';
-import CalendarComponent from '../../components/CalendarComponent.jsx';
 import toast from 'react-hot-toast';
+
+import { AuthContext } from '../../context/AuthContext.jsx';
+import { fetchClientAllServicesServices } from '../../services/serviceServices.js';
+import CalendarComponent from '../../components/CalendarComponent.jsx';
 
 const OrdersCalendarComponent = () => {
     const { authToken } = useContext(AuthContext);
@@ -55,7 +55,7 @@ const OrdersCalendarComponent = () => {
     const calendarEvents = data.map((event) => ({
         title: event.type,
         start: new Date(event.startDateTime),
-        end: new Date(event.startDateTime),
+        end: new Date(event.endDateTime),
         allDay: false,
         serviceId: event.serviceId,
         status: event.status,
@@ -64,6 +64,25 @@ const OrdersCalendarComponent = () => {
     return (
         <>
             <form className='mx-auto form-filters'>
+                <select
+                    name='city'
+                    id='city'
+                    value={city}
+                    onChange={(e) => {
+                        setCity(e.target.value);
+                    }}
+                >
+                    <option value='' disabled>
+                        Ciudad:
+                    </option>
+                    {cityNoRepeated.map((type) => {
+                        return (
+                            <option key={type} value={type}>
+                                {type}
+                            </option>
+                        );
+                    })}
+                </select>
                 <select
                     name='status'
                     id='status'
@@ -100,13 +119,6 @@ const OrdersCalendarComponent = () => {
                             </option>
                         );
                     })}
-                    {cityNoRepeated.map((type) => {
-                        return (
-                            <option key={type} value={type}>
-                                {type}
-                            </option>
-                        );
-                    })}
                 </select>
                 <button onClick={resetFilters}>Limpiar Filtros</button>
                 <button onClick={handleHideClick}>
@@ -116,23 +128,23 @@ const OrdersCalendarComponent = () => {
             <div>
                 {isVisible && (
                     <div className='manager-tabs colors'>
-                        <span style={{ backgroundColor: 'lightsalmon' }}>
-                            Pendiente
-                        </span>
                         <span style={{ backgroundColor: 'orange' }}>
                             Aceptado
                         </span>
-                        <span style={{ backgroundColor: 'lightgreen' }}>
-                            Confirmado
+                        <span style={{ backgroundColor: 'red' }}>
+                            Cancelado
                         </span>
                         <span style={{ backgroundColor: 'green' }}>
                             Completado
                         </span>
+                        <span style={{ backgroundColor: 'lightgreen' }}>
+                            Confirmado
+                        </span>
+                        <span style={{ backgroundColor: 'lightsalmon' }}>
+                            Pendiente
+                        </span>
                         <span style={{ backgroundColor: 'lightcoral' }}>
                             Rechazado
-                        </span>
-                        <span style={{ backgroundColor: 'red' }}>
-                            Cancelado
                         </span>
                     </div>
                 )}

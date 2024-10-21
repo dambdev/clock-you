@@ -1,9 +1,10 @@
-import { AuthContext } from '../../context/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
+import toast from 'react-hot-toast';
+
+import { AuthContext } from '../../context/AuthContext.jsx';
 import { fetchEmployeeAllServicesServices } from '../../services/serviceServices.js';
 import CalendarComponent from '../CalendarComponent.jsx';
-import toast from 'react-hot-toast';
 
 const MyServicesComponent = () => {
     const { authToken } = useContext(AuthContext);
@@ -95,11 +96,11 @@ const MyServicesComponent = () => {
                         <span style={{ backgroundColor: 'orange' }}>
                             Aceptado
                         </span>
-                        <span style={{ backgroundColor: 'lightgreen' }}>
-                            Confirmado
-                        </span>
                         <span style={{ backgroundColor: 'green' }}>
                             Completado
+                        </span>
+                        <span style={{ backgroundColor: 'lightgreen' }}>
+                            Confirmado
                         </span>
                     </div>
                 )}

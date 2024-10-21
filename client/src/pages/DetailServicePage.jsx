@@ -1,17 +1,19 @@
-import { useParams } from 'react-router-dom';
 import { FaStar, FaTrash } from 'react-icons/fa';
+import { useParams, Navigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import toast from 'react-hot-toast';
 
 import { AuthContext } from '../context/AuthContext';
 import { fetchDetailServiceServices } from '../services/serviceServices.js';
 import { fetchDeleteShiftRecordServices } from '../services/shiftRecordServices';
-import ListEmployeeComponent from '../components/AdminDashboard/Services/ListEmployeeComponent.jsx';
+import useUser from '../hooks/useUser';
 import MapComponent from '../components/MapComponent.jsx';
+import ListEmployeeComponent from '../components/AdminDashboard/Services/ListEmployeeComponent.jsx';
 
 const DetailServicePage = () => {
     const { serviceId } = useParams();
     const { authToken } = useContext(AuthContext);
+    const { user } = useUser();
 
     const [data, setData] = useState([]);
     const [location, setLocation] = useState({});
@@ -42,6 +44,8 @@ const DetailServicePage = () => {
         };
         detailService();
     }, [serviceId, authToken, refresh]);
+
+    if (!authToken && !user) return <Navigate to='/' />;
 
     const deleteShiftRecord = async (e, shiftRecordId) => {
         e.preventDefault();

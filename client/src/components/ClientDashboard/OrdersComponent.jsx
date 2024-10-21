@@ -1,10 +1,11 @@
-import { AuthContext } from '../../context/AuthContext.jsx';
 import { NavLink } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
 import { FaStar, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
+import toast from 'react-hot-toast';
+
+import { AuthContext } from '../../context/AuthContext.jsx';
 import { fetchClientAllServicesServices } from '../../services/serviceServices.js';
 import RatingModal from './RatingServiceComponent.jsx';
-import toast from 'react-hot-toast';
 
 const OrdersComponent = () => {
     const { authToken } = useContext(AuthContext);
@@ -75,11 +76,9 @@ const OrdersComponent = () => {
                         Estado:
                     </option>
                     <option value='accepted'>Aceptado</option>
-                    <option value='cancelled'>Cancelado</option>
                     <option value='completed'>Completado</option>
                     <option value='confirmed'>Confirmado</option>
                     <option value='pending'>Pendiente</option>
-                    <option value='rejected'>Rechazado</option>
                 </select>
                 <select
                     name='typeOfService'
@@ -138,77 +137,86 @@ const OrdersComponent = () => {
                     const startDate = new Date(
                         item.startDateTime
                     ).toLocaleDateString();
+
                     return (
-                        <li key={item.id} className='relative'>
-                            <div className='icon-container'>
-                                {item.status === 'completed' ? (
-                                    <FaCheckCircle className='text-green-500' />
-                                ) : (
-                                    <FaExclamationCircle className='text-yellow-500' />
-                                )}
-                            </div>
-                            <h3>{item.type}</h3>
-                            <p>El día {startDate}</p>
-                            <p>
-                                de {startTime} a {endTime}
-                            </p>
-                            <p className='grow'>{item.comments}</p>
-                            <p className='grow'>
-                                En {item.address}, {item.city}, {item.postCode},{' '}
-                                {item.province}
-                            </p>
-                            <p>Precio hora: {item.price}€</p>
-                            <p>Horas contratadas: {item.hours}</p>
-                            <p>Personas contratadas: {item.numberOfPeople}</p>
-                            <p>Total: {item.totalPrice}€</p>
-                            {item.status === 'pending' && (
-                                <NavLink to={`/user/services/edit/${item.id}`}>
-                                    Editar
-                                </NavLink>
-                            )}
-                            {item.status === 'accepted' && (
-                                <NavLink
-                                    to={`/services/validate/${item.validationCode}`}
-                                >
-                                    Confirmar
-                                </NavLink>
-                            )}
-                            {item.status === 'confirmed' && (
-                                <NavLink
-                                    disabled={''}
-                                    onClick={() => {
-                                        toast.error(
-                                            'Cuando el servicio esté completado lo podrá valorar.',
-                                            { id: 'error' }
-                                        );
-                                    }}
-                                >
-                                    Valorar
-                                </NavLink>
-                            )}
-                            {item.status === 'completed' &&
-                            item.rating !== null ? (
-                                <div className='flex mt-2 mb-4'>
-                                    {[...Array(5)].map((_, index) => (
-                                        <FaStar
-                                            key={item.id}
-                                            size={30}
-                                            color={
-                                                index + 1 <= item.rating
-                                                    ? '#ffc107'
-                                                    : '#e4e5e9'
-                                            }
-                                        />
-                                    ))}
+                        item.status !== 'canceled' &&
+                        item.status !== 'rejected' && (
+                            <li key={item.id} className='relative'>
+                                <div className='icon-container'>
+                                    {item.status === 'completed' ? (
+                                        <FaCheckCircle className='text-green-500' />
+                                    ) : (
+                                        <FaExclamationCircle className='text-yellow-500' />
+                                    )}
                                 </div>
-                            ) : (
-                                item.status === 'completed' && (
-                                    <button onClick={() => openModal(item.id)}>
+                                <h3>{item.type}</h3>
+                                <p>El día {startDate}</p>
+                                <p>
+                                    de {startTime} a {endTime}
+                                </p>
+                                <p className='grow'>{item.comments}</p>
+                                <p className='grow'>
+                                    En {item.address}, {item.city},{' '}
+                                    {item.postCode}, {item.province}
+                                </p>
+                                <p>Precio hora: {item.price}€</p>
+                                <p>Horas contratadas: {item.hours}</p>
+                                <p>
+                                    Personas contratadas: {item.numberOfPeople}
+                                </p>
+                                <p>Total: {item.totalPrice}€</p>
+                                {item.status === 'pending' && (
+                                    <NavLink
+                                        to={`/user/services/edit/${item.id}`}
+                                    >
+                                        Editar
+                                    </NavLink>
+                                )}
+                                {item.status === 'accepted' && (
+                                    <NavLink
+                                        to={`/services/validate/${item.validationCode}`}
+                                    >
+                                        Confirmar
+                                    </NavLink>
+                                )}
+                                {item.status === 'confirmed' && (
+                                    <button
+                                        onClick={() => {
+                                            toast.error(
+                                                'Cuando el servicio esté completado lo podrá valorar.',
+                                                { id: 'error' }
+                                            );
+                                        }}
+                                    >
                                         Valorar
                                     </button>
-                                )
-                            )}
-                        </li>
+                                )}
+                                {item.status === 'completed' &&
+                                item.rating !== null ? (
+                                    <div className='flex mt-2 mb-4'>
+                                        {[...Array(5)].map((_, index) => (
+                                            <FaStar
+                                                key={index}
+                                                size={30}
+                                                color={
+                                                    index + 1 <= item.rating
+                                                        ? '#ffc107'
+                                                        : '#e4e5e9'
+                                                }
+                                            />
+                                        ))}
+                                    </div>
+                                ) : (
+                                    item.status === 'completed' && (
+                                        <button
+                                            onClick={() => openModal(item.id)}
+                                        >
+                                            Valorar
+                                        </button>
+                                    )
+                                )}
+                            </li>
+                        )
                     );
                 })}
             </ul>
