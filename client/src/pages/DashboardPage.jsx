@@ -10,6 +10,7 @@ import ContractsComponent from '../components/AdminDashboard/Contracts/Contracts
 import ShiftsComponent from '../components/AdminDashboard/Shifts/ShiftsComponent';
 import MyServicesComponent from '../components/EmployeeDashBoard/MyServicesComponent';
 import OrdersComponent from '../components/ClientDashboard/OrdersComponent';
+import OrdersCalendarComponent from '../components/ClientDashboard/OrdersCalendarComponent';
 
 const DashboardPage = () => {
     const { authToken } = useContext(AuthContext);
@@ -28,13 +29,14 @@ const DashboardPage = () => {
     }, [location]);
 
     const sectionComponents = {
-        ProfileComponent: <ProfileComponent />,
-        UsersComponent: userRole === 'admin' && <UsersComponent />,
-        ServicesComponent: userRole === 'admin' && <ServicesComponent />,
-        ContractsComponent: userRole === 'admin' && <ContractsComponent />,
-        ShiftsComponent: userRole === 'admin' && <ShiftsComponent />,
-        OrdersComponent: userRole === 'client' && <OrdersComponent />,
-        MyServicesComponent: userRole === 'employee' && <MyServicesComponent />,
+        profile: <ProfileComponent />,
+        users: userRole === 'admin' && <UsersComponent />,
+        services: userRole === 'admin' && <ServicesComponent />,
+        contracts: userRole === 'admin' && <ContractsComponent />,
+        shifts: userRole === 'admin' && <ShiftsComponent />,
+        orders: userRole === 'client' && <OrdersComponent />,
+        myservices: userRole === 'employee' && <MyServicesComponent />,
+        calendar: userRole === 'client' && <OrdersCalendarComponent />,
     };
 
     const renderNavLink = (section, label, extraClass = '') => (
@@ -50,51 +52,57 @@ const DashboardPage = () => {
             <AvatarComponent />
             <section className='manager-tabs'>
                 {renderNavLink(
-                    'ProfileComponent',
+                    'profile',
                     'Mi Perfil',
-                    activeSection === 'ProfileComponent' && 'activeSelectedLink'
+                    activeSection === 'profile' && 'activeSelectedLink'
                 )}
+
                 {userRole === 'admin' && (
                     <>
                         {renderNavLink(
-                            'UsersComponent',
+                            'users',
                             'Usuarios',
-                            activeSection === 'UsersComponent' &&
-                                'activeSelectedLink'
+                            activeSection === 'users' && 'activeSelectedLink'
                         )}
                         {renderNavLink(
-                            'ServicesComponent',
+                            'services',
                             'Servicios',
-                            activeSection === 'ServicesComponent' &&
-                                'activeSelectedLink'
+                            activeSection === 'services' && 'activeSelectedLink'
                         )}
                         {renderNavLink(
-                            'ContractsComponent',
+                            'contracts',
                             'Contratos',
-                            activeSection === 'ContractsComponent' &&
+                            activeSection === 'contracts' &&
                                 'activeSelectedLink'
                         )}
                         {renderNavLink(
-                            'ShiftsComponent',
+                            'shifts',
                             'Turnos',
-                            activeSection === 'ShiftsComponent' &&
-                                'activeSelectedLink'
+                            activeSection === 'shifts' && 'activeSelectedLink'
                         )}
                     </>
                 )}
-                {userRole === 'client' &&
-                    renderNavLink(
-                        'OrdersComponent',
-                        'Pedidos',
-                        activeSection === 'OrdersComponent' &&
-                            'activeSelectedLink'
-                    )}
+
+                {userRole === 'client' && (
+                    <>
+                        {renderNavLink(
+                            'orders',
+                            'Pedidos',
+                            activeSection === 'orders' && 'activeSelectedLink'
+                        )}
+                        {renderNavLink(
+                            'calendar',
+                            'Calendario',
+                            activeSection === 'calendar' && 'activeSelectedLink'
+                        )}
+                    </>
+                )}
+
                 {userRole === 'employee' &&
                     renderNavLink(
-                        'MyServicesComponent',
+                        'myservices',
                         'Servicios',
-                        activeSection === 'MyServicesComponent' &&
-                            'activeSelectedLink'
+                        activeSection === 'myservices' && 'activeSelectedLink'
                     )}
             </section>
             {sectionComponents[activeSection]}

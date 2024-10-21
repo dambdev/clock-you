@@ -94,7 +94,7 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
                 id: 'ok',
             });
 
-            delayedNavigation('/user#MyServicesComponent');
+            delayedNavigation('/user#myservices');
         } catch (error) {
             toast.error(error.message, {
                 id: 'error',
@@ -119,7 +119,7 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
                 id: 'ok',
             });
 
-            delayedNavigation('/user#MyServicesComponent');
+            delayedNavigation('/user#myservices');
         } catch (error) {
             toast.error(error.message, {
                 id: 'error',

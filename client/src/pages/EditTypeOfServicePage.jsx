@@ -72,7 +72,7 @@ const EditTypeOfServicePage = () => {
                     id: 'ok',
                 });
 
-                delayedNavigation('/user#ServicesComponent');
+                delayedNavigation('/user#services');
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',
@@ -96,7 +96,7 @@ const EditTypeOfServicePage = () => {
             toast.success(data.message, {
                 id: 'ok',
             });
-            delayedNavigation('/user#ServicesComponent');
+            delayedNavigation('/user#services');
         } catch (error) {
             toast.error(error.message, {
                 id: 'error',
@@ -119,7 +119,7 @@ const EditTypeOfServicePage = () => {
                 toast.success(data.message, {
                     id: 'ok',
                 });
-                delayedNavigation('/user#ServicesComponent');
+                delayedNavigation('/user#services');
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',

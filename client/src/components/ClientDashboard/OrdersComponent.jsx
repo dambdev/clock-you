@@ -75,9 +75,11 @@ const OrdersComponent = () => {
                         Estado:
                     </option>
                     <option value='accepted'>Aceptado</option>
+                    <option value='cancelled'>Cancelado</option>
                     <option value='completed'>Completado</option>
                     <option value='confirmed'>Confirmado</option>
                     <option value='pending'>Pendiente</option>
+                    <option value='rejected'>Rechazado</option>
                 </select>
                 <select
                     name='typeOfService'

@@ -120,7 +120,7 @@ const EditServicePage = () => {
                 id: 'ok',
             });
 
-            delayedNavigation('/user#OrdersComponent');
+            delayedNavigation('/user#orders');
         } catch (error) {
             toast.error(error.message, {
                 id: 'error',
@@ -142,7 +142,7 @@ const EditServicePage = () => {
                 toast.success(data.message, {
                     id: 'ok',
                 });
-                delayedNavigation('/user#OrdersComponent');
+                delayedNavigation('/user#orders');
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',

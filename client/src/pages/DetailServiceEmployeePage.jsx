@@ -58,6 +58,15 @@ const DetailServiceEmployeepage = () => {
         <section>
             <form className='mx-auto'>
                 <fieldset>
+                    <legend>Cliente</legend>
+                    <p className='mt-2'>
+                        {data.firstName} {data.lastName}
+                    </p>
+                    <p>{data.phone}</p>
+                </fieldset>
+            </form>
+            <form className='mx-auto'>
+                <fieldset>
                     <legend>Solicitud</legend>
                     <p className='mt-2'>{data.type}</p>
                     <p>{data.comments}</p>
@@ -69,17 +78,6 @@ const DetailServiceEmployeepage = () => {
                         {data.province}
                     </p>
                     <p className='font-extrabold'>Total: {data.totalPrice}€</p>
-                </fieldset>
-            </form>
-            <form className='mx-auto'>
-                <fieldset>
-                    <legend>Cliente</legend>
-                    <p className='mt-2'>
-                        {data.firstName} {data.lastName}
-                    </p>
-                    <p>{data.email}</p>
-                    <p>{data.dni}</p>
-                    <p>{data.phone}</p>
                 </fieldset>
             </form>
             {data.status === 'confirmed' && (
