@@ -152,7 +152,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"david_miras@icloud.com\",\n    \"password\": \"12345678\"\n}",
+							"raw": "{\n    \"email\": \"david_miras+1@icloud.com\",\n    \"password\": \"12345678\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -210,7 +210,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"david_miras@hotmail.com\",\n    \"password\": \"12345678\"\n}",
+							"raw": "{\n    \"email\": \"david_miras@icloud.com\",\n    \"password\": \"12345678\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -816,12 +816,37 @@
 							"query": [
 								{
 									"key": "status",
-									"value": "",
+									"value": "accepted",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "canceled",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "completed",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "confirmed",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "pending",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "rejected",
 									"disabled": true
 								},
 								{
 									"key": "type",
-									"value": null,
+									"value": "profesor",
 									"disabled": true
 								}
 							]
@@ -923,7 +948,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjMTBkYjVkLTQxOTQtNDdjOC1hMGE5LWFiZTA5YWNjNWQ0YiIsInJvbGUiOiJjbGllbnQiLCJpYXQiOjE3MjU4OTA0MTQsImV4cCI6MTcyNjQ5NTIxNH0.LqqCPYiNOB9XTIN8YjIVsZ4EyY9hQfecElAlAjmiwGg",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjMTBkYjVkLTQxOTQtNDdjOC1hMGE5LWFiZTA5YWNjNWQ0YiIsInJvbGUiOiJjbGllbnQiLCJpYXQiOjE3Mjk1MzA5NDEsImV4cCI6MTczMDEzNTc0MX0.-FxOf4AfYfU-3cm2ifqi-ip1g9dP068s-TIneprMUtU",
 								"type": "text"
 							}
 						],
@@ -959,6 +984,21 @@
 									"key": "status",
 									"value": "completed",
 									"disabled": true
+								},
+								{
+									"key": "city",
+									"value": "Ordes",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "2024-09-20 12:00:00",
+									"disabled": true
+								},
+								{
+									"key": "endDate",
+									"value": "2024-09-20 12:00:00",
+									"disabled": true
 								}
 							]
 						}
@@ -977,7 +1017,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8000/services/employee?status",
+							"raw": "http://localhost:8000/services/employee",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -990,7 +1030,18 @@
 							"query": [
 								{
 									"key": "status",
-									"value": null
+									"value": "accepted",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "completed",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "confirmed",
+									"disabled": true
 								}
 							]
 						}
@@ -1099,12 +1150,12 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNjNzNjODZkLTlhYmMtNDU3ZS05ZjVkLTQ4MjI1ZjlkZGI0ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcyNzcwNjExMCwiZXhwIjoxNzI4MzEwOTEwfQ.L1IWfLBHCoA_6cN6E4d2AbWVdC3ecXR4WIZI5lSVgtQ",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNjNzNjODZkLTlhYmMtNDU3ZS05ZjVkLTQ4MjI1ZjlkZGI0ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcyOTUzMTA2NSwiZXhwIjoxNzMwMTM1ODY1fQ.ct5pynFVJu2c4revXpznbJC55ocYADrbmbhICXp0sLs",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8000/shiftrecords?typeOfService=Clases Particulares&generateExcel=true",
+							"raw": "http://localhost:8000/shiftrecords",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1116,7 +1167,8 @@
 							"query": [
 								{
 									"key": "typeOfService",
-									"value": "Clases Particulares"
+									"value": "Clases Particulares",
+									"disabled": true
 								},
 								{
 									"key": "employeeId",
@@ -1135,7 +1187,8 @@
 								},
 								{
 									"key": "generateExcel",
-									"value": "true"
+									"value": "true",
+									"disabled": true
 								}
 							]
 						}
@@ -1268,6 +1321,32 @@
 							"port": "8000",
 							"path": [
 								"shiftrecords"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNjNzNjODZkLTlhYmMtNDU3ZS05ZjVkLTQ4MjI1ZjlkZGI0ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcyOTI3ODcyNCwiZXhwIjoxNzI5ODgzNTI0fQ.ad3kFVt32N4YvacAozSyclKWiAXp9jPWXE93SDp0nSg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/shiftrecords/6965e2cc-d124-45d4-ba01-d8bd0cc41366",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"shiftrecords",
+								"6965e2cc-d124-45d4-ba01-d8bd0cc41366"
 							]
 						}
 					},
