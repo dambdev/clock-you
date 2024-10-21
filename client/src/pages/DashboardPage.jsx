@@ -20,7 +20,7 @@ const DashboardPage = () => {
 
     const userRole = user?.role;
 
-    const [activeSection, setActiveSection] = useState('ProfileComponent');
+    const [activeSection, setActiveSection] = useState('profile');
 
     useEffect(() => {
         if (location.hash) {
