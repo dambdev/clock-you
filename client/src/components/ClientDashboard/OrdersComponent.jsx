@@ -14,6 +14,8 @@ const OrdersComponent = () => {
     const [status, setStatus] = useState('');
     const [type, setType] = useState('');
     const [city, setCity] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedServiceId, setSelectedServiceId] = useState(null);
 
@@ -22,6 +24,8 @@ const OrdersComponent = () => {
         setStatus('');
         setType('');
         setCity('');
+        setStartDate('');
+        setEndDate('');
     };
 
     const getList = async () => {
@@ -29,6 +33,8 @@ const OrdersComponent = () => {
             status: status,
             type: type,
             city: city,
+            startDate: startDate,
+            endDate: endDate,
         });
         const searchParamsToString = searchParams.toString();
         try {
@@ -46,7 +52,7 @@ const OrdersComponent = () => {
 
     useEffect(() => {
         getList();
-    }, [status, type, city]);
+    }, [status, type, city, startDate, endDate]);
 
     const cityNoRepeated = [...new Set(data.map((item) => item.city))].sort();
     const typeNoRepeated = [...new Set(data.map((item) => item.type))].sort();
@@ -64,6 +70,25 @@ const OrdersComponent = () => {
     return (
         <>
             <form className='mx-auto form-filters'>
+                <select
+                    name='city'
+                    id='city'
+                    value={city}
+                    onChange={(e) => {
+                        setCity(e.target.value);
+                    }}
+                >
+                    <option value='' disabled>
+                        Ciudad:
+                    </option>
+                    {cityNoRepeated.map((city) => {
+                        return (
+                            <option key={city} value={city}>
+                                {city}
+                            </option>
+                        );
+                    })}
+                </select>
                 <select
                     name='status'
                     id='status'
@@ -99,25 +124,18 @@ const OrdersComponent = () => {
                         );
                     })}
                 </select>
-                <select
-                    name='cityOfService'
-                    id='cityOfService'
-                    value={city}
-                    onChange={(e) => {
-                        setCity(e.target.value);
-                    }}
-                >
-                    <option value='' disabled>
-                        Ciudad:
-                    </option>
-                    {cityNoRepeated.map((city) => {
-                        return (
-                            <option key={city} value={city}>
-                                {city}
-                            </option>
-                        );
-                    })}
-                </select>
+                <input
+                    id='startDate'
+                    type='datetime-local'
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                />
+                <input
+                    id='endDate'
+                    type='datetime-local'
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                />
                 <button onClick={resetFilters}>Limpiar Filtros</button>
             </form>
             <ul className='cards'>

@@ -10,7 +10,6 @@ import ContractsComponent from '../components/AdminDashboard/Contracts/Contracts
 import ShiftsComponent from '../components/AdminDashboard/Shifts/ShiftsComponent';
 import MyServicesComponent from '../components/EmployeeDashBoard/MyServicesComponent';
 import OrdersComponent from '../components/ClientDashboard/OrdersComponent';
-import OrdersCalendarComponent from '../components/ClientDashboard/OrdersCalendarComponent';
 
 const DashboardPage = () => {
     const { authToken } = useContext(AuthContext);
@@ -36,7 +35,6 @@ const DashboardPage = () => {
         shifts: userRole === 'admin' && <ShiftsComponent />,
         orders: userRole === 'client' && <OrdersComponent />,
         myservices: userRole === 'employee' && <MyServicesComponent />,
-        calendar: userRole === 'client' && <OrdersCalendarComponent />,
     };
 
     const renderNavLink = (section, label, extraClass = '') => (
@@ -83,20 +81,12 @@ const DashboardPage = () => {
                     </>
                 )}
 
-                {userRole === 'client' && (
-                    <>
-                        {renderNavLink(
-                            'orders',
-                            'Pedidos',
-                            activeSection === 'orders' && 'activeSelectedLink'
-                        )}
-                        {renderNavLink(
-                            'calendar',
-                            'Calendario',
-                            activeSection === 'calendar' && 'activeSelectedLink'
-                        )}
-                    </>
-                )}
+                {userRole === 'client' &&
+                    renderNavLink(
+                        'orders',
+                        'Pedidos',
+                        activeSection === 'orders' && 'activeSelectedLink'
+                    )}
 
                 {userRole === 'employee' &&
                     renderNavLink(

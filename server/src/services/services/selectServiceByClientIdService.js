@@ -1,6 +1,13 @@
 import getPool from '../../db/getPool.js';
 
-const selectServiceByClientIdService = async (clientId, status, city, type) => {
+const selectServiceByClientIdService = async (
+    clientId,
+    status,
+    city,
+    type,
+    startDate,
+    endDate
+) => {
     const pool = await getPool();
 
     let sqlQuery = `
@@ -27,6 +34,11 @@ const selectServiceByClientIdService = async (clientId, status, city, type) => {
     if (type) {
         sqlQuery += ' AND t.type = ?';
         sqlValues.push(type);
+    }
+
+    if (startDate && endDate) {
+        sqlQuery += ' AND s.startDateTime BETWEEN ? AND ?';
+        sqlValues.push(startDate, endDate);
     }
 
     sqlQuery += ' ORDER BY s.createdAt DESC';
