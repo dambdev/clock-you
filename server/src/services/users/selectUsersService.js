@@ -28,7 +28,7 @@ const selectUsersService = async (job, active, city, role) => {
         sqlValues.push(role);
     }
 
-    sqlQuery += ' ORDER BY createdAt DESC';
+    sqlQuery += ' ORDER BY RAND()';
 
     const [service] = await pool.query(sqlQuery, sqlValues);
 

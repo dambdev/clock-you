@@ -26,7 +26,7 @@ const selectTypeOfServiceService = async (type, city, price) => {
     if (price) {
         sqlQuery += ` ORDER BY price ${price.toUpperCase()}`;
     } else {
-        sqlQuery += ' ORDER BY t.modifiedAt DESC';
+        sqlQuery += ' ORDER BY RAND()';
     }
 
     const [service] = await pool.query(sqlQuery, sqlValues);
