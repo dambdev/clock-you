@@ -209,6 +209,8 @@ const ShiftsComponent = () => {
                         </li>
                     );
                 })}
+            </ul>
+            <ul className='cards'>
                 {totals.map((total) => (
                     <li key={total.employeeId} className='relative'>
                         <h3>{`${total.firstName} ${total.lastName}`}</h3>
