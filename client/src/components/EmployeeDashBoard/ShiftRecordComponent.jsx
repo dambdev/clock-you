@@ -120,10 +120,10 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
 
     return (
         <form className='mx-auto'>
-            <fieldset>
+            <fieldset className='mb-4'>
                 {!clockIn ? (
                     <button
-                        className='mt-4 mb-2 text-white bg-green-600'
+                        className='mt-4 text-white bg-green-600'
                         onClick={getStart}
                         disabled={loading}
                     >
@@ -131,21 +131,21 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
                     </button>
                 ) : (
                     <button
-                        className='mt-2 text-white bg-red-600'
+                        className='mt-4 text-white bg-red-600'
                         onClick={getEnd}
                         disabled={loading}
                     >
                         Registrar salida
                     </button>
                 )}
-                {location.currentLocation &&
-                location.currentLocation.lat !== null &&
-                location.currentLocation.lng !== null ? (
-                    <MapComponent location={location} />
-                ) : (
-                    <p>Cargando mapa...</p>
-                )}
             </fieldset>
+            {location.currentLocation &&
+            location.currentLocation.lat !== null &&
+            location.currentLocation.lng !== null ? (
+                <MapComponent location={location} />
+            ) : (
+                <p>Cargando mapa...</p>
+            )}
         </form>
     );
 };

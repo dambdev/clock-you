@@ -1,44 +1,28 @@
-import { useParams } from 'react-router-dom';
-import { useState, useEffect, useContext } from 'react';
-import { AuthContext } from '../context/AuthContext.jsx';
 import { FaStar } from 'react-icons/fa';
-import { fetchDetailServiceServices } from '../services/serviceServices.js';
-import ShiftRecordComponent from '../components/EmployeeDashBoard/ShiftRecordComponent.jsx';
-import MapComponent from '../components/MapComponent.jsx';
-import toast from 'react-hot-toast';
+import { useLocation } from 'react-router-dom';
+import { useContext } from 'react';
 
-const DetailServiceEmployeepage = () => {
-    const { serviceId } = useParams();
+import { AuthContext } from '../context/AuthContext.jsx';
+import MapComponent from '../components/MapComponent.jsx';
+import ShiftRecordComponent from '../components/EmployeeDashBoard/ShiftRecordComponent.jsx';
+
+const DetailServiceEmployeePage = () => {
+    const location = useLocation();
+    const { state: eventData } = location;
     const { authToken } = useContext(AuthContext);
 
-    const [data, setData] = useState([]);
-    const [location, setLocation] = useState({});
+    const data = eventData;
 
-    useEffect(() => {
-        const detailService = async () => {
-            try {
-                const data = await fetchDetailServiceServices(
-                    serviceId,
-                    authToken
-                );
-
-                setData(data);
-                setLocation({
-                    startLocation: {
-                        lat: data.latitudeIn,
-                        lng: data.longitudeIn,
-                    },
-                    exitLocation: {
-                        lat: data.latitudeOut,
-                        lng: data.longitudeOut,
-                    },
-                });
-            } catch (error) {
-                toast.error(error.message, { id: 'error' });
-            }
-        };
-        detailService();
-    }, [serviceId, authToken]);
+    const locationData = {
+        startLocation: {
+            lat: data.latitudeIn,
+            lng: data.longitudeIn,
+        },
+        exitLocation: {
+            lat: data.latitudeOut,
+            lng: data.longitudeOut,
+        },
+    };
 
     const startTime = new Date(data.startDateTime).toLocaleTimeString([], {
         hour: '2-digit',
@@ -50,7 +34,6 @@ const DetailServiceEmployeepage = () => {
     });
 
     const startDate = new Date(data.startDateTime).toLocaleDateString();
-
     const clockIn = new Date(data.clockIn).toLocaleString();
     const clockOut = new Date(data.clockOut).toLocaleString();
 
@@ -80,32 +63,28 @@ const DetailServiceEmployeepage = () => {
                     <p className='font-extrabold'>Total: {data.totalPrice}€</p>
                 </fieldset>
             </form>
-            {data.status === 'confirmed' && (
-                <ShiftRecordComponent
-                    shiftRecordId={data.shiftRecordId}
-                    clockIn={data.clockIn}
-                    authToken={authToken}
-                />
-            )}
-            {data.status === 'completed' && (
+            {data.status === 'confirmed' ||
+                (data.status === 'completed' && data.clockOut === null && (
+                    <ShiftRecordComponent
+                        shiftRecordId={data.shiftRecordId}
+                        clockIn={data.clockIn}
+                        authToken={authToken}
+                    />
+                ))}
+            {data.clockIn && data.clockOut !== null && (
                 <form className='mx-auto'>
                     <fieldset>
-                        <legend>Empleado</legend>
-                        <p className='mt-2'>
-                            {data.firstNameEmployee} {data.lastNameEmployee}
+                        <legend>Turno</legend>
+                        <p className='mt-2'>Entrada: {clockIn}</p>
+                        <p>Salida: {clockOut}</p>
+                        <p>
+                            Total: {data.hoursWorked} Horas {data.minutesWorked}{' '}
+                            Minutos
                         </p>
-                        <p className='font-extrabold'>Entrada: {clockIn}</p>
-                        <p className='font-extrabold'>Salida: {clockOut}</p>
-                        {(data.hoursWorked || data.minutesWorked !== null) && (
-                            <p>
-                                Total: {data.hoursWorked} Horas{' '}
-                                {data.minutesWorked} Minutos
-                            </p>
-                        )}
                         <div className='flex mb-2 justify-center'>
                             {[...Array(5)].map((_, index) => (
                                 <FaStar
-                                    key={data.id}
+                                    key={index}
                                     size={30}
                                     color={
                                         index + 1 <= data.rating
@@ -115,10 +94,10 @@ const DetailServiceEmployeepage = () => {
                                 />
                             ))}
                         </div>
-
-                        {location.startLocation && location.exitLocation ? (
+                        {locationData.startLocation &&
+                        locationData.exitLocation ? (
                             <div>
-                                <MapComponent location={location} />
+                                <MapComponent location={locationData} />
                             </div>
                         ) : (
                             <p>Cargando mapa...</p>
@@ -130,4 +109,4 @@ const DetailServiceEmployeepage = () => {
     );
 };
 
-export default DetailServiceEmployeepage;
+export default DetailServiceEmployeePage;

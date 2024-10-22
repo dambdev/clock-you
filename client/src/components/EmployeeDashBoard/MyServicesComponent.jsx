@@ -8,7 +8,6 @@ import CalendarComponent from '../CalendarComponent.jsx';
 
 const MyServicesComponent = () => {
     const { authToken } = useContext(AuthContext);
-
     const navigate = useNavigate();
 
     const [data, setData] = useState([]);
@@ -55,7 +54,14 @@ const MyServicesComponent = () => {
     }, [status, authToken]);
 
     const handleSelectEvent = (event) => {
-        navigate(`/services/employee/${event.serviceId}`);
+        const selectedEventData = data.find(
+            (d) => d.serviceId === event.serviceId
+        );
+        if (selectedEventData) {
+            navigate(`/services/employee/${selectedEventData.serviceId}`, {
+                state: selectedEventData,
+            });
+        }
     };
 
     const event = data.map((event) => ({
