@@ -3,6 +3,7 @@ import exitShiftRecordService from '../../services/shiftRecords/exitShiftRecordS
 const exitShiftRecordsController = async (req, res, next) => {
     try {
         const { shiftRecordId, location, clockOut } = req.body;
+
         const endDateTime = new Date(clockOut);
 
         await exitShiftRecordService(shiftRecordId, location, endDateTime);

@@ -81,6 +81,20 @@ const ListEmployeeComponent = ({ serviceId, onEmployeeAssigned }) => {
         <>
             <form className='mx-auto form-filters'>
                 <select
+                    name='active'
+                    id='active'
+                    value={active}
+                    onChange={(e) => {
+                        setActive(e.target.value);
+                    }}
+                >
+                    <option value='' disabled>
+                        Activo:
+                    </option>
+                    <option value='1'>Activo</option>
+                    <option value='0'>Desactivado</option>
+                </select>
+                <select
                     name='city'
                     id='city'
                     value={city}
@@ -99,7 +113,6 @@ const ListEmployeeComponent = ({ serviceId, onEmployeeAssigned }) => {
                         );
                     })}
                 </select>
-
                 <select
                     name='job'
                     id='job'
@@ -118,21 +131,6 @@ const ListEmployeeComponent = ({ serviceId, onEmployeeAssigned }) => {
                             </option>
                         );
                     })}
-                </select>
-
-                <select
-                    name='active'
-                    id='active'
-                    value={active}
-                    onChange={(e) => {
-                        setActive(e.target.value);
-                    }}
-                >
-                    <option value='' disabled>
-                        Activo:
-                    </option>
-                    <option value='1'>Activo</option>
-                    <option value='0'>Desactivado</option>
                 </select>
                 <button onClick={resetFilters}>Limpiar Filtros</button>
             </form>

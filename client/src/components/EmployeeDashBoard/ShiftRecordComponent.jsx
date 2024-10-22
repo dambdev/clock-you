@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-
 import toast from 'react-hot-toast';
 
 import {
@@ -12,13 +11,14 @@ import MapComponent from '../MapComponent';
 const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
     const navigate = useNavigate();
 
+    const [location, setLocation] = useState({});
+    const [loading, setLoading] = useState(false);
+
     const delayedNavigation = (path) => {
         setTimeout(() => {
             navigate(path);
         }, 750);
     };
-
-    const [location, setLocation] = useState({});
 
     const getLocation = async () => {
         if (!navigator.geolocation) {
@@ -32,30 +32,28 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
                         lng: position.coords.longitude,
                     }),
                 (error) => {
-                    console.error('Error de geolocalización:', error);
-
-                    let mensajeError;
+                    let errorMessage;
                     switch (error.code) {
                         case error.PERMISSION_DENIED:
-                            mensajeError =
+                            errorMessage =
                                 'Permiso denegado para acceder a la ubicación';
                             break;
                         case error.POSITION_UNAVAILABLE:
-                            mensajeError =
+                            errorMessage =
                                 'La información de la ubicación no está disponible';
                             break;
                         case error.TIMEOUT:
-                            mensajeError =
+                            errorMessage =
                                 'La solicitud de ubicación ha superado el tiempo de espera';
                             break;
                         default:
-                            mensajeError =
+                            errorMessage =
                                 'Error desconocido al acceder a la ubicación';
                             break;
                     }
-
-                    reject(new Error(mensajeError));
-                    toast.error(mensajeError, { id: 'error' });
+                    console.error('Error de geolocalización:', error);
+                    toast.error(errorMessage, { id: 'error' });
+                    reject(new Error(errorMessage));
                 }
             );
         });
@@ -73,12 +71,12 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
                 );
             }
         };
-
         fetchInitialLocation();
     }, []);
 
     const getStart = async (e) => {
         e.preventDefault();
+        setLoading(true);
         const clockIn = new Date();
         try {
             const location = await getLocation();
@@ -89,21 +87,18 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
                 location,
                 shiftRecordId
             );
-
-            toast.success(data.message, {
-                id: 'ok',
-            });
-
+            toast.success(data.message, { id: 'ok' });
             delayedNavigation('/user#myservices');
         } catch (error) {
-            toast.error(error.message, {
-                id: 'error',
-            });
+            toast.error(error.message, { id: 'error' });
+        } finally {
+            setLoading(false);
         }
     };
 
     const getEnd = async (e) => {
         e.preventDefault();
+        setLoading(true);
         const clockOut = new Date();
         try {
             const location = await getLocation();
@@ -114,16 +109,12 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
                 location,
                 shiftRecordId
             );
-
-            toast.success(data.message, {
-                id: 'ok',
-            });
-
+            toast.success(data.message, { id: 'ok' });
             delayedNavigation('/user#myservices');
         } catch (error) {
-            toast.error(error.message, {
-                id: 'error',
-            });
+            toast.error(error.message, { id: 'error' });
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -134,6 +125,7 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
                     <button
                         className='mt-4 mb-2 text-white bg-green-600'
                         onClick={getStart}
+                        disabled={loading}
                     >
                         Registrar entrada
                     </button>
@@ -141,6 +133,7 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
                     <button
                         className='mt-2 text-white bg-red-600'
                         onClick={getEnd}
+                        disabled={loading}
                     >
                         Registrar salida
                     </button>

@@ -64,6 +64,20 @@ const ListServicesComponent = () => {
                     })}
                 </select>
                 <select
+                    name='precio'
+                    id='precio'
+                    value={price}
+                    onChange={(e) => {
+                        setPrice(e.target.value);
+                    }}
+                >
+                    <option value='' disabled>
+                        Precio:
+                    </option>
+                    <option value='ASC'>Ascendente</option>
+                    <option value='DESC'>Descendente</option>
+                </select>
+                <select
                     name='typeOfService'
                     id='typeOfService'
                     value={type}
@@ -81,20 +95,6 @@ const ListServicesComponent = () => {
                             </option>
                         );
                     })}
-                </select>
-                <select
-                    name='precio'
-                    id='precio'
-                    value={price}
-                    onChange={(e) => {
-                        setPrice(e.target.value);
-                    }}
-                >
-                    <option value='' disabled>
-                        Precio:
-                    </option>
-                    <option value='ASC'>Ascendente</option>
-                    <option value='DESC'>Descendente</option>
                 </select>
                 <button onClick={resetFilters}>Limpiar Filtros</button>
             </form>

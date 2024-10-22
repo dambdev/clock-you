@@ -61,7 +61,7 @@ const Header = () => {
 
     return (
         <header id='mainHeader'>
-            <nav className='container my-2 mx-auto mainnav flex flex-wrap'>
+            <nav className='container lg:my-2 mx-auto mainnav flex flex-wrap'>
                 <NavLink className='flex items-center' to={'/'}>
                     <img className='w-14' src='/logo-test.png' alt='clockYou' />
 
