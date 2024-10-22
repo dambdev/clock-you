@@ -22,7 +22,7 @@ const selectServiceByIdService = async (serviceId) => {
 
     const [employees] = await pool.query(
         `
-        SELECT ue.firstName AS firstNameEmployee, ue.lastName AS lastNameEmployee, sr.clockIn, sr.clockOut, sr.latitudeIn, sr.longitudeIn, sr.latitudeOut, sr.longitudeOut,
+        SELECT ue.firstName AS firstNameEmployee, ue.lastName AS lastNameEmployee, sr.id AS shiftRecordId, sr.clockIn, sr.clockOut, sr.latitudeIn, sr.longitudeIn, sr.latitudeOut, sr.longitudeOut,
         TIMESTAMPDIFF(HOUR, sr.clockIn, sr.clockOut) AS hoursWorked,
         MOD(TIMESTAMPDIFF(MINUTE, sr.clockIn, sr.clockOut), 60) AS minutesWorked
         FROM shiftRecords sr

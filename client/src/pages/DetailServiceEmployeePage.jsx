@@ -63,14 +63,14 @@ const DetailServiceEmployeePage = () => {
                     <p className='font-extrabold'>Total: {data.totalPrice}€</p>
                 </fieldset>
             </form>
-            {data.status === 'confirmed' ||
-                (data.status === 'completed' && data.clockOut === null && (
-                    <ShiftRecordComponent
-                        shiftRecordId={data.shiftRecordId}
-                        clockIn={data.clockIn}
-                        authToken={authToken}
-                    />
-                ))}
+            {(data.status === 'confirmed' ||
+                (data.status === 'completed' && data.clockOut === null)) && (
+                <ShiftRecordComponent
+                    shiftRecordId={data.shiftRecordId}
+                    clockIn={data.clockIn}
+                    authToken={authToken}
+                />
+            )}
             {data.clockIn && data.clockOut !== null && (
                 <form className='mx-auto'>
                     <fieldset>
