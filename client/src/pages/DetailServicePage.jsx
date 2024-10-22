@@ -15,8 +15,7 @@ const DetailServicePage = () => {
     const { authToken } = useContext(AuthContext);
     const { user } = useUser();
 
-    const [data, setData] = useState([]);
-    const [location, setLocation] = useState({});
+    const [data, setData] = useState({});
     const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
@@ -28,16 +27,6 @@ const DetailServicePage = () => {
                 );
 
                 setData(data);
-                setLocation({
-                    startLocation: {
-                        lat: data.latitudeIn,
-                        lng: data.longitudeIn,
-                    },
-                    exitLocation: {
-                        lat: data.latitudeOut,
-                        lng: data.longitudeOut,
-                    },
-                });
             } catch (error) {
                 toast.error(error.message, { id: 'error' });
             }
@@ -50,20 +39,18 @@ const DetailServicePage = () => {
     const deleteShiftRecord = async (e, shiftRecordId) => {
         e.preventDefault();
         try {
-            const data = await fetchDeleteShiftRecordServices(
+            const response = await fetchDeleteShiftRecordServices(
                 authToken,
                 shiftRecordId
             );
-            toast.success(data.message, {
-                id: 'ok',
-            });
+            toast.success(response.message, { id: 'ok' });
             setRefresh((prev) => !prev);
         } catch (error) {
-            toast.error(error.message, {
-                id: 'error',
-            });
+            toast.error(error.message, { id: 'error' });
         }
     };
+
+    const formatDate = (date) => new Date(date).toLocaleString();
 
     const startTime = new Date(data.startDateTime).toLocaleTimeString([], {
         hour: '2-digit',
@@ -75,9 +62,6 @@ const DetailServicePage = () => {
     });
 
     const startDate = new Date(data.startDateTime).toLocaleDateString();
-
-    const clockIn = new Date(data.clockIn).toLocaleString();
-    const clockOut = new Date(data.clockOut).toLocaleString();
 
     return (
         <section>
@@ -104,7 +88,6 @@ const DetailServicePage = () => {
                         En {data.address}, {data.city}, {data.postCode},{' '}
                         {data.province}
                     </p>
-                    <p>Horas contratadas: {data.hours}</p>
                     <p>Personas contratadas: {data.numberOfPeople}</p>
                     <p className='font-extrabold'>Total: {data.totalPrice}€</p>
                 </fieldset>
@@ -115,8 +98,8 @@ const DetailServicePage = () => {
                         <fieldset>
                             <legend>Empleados asignados</legend>
                             {Array.isArray(data.employees) &&
-                                data.employees.map((employee) => (
-                                    <p key={employee.id} className='mt-2'>
+                                data.employees.map((employee, index) => (
+                                    <p key={index} className='mt-2'>
                                         {employee.firstNameEmployee}{' '}
                                         {employee.lastNameEmployee}
                                         <button
@@ -142,38 +125,55 @@ const DetailServicePage = () => {
             ) : (
                 <form className='mx-auto'>
                     <fieldset>
-                        <legend>Empleado</legend>
-                        <p className='mt-2'>
-                            {data.firstNameEmployee} {data.lastNameEmployee}
-                        </p>
-                        <p className='font-extrabold'>Entrada: {clockIn}</p>
-                        <p className='font-extrabold'>Salida: {clockOut}</p>
-                        {(data.hoursWorked || data.minutesWorked !== null) && (
-                            <p>
-                                Total: {data.hoursWorked} Horas{' '}
-                                {data.minutesWorked} Minutos
-                            </p>
-                        )}
-                        <div className='flex mb-2 justify-center'>
-                            {[...Array(5)].map((_, index) => (
-                                <FaStar
-                                    key={index}
-                                    size={30}
-                                    color={
-                                        index + 1 <= data.rating
-                                            ? '#ffc107'
-                                            : '#e4e5e9'
-                                    }
-                                />
+                        <legend>Empleado/s</legend>
+                        {Array.isArray(data.employees) &&
+                            data.employees.map((employee, index) => (
+                                <>
+                                    <div key={index}>
+                                        <p>
+                                            {employee.firstNameEmployee}{' '}
+                                            {employee.lastNameEmployee}
+                                        </p>
+                                        <p className='my-2'>
+                                            Entrada:{' '}
+                                            {formatDate(employee.clockIn)}
+                                        </p>
+                                        <p>
+                                            Salida:{' '}
+                                            {formatDate(employee.clockOut)}
+                                        </p>
+                                        <p className='font-extrabold mt-2'>
+                                            Total: {employee.hoursWorked} Horas{' '}
+                                            {employee.minutesWorked} Minutos
+                                        </p>
+                                    </div>
+                                    <section className='flex mb-2 justify-center'>
+                                        {[...Array(5)].map((_, index) => (
+                                            <FaStar
+                                                key={index}
+                                                size={30}
+                                                color={
+                                                    index + 1 <= data.rating
+                                                        ? '#ffc107'
+                                                        : '#e4e5e9'
+                                                }
+                                            />
+                                        ))}
+                                    </section>
+                                    <MapComponent
+                                        location={{
+                                            startLocation: {
+                                                lat: employee.latitudeIn,
+                                                lng: employee.longitudeIn,
+                                            },
+                                            exitLocation: {
+                                                lat: employee.latitudeOut,
+                                                lng: employee.longitudeOut,
+                                            },
+                                        }}
+                                    />
+                                </>
                             ))}
-                        </div>
-                        {location.startLocation && location.exitLocation ? (
-                            <div>
-                                <MapComponent location={location} />
-                            </div>
-                        ) : (
-                            <p>Cargando mapa...</p>
-                        )}
                     </fieldset>
                 </form>
             )}

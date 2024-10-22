@@ -5,9 +5,7 @@ const selectServiceByIdService = async (serviceId) => {
 
     const [service] = await pool.query(
         `
-        SELECT sr.clockIn, sr.clockOut, sr.latitudeIn, sr.longitudeIn, sr.latitudeOut, sr.longitudeOut, s.rating, s.status, t.type, t.city AS province, t.price, s.hours, s.totalPrice, s.numberOfPeople, s.startDateTime, s.endDateTime, a.address, a.postCode, a.city, s.comments, u.email, u.firstName, u.lastName , u.phone, u.dni,
-        TIMESTAMPDIFF(HOUR, sr.clockIn, sr.clockOut) AS hoursWorked,
-        MOD(TIMESTAMPDIFF(MINUTE, sr.clockIn, sr.clockOut), 60) AS minutesWorked
+        SELECT s.rating, s.status, t.type, t.city AS province, s.totalPrice, s.numberOfPeople, s.startDateTime, s.endDateTime, a.address, a.postCode, a.city, s.comments, u.email, u.firstName, u.lastName , u.phone, u.dni
         FROM services s
         INNER JOIN addresses a
         ON a.id = s.addressId
@@ -24,7 +22,9 @@ const selectServiceByIdService = async (serviceId) => {
 
     const [employees] = await pool.query(
         `
-        SELECT sr.id AS shiftRecordId, ue.firstName AS firstNameEmployee, ue.lastName AS lastNameEmployee
+        SELECT ue.firstName AS firstNameEmployee, ue.lastName AS lastNameEmployee, sr.clockIn, sr.clockOut, sr.latitudeIn, sr.longitudeIn, sr.latitudeOut, sr.longitudeOut,
+        TIMESTAMPDIFF(HOUR, sr.clockIn, sr.clockOut) AS hoursWorked,
+        MOD(TIMESTAMPDIFF(MINUTE, sr.clockIn, sr.clockOut), 60) AS minutesWorked
         FROM shiftRecords sr
         INNER JOIN users ue
         ON sr.employeeId = ue.id
