@@ -5,6 +5,7 @@ import 'dayjs/locale/es';
 
 dayjs.locale('es');
 
+const { VITE_START_TIME, VITE_END_TIME } = import.meta.env;
 const localizer = dayjsLocalizer(dayjs);
 
 const CalendarComponent = ({ events, onSelectEvent, defaultView }) => {
@@ -65,6 +66,7 @@ const CalendarComponent = ({ events, onSelectEvent, defaultView }) => {
                     dayHeaderFormat: (date) => {
                         return dayjs(date).format('DD/MM/YYYY');
                     },
+                    eventTimeRangeFormat: () => '',
                 }}
                 messages={{
                     next: '+',
@@ -81,6 +83,8 @@ const CalendarComponent = ({ events, onSelectEvent, defaultView }) => {
                 eventPropGetter={eventStyle}
                 dayPropGetter={dayStyle}
                 defaultView={defaultView}
+                min={new Date(1970, 1, 1, VITE_START_TIME, 0, 0)}
+                max={new Date(1970, 1, 1, VITE_END_TIME, 0, 0)}
             />
         </div>
     );
