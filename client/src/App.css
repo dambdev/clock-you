@@ -106,7 +106,7 @@ legend {
 }
 
 .hero-css {
-    height: calc(100dvh - 72px);
+    height: calc(100dvh - 56px);
     text-align: center;
     &.bgr-img {
         background-image: url(/landing.webp);
@@ -197,6 +197,7 @@ legend {
     gap: 1rem;
     justify-content: left;
     overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
     ::-webkit-scrollbar {
         display: none;
     }
@@ -388,6 +389,10 @@ form {
 @media only screen and (min-width: 1024px) {
     :root {
         --column-count: 3;
+    }
+
+    .hero-css {
+        height: calc(100dvh - 72px);
     }
 
     .hero-css-2 {
