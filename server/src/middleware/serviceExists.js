@@ -19,7 +19,7 @@ const serviceExists = async (req, res, next) => {
 
         const [service] = await pool.query(
             `
-            SELECT id FROM services WHERE id=? AND deletedAt IS NULL
+            SELECT id FROM services WHERE id = ?
             `,
             [serviceId]
         );

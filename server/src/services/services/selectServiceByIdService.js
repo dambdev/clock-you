@@ -15,7 +15,7 @@ const selectServiceByIdService = async (serviceId) => {
         ON u.id = s.clientId
         INNER JOIN typeOfServices t
         ON s.typeOfServicesId = t.id
-        WHERE s.id = ? AND s.deletedAt IS NULL
+        WHERE s.id = ?
         `,
         [serviceId]
     );

@@ -92,7 +92,7 @@ const DetailServicePage = () => {
                     <p className='font-extrabold'>Total: {data.totalPrice}€</p>
                 </fieldset>
             </form>
-            {data.status !== 'completed' ? (
+            {data.status !== 'completed' && data.status !== 'canceled' ? (
                 <>
                     <form className='mx-auto'>
                         <fieldset>
