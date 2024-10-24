@@ -247,6 +247,7 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
                         id='comments'
                         minLength='10'
                         maxLength='250'
+                        rows='3'
                         placeholder='Añada comentarios adicionales para describir con detalle sus necesidades sobre el servicio solicitado'
                         onFocus={noAuthenticated}
                         value={currentEntry.comments}

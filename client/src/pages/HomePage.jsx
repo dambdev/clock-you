@@ -24,13 +24,12 @@ const HomePage = () => {
                                     alt='Ver servicios'
                                     className='cursor-pointer'
                                 />
-
+                                <h3>Busca lo que necesitas</h3>
                                 <p className='text-center'>
                                     Tenemos casi de todo: limpieza a domicilio,
                                     clases particulares, cuidado de mascotas...
                                 </p>
                             </article>
-                            <h3>Busca lo que necesitas</h3>
                         </NavLink>
                         <article className='mt-6'>
                             <img src='./step-2.webp' alt='Empleados' />

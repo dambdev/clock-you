@@ -29,16 +29,16 @@ const NewServicePage = () => {
     return (
         <section className='mx-auto flex-1024'>
             <form className='profile-form'>
-                <h2 className='mb-4'>
+                <h3 className='mb-4'>
                     {data.type} en {data.city}
-                </h2>
+                </h3>
                 <fieldset>
                     <img
                         className='w-full h-full object-cover'
                         src={`${VITE_API_URL}/${data.image}`}
                         alt={`${data.description}`}
                     />
-                    <h3>{data.description}</h3>
+                    <p>{data.description}</p>
                     <div className='flex justify-center mb-2'>
                         {[...Array(5)].map((_, index) => (
                             <FaStar
