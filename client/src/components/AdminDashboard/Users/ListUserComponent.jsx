@@ -62,6 +62,20 @@ const ListUserComponent = () => {
         <>
             <form className='mx-auto form-filters'>
                 <select
+                    name='active'
+                    id='active'
+                    value={active}
+                    onChange={(e) => {
+                        setActive(e.target.value);
+                    }}
+                >
+                    <option value='' disabled>
+                        Activo:
+                    </option>
+                    <option value='1'>Activo</option>
+                    <option value='0'>Desactivado</option>
+                </select>
+                <select
                     name='city'
                     id='city'
                     value={city}
@@ -76,25 +90,6 @@ const ListUserComponent = () => {
                         return (
                             <option key={city} value={city}>
                                 {city}
-                            </option>
-                        );
-                    })}
-                </select>
-                <select
-                    name='job'
-                    id='job'
-                    value={job}
-                    onChange={(e) => {
-                        setJob(e.target.value);
-                    }}
-                >
-                    <option value='' disabled>
-                        Trabajo:
-                    </option>
-                    {jobNoRepeated.map((job) => {
-                        return (
-                            <option key={job} value={job}>
-                                {job}
                             </option>
                         );
                     })}
@@ -115,19 +110,25 @@ const ListUserComponent = () => {
                     <option value='employee'>Empleado</option>
                 </select>
                 <select
-                    name='active'
-                    id='active'
-                    value={active}
+                    name='job'
+                    id='job'
+                    value={job}
                     onChange={(e) => {
-                        setActive(e.target.value);
+                        setJob(e.target.value);
                     }}
                 >
                     <option value='' disabled>
-                        Activo:
+                        Trabajo:
                     </option>
-                    <option value='1'>Activo</option>
-                    <option value='0'>Desactivado</option>
+                    {jobNoRepeated.map((job) => {
+                        return (
+                            <option key={job} value={job}>
+                                {job}
+                            </option>
+                        );
+                    })}
                 </select>
+
                 <button onClick={resetFilters}>Limpiar Filtros</button>
             </form>
             <ul className='cards'>
