@@ -1,7 +1,7 @@
 import getPool from '../../db/getPool.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 
-const validateServiceService = async (validationCode) => {
+const updateServiceService = async (validationCode) => {
     const pool = await getPool();
 
     const [service] = await pool.query(
@@ -22,4 +22,4 @@ const validateServiceService = async (validationCode) => {
     );
 };
 
-export default validateServiceService;
+export default updateServiceService;

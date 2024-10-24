@@ -1,10 +1,21 @@
-import validateServiceService from '../../services/services/validateServiceService.js';
+import Joi from 'joi';
+
+import updateServiceService from '../../services/services/updateServiceService.js';
+import generateErrorUtil from '../../utils/generateErrorUtil.js';
 
 const validateServiceController = async (req, res, next) => {
     try {
+        const schema = Joi.object().keys({
+            validationCode: Joi.string().length(30),
+        });
+
+        const validation = schema.validate(req.params);
+
+        if (validation.error) generateErrorUtil(validation.error.message, 401);
+
         const { validationCode } = req.params;
 
-        await validateServiceService(validationCode);
+        await updateServiceService(validationCode);
 
         res.send({
             status: 'ok',
