@@ -261,21 +261,19 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
                         Añadir otro día
                     </button>
                     {serviceEntries.length > 1 && (
-                        <>
-                            <select
-                                className='ml-4'
-                                value={currentEntryIndex}
-                                onChange={(e) =>
-                                    handleSwitchEntry(parseInt(e.target.value))
-                                }
-                            >
-                                {serviceEntries.map((_, idx) => (
-                                    <option key={idx} value={idx}>
-                                        Día {idx + 1}
-                                    </option>
-                                ))}
-                            </select>
-                        </>
+                        <select
+                            className='ml-4'
+                            value={currentEntryIndex}
+                            onChange={(e) =>
+                                handleSwitchEntry(parseInt(e.target.value))
+                            }
+                        >
+                            {serviceEntries.map((_, idx) => (
+                                <option key={idx} value={idx}>
+                                    Día {idx + 1}
+                                </option>
+                            ))}
+                        </select>
                     )}
                 </div>
                 <label htmlFor='address'>Dirección</label>
