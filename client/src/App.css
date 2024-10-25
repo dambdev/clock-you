@@ -214,13 +214,8 @@ legend {
         padding: 0.5rem 1rem;
         color: var(--white-color);
         background-color: var(--cerulean);
-        transition: background-color 0.3s linear;
         border-radius: 20px;
         min-width: fit-content;
-
-        &:hover {
-            background-color: var(--glacier-blue);
-        }
 
         &.activeSelectedLink {
             background-color: var(--glacier-blue);
@@ -230,6 +225,14 @@ legend {
     & + .manager-tabs {
         justify-content: center;
     }
+}
+
+.primary-button {
+    padding: 0.5rem 1rem;
+    color: var(--white-color);
+    background-color: var(--cerulean);
+    justify-content: center;
+    border-radius: 20px;
 }
 
 .form-filters {

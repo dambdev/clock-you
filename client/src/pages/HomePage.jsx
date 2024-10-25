@@ -17,20 +17,25 @@ const HomePage = () => {
                 <div>
                     <h2>¿Cómo funciona?</h2>
                     <div className='articles-container'>
-                        <NavLink to={'/typeOfServices'}>
-                            <article className='mt-6'>
-                                <img
-                                    src='./step-1-pShop.webp'
-                                    alt='Ver servicios'
-                                    className='cursor-pointer'
-                                />
-                                <h3>Busca lo que necesitas</h3>
-                                <p className='text-center'>
-                                    Tenemos casi de todo: limpieza a domicilio,
-                                    clases particulares, cuidado de mascotas...
-                                </p>
-                            </article>
-                        </NavLink>
+                        <article className='mt-6'>
+                            <img
+                                src='./step-1-pShop.webp'
+                                alt='Ver servicios'
+                            />
+                            <h3>Busca lo que necesitas</h3>
+                            <p className='text-center'>
+                                Tenemos casi de todo: limpieza a domicilio,
+                                clases particulares, cuidado de mascotas...
+                            </p>
+                        </article>
+                        <article className='mt-6 text-center'>
+                            <NavLink
+                                className='primary-button'
+                                to={'/typeOfServices'}
+                            >
+                                Buscar
+                            </NavLink>
+                        </article>
                         <article className='mt-6'>
                             <img src='./step-2.webp' alt='Empleados' />
                             <h3>El profesional ideal</h3>

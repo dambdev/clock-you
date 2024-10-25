@@ -54,8 +54,12 @@ const OrdersComponent = () => {
         getList();
     }, [status, type, city, startDate, endDate]);
 
-    const cityNoRepeated = [...new Set(data.map((item) => item.city))].sort();
-    const typeNoRepeated = [...new Set(data.map((item) => item.type))].sort();
+    const cityNoRepeated = [...new Set(data.map((item) => item.city))].sort(
+        (a, b) => a.localeCompare(b)
+    );
+    const typeNoRepeated = [...new Set(data.map((item) => item.type))].sort(
+        (a, b) => a.localeCompare(b)
+    );
 
     const openModal = (serviceId) => {
         setSelectedServiceId(serviceId);
@@ -168,9 +172,9 @@ const OrdersComponent = () => {
                                     )}
                                 </div>
                                 <h3>{item.type}</h3>
-                                <p>El día {startDate}</p>
                                 <p>
-                                    de {startTime} a {endTime}
+                                    El día {startDate} de {startTime} a{' '}
+                                    {endTime}
                                 </p>
                                 <p className='grow'>{item.comments}</p>
                                 <p className='grow'>
