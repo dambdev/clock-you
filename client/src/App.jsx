@@ -13,7 +13,7 @@ import DashboardPage from './pages/DashboardPage.jsx';
 import EditTypeOfServicePage from './pages/EditTypeOfServicePage.jsx';
 import DetailTypeOfServicePage from './pages/DetailTypeOfServicePage.jsx';
 import DetailServicePage from './pages/DetailServicePage.jsx';
-import DetailServiceEmployeepage from './pages/DetailServiceEmployeepage.jsx';
+import DetailServiceEmployeePage from './pages/DetailServiceEmployeePage.jsx';
 import ConfirmedServicePage from './pages/ConfirmedServicePage.jsx';
 import EditServicePage from './pages/EditServicePage.jsx';
 import EditShiftRecordComponent from './components/AdminDashboard/Shifts/EditShiftRecordComponent.jsx';
@@ -54,7 +54,7 @@ const App = () => {
 
                     <Route
                         path='/services/employee/:serviceId'
-                        element={<DetailServiceEmployeepage />}
+                        element={<DetailServiceEmployeePage />}
                     />
 
                     <Route
