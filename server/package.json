@@ -5,7 +5,8 @@
     "main": "app.js",
     "scripts": {
         "initDb": "node ./src/db/initDb.js",
-        "dev": "nodemon ./app.js"
+        "dev": "node --watch ./app.js",
+        "start": "node ./app.js"
     },
     "keywords": [],
     "author": "",
@@ -28,8 +29,6 @@
         "uuid": "^10.0.0"
     },
     "devDependencies": {
-        "eslint": "^9.13.0",
-        "nodemon": "^3.1.7",
         "prettier": "^3.3.3"
     }
 }

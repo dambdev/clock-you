@@ -1,12 +1,7 @@
 import 'dotenv/config';
 
 const {
-    TURSO_DATABASE_URL,
-    TURSO_AUTH_TOKEN,
-    MYSQL_HOST,
-    MYSQL_USER,
-    MYSQL_PASS,
-    MYSQL_DB,
+    JAWSDB_URL,
     PORT,
     ADMIN_EMAIL,
     ADMIN_USERNAME,
@@ -22,12 +17,7 @@ const {
 } = process.env;
 
 export {
-    TURSO_DATABASE_URL,
-    TURSO_AUTH_TOKEN,
-    MYSQL_HOST,
-    MYSQL_USER,
-    MYSQL_PASS,
-    MYSQL_DB,
+    JAWSDB_URL,
     PORT,
     ADMIN_EMAIL,
     ADMIN_USERNAME,
