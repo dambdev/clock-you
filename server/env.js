@@ -1,7 +1,10 @@
-import 'dotenv/config';
+process.loadEnvFile();
 
 const {
-    JAWSDB_URL,
+    MYSQL_HOST,
+    MYSQL_USER,
+    MYSQL_PASS,
+    MYSQL_DB,
     PORT,
     ADMIN_EMAIL,
     ADMIN_USERNAME,
@@ -17,7 +20,10 @@ const {
 } = process.env;
 
 export {
-    JAWSDB_URL,
+    MYSQL_HOST,
+    MYSQL_USER,
+    MYSQL_PASS,
+    MYSQL_DB,
     PORT,
     ADMIN_EMAIL,
     ADMIN_USERNAME,

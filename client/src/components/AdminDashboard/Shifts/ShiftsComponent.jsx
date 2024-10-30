@@ -154,7 +154,7 @@ const ShiftsComponent = () => {
                     const clockOut = item.clockOut
                         ? new Date(item.clockOut).toLocaleString()
                         : null;
-                    const startDateTime = item.clockIn
+                    const startDateTime = item.startDateTime
                         ? new Date(item.startDateTime).toLocaleString()
                         : null;
 

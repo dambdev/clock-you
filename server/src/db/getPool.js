@@ -1,24 +1,29 @@
 import mysql from 'mysql2/promise';
-import url from 'url';
 
-import { JAWSDB_URL } from '../../env.js';
-
-const dbUrl = JAWSDB_URL;
-const connectionParams = url.parse(dbUrl);
-const [username, password] = connectionParams.auth.split(':');
+import { MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB } from '../../env.js';
 
 let pool;
 
 const getPool = async () => {
     try {
         if (!pool) {
+            const poolTemp = mysql.createPool({
+                host: MYSQL_HOST,
+                user: MYSQL_USER,
+                password: MYSQL_PASS,
+            });
+
+            await poolTemp.query('CREATE DATABASE IF NOT EXISTS ??', [
+                MYSQL_DB,
+            ]);
+            await poolTemp.end();
+
             pool = mysql.createPool({
-                host: connectionParams.hostname,
-                user: username,
-                password: password,
-                database: connectionParams.pathname.substring(1),
-                port: connectionParams.port || 3306,
                 connectionLimit: 10,
+                host: MYSQL_HOST,
+                user: MYSQL_USER,
+                password: MYSQL_PASS,
+                database: MYSQL_DB,
                 timezone: 'Z',
             });
         }
