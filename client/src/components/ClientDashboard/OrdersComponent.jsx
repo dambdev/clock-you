@@ -74,6 +74,18 @@ const OrdersComponent = () => {
     return (
         <>
             <form className='mx-auto form-filters'>
+                <input
+                    id='startDate'
+                    type='datetime-local'
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                />
+                <input
+                    id='endDate'
+                    type='datetime-local'
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                />
                 <select
                     name='city'
                     id='city'
@@ -128,18 +140,6 @@ const OrdersComponent = () => {
                         );
                     })}
                 </select>
-                <input
-                    id='startDate'
-                    type='datetime-local'
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                />
-                <input
-                    id='endDate'
-                    type='datetime-local'
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                />
                 <button onClick={resetFilters}>Limpiar Filtros</button>
             </form>
             <ul className='cards'>

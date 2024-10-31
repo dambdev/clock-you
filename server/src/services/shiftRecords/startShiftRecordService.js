@@ -1,11 +1,7 @@
 import getPool from '../../db/getPool.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 
-const startShiftRecordService = async (
-    shiftRecordId,
-    location,
-    startDateTime
-) => {
+const startShiftRecordService = async (shiftRecordId, location, clockIn) => {
     const pool = await getPool();
 
     const [verify] = await pool.query(
@@ -22,7 +18,7 @@ const startShiftRecordService = async (
         `
         UPDATE shiftRecords SET clockIn = ?, latitudeIn = ?, longitudeIn = ? WHERE id = ?
         `,
-        [startDateTime, location.lat, location.lng, shiftRecordId]
+        [clockIn, location.lat, location.lng, shiftRecordId]
     );
 };
 

@@ -77,7 +77,8 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
     const getStart = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const clockIn = new Date();
+        const startDateTime = new Date();
+        const clockIn = startDateTime.toISOString().slice(0, 16);
         try {
             const location = await getLocation();
             setLocation({ currentLocation: location });
@@ -99,7 +100,8 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
     const getEnd = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const clockOut = new Date();
+        const exitDateTime = new Date();
+        const clockOut = exitDateTime.toISOString().slice(0, 16);
         try {
             const location = await getLocation();
             setLocation({ currentLocation: location });

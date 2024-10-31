@@ -24,12 +24,6 @@ const EditShiftRecordComponent = ({
                     shiftRecordId,
                     authToken
                 );
-                const clockInDate = data.clockIn
-                    ? new Date(data.clockIn)
-                    : 'null';
-                const clockOutDate = data.clockOut
-                    ? new Date(data.clockOut)
-                    : 'null';
 
                 const formatDateToLocal = (date) => {
                     const year = date.getFullYear();
@@ -40,11 +34,18 @@ const EditShiftRecordComponent = ({
                     return `${year}-${month}-${day}T${hours}:${minutes}`;
                 };
 
+                const clockIn = data.clockIn
+                    ? formatDateToLocal(new Date(data.clockIn))
+                    : 'null';
+                const clockOut = data.clockOut
+                    ? formatDateToLocal(new Date(data.clockOut))
+                    : 'null';
+
                 {
-                    clockIn && setClockIn(formatDateToLocal(clockInDate));
+                    clockIn && setClockIn(clockIn);
                 }
                 {
-                    clockOut && setClockOut(formatDateToLocal(clockOutDate));
+                    clockOut && setClockOut(clockOut);
                 }
             } catch (error) {
                 toast.error(error.message, { id: 'error' });
@@ -52,7 +53,7 @@ const EditShiftRecordComponent = ({
         };
 
         getDetailShiftRecord();
-    }, []);
+    }, [authToken]);
 
     const handleEditShiftRecord = async (e) => {
         e.preventDefault();

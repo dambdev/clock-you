@@ -97,6 +97,18 @@ const ShiftsComponent = () => {
     return (
         <>
             <form className='mx-auto form-filters'>
+                <input
+                    id='startDate'
+                    type='datetime-local'
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                />
+                <input
+                    id='endDate'
+                    type='datetime-local'
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                />
                 <select
                     name='employeeId'
                     id='employeeId'
@@ -129,18 +141,6 @@ const ShiftsComponent = () => {
                         </option>
                     ))}
                 </select>
-                <input
-                    id='startDate'
-                    type='datetime-local'
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                />
-                <input
-                    id='endDate'
-                    type='datetime-local'
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                />
                 <button onClick={resetFilter}>Limpiar Filtros</button>
                 <button type='button' onClick={() => setGenerateExcel(true)}>
                     Generar Excel
