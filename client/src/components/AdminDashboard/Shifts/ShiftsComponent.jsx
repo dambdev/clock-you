@@ -147,6 +147,17 @@ const ShiftsComponent = () => {
                 </button>
             </form>
             <ul className='cards'>
+                {totals.map((total, index) => (
+                    <li key={index} className='relative'>
+                        <h3>{`${total.firstName} ${total.lastName}`}</h3>
+                        <p className='mb-2'>
+                            Lleva trabajado: {total.totalHoursWorked} Horas y{' '}
+                            {total.totalMinutesWorked} Minutos
+                        </p>
+                    </li>
+                ))}
+            </ul>
+            <ul className='cards'>
                 {details.map((item, index) => {
                     const clockIn = item.clockIn
                         ? new Date(item.clockIn).toLocaleString()
@@ -209,17 +220,6 @@ const ShiftsComponent = () => {
                         </li>
                     );
                 })}
-            </ul>
-            <ul className='cards'>
-                {totals.map((total, index) => (
-                    <li key={index} className='relative'>
-                        <h3>{`${total.firstName} ${total.lastName}`}</h3>
-                        <p className='mb-2'>
-                            Lleva trabajado: {total.totalHoursWorked} Horas y{' '}
-                            {total.totalMinutesWorked} Minutos
-                        </p>
-                    </li>
-                ))}
             </ul>
             <EditShiftRecordModal
                 isOpen={modalIsOpen}
