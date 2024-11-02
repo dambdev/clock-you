@@ -1,15 +1,12 @@
-const { VITE_API_URL } = import.meta.env;
+import toast from 'react-hot-toast';
+import PropTypes from 'prop-types';
 import { AuthContext } from '../context/AuthContext.jsx';
+import { VITE_API_URL } from '../../env.local.js';
 import { useState, useContext } from 'react';
 import { fetchEditAvatarUserServices } from '../services/userServices.js';
-import useUser from '../hooks/useUser.js';
-import toast from 'react-hot-toast';
 
-const AvatarComponent = () => {
-    const { user } = useUser();
+const AvatarComponent = ({ user }) => {
     const { authToken } = useContext(AuthContext);
-
-    const userId = user?.id;
 
     const [avatar, setAvatar] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
@@ -32,7 +29,7 @@ const AvatarComponent = () => {
         try {
             if (enableEditAvatar) {
                 const data = await fetchEditAvatarUserServices(
-                    userId,
+                    user?.id,
                     authToken,
                     avatar
                 );
@@ -93,3 +90,7 @@ const AvatarComponent = () => {
 };
 
 export default AvatarComponent;
+
+AvatarComponent.propTypes = {
+    user: PropTypes.object,
+};

@@ -1,21 +1,15 @@
-import { useContext, useState } from 'react';
-import { Navigate, useNavigate, NavLink } from 'react-router-dom';
-import { fetchLoginUserServices } from '../services/userServices';
-import { AuthContext } from '../context/AuthContext';
-import useUser from '../hooks/useUser';
 import toast from 'react-hot-toast';
+import useUser from '../hooks/useUser';
+import { AuthContext } from '../context/AuthContext';
+import { useContext, useState } from 'react';
+import { fetchLoginUserServices } from '../services/userServices';
+import { Navigate, useNavigate, NavLink } from 'react-router-dom';
 
 const LoginPage = () => {
-    const { authLogin } = useContext(AuthContext);
-    const { user } = useUser();
-
     const navigate = useNavigate();
 
-    const delayedNavigation = (path) => {
-        setTimeout(() => {
-            navigate(path);
-        }, 750);
-    };
+    const { authLogin } = useContext(AuthContext);
+    const { user } = useUser();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -24,6 +18,12 @@ const LoginPage = () => {
         e.preventDefault();
         setEmail('');
         setPassword('');
+    };
+
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
     };
 
     const handleLogin = async (e) => {

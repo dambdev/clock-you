@@ -1,28 +1,18 @@
+import toast from 'react-hot-toast';
+import CalendarComponent from '../CalendarComponent.jsx';
+import { AuthContext } from '../../context/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
-import toast from 'react-hot-toast';
-
-import { AuthContext } from '../../context/AuthContext.jsx';
 import { fetchEmployeeAllServicesServices } from '../../services/serviceServices.js';
-import CalendarComponent from '../CalendarComponent.jsx';
 
 const MyServicesComponent = () => {
-    const { authToken } = useContext(AuthContext);
     const navigate = useNavigate();
+
+    const { authToken } = useContext(AuthContext);
 
     const [data, setData] = useState([]);
     const [status, setStatus] = useState('');
     const [isVisible, setIsVisible] = useState(false);
-
-    const handleHideClick = (e) => {
-        e.preventDefault();
-        setIsVisible(!isVisible);
-    };
-
-    const resetFilter = (e) => {
-        e.preventDefault();
-        setStatus('');
-    };
 
     useEffect(() => {
         const searchParams = new URLSearchParams({
@@ -53,15 +43,14 @@ const MyServicesComponent = () => {
         getServices();
     }, [status, authToken]);
 
-    const handleSelectEvent = (event) => {
-        const selectedEventData = data.find(
-            (d) => d.serviceId === event.serviceId
-        );
-        if (selectedEventData) {
-            navigate(`/services/employee/${selectedEventData.serviceId}`, {
-                state: selectedEventData,
-            });
-        }
+    const resetFilter = (e) => {
+        e.preventDefault();
+        setStatus('');
+    };
+
+    const handleHideClick = (e) => {
+        e.preventDefault();
+        setIsVisible(!isVisible);
     };
 
     const event = data.map((event) => ({
@@ -72,6 +61,17 @@ const MyServicesComponent = () => {
         serviceId: event.serviceId,
         status: event.status,
     }));
+
+    const handleSelectEvent = (event) => {
+        const selectedEventData = data.find(
+            (d) => d.serviceId === event.serviceId
+        );
+        if (selectedEventData) {
+            navigate(`/services/employee/${selectedEventData.serviceId}`, {
+                state: selectedEventData,
+            });
+        }
+    };
 
     return (
         <>

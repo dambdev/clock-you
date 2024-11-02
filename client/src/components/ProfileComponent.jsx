@@ -1,34 +1,18 @@
+import toast from 'react-hot-toast';
+import PropTypes from 'prop-types';
 import { AuthContext } from '../context/AuthContext';
-import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useState, useContext, useEffect } from 'react';
 import {
     fetchEditUserServices,
     fetchEditPasswordUserServices,
     fetchDeleteUserServices,
 } from '../services/userServices';
-import useUser from '../hooks/useUser';
-import toast from 'react-hot-toast';
 
-const ProfileComponent = () => {
-    const { user } = useUser();
-    const { authToken, authLogout } = useContext(AuthContext);
-
+const ProfileComponent = ({ user }) => {
     const navigate = useNavigate();
 
-    const delayedNavigation = (path) => {
-        setTimeout(() => {
-            navigate(path);
-        }, 750);
-    };
-
-    const userId = user?.id;
-
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [phone, setPhone] = useState('');
-    const [actualPassword, setActualPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [repeatedNewPassword, setRepeatedNewPassword] = useState('');
+    const { authToken, authLogout } = useContext(AuthContext);
 
     useEffect(() => {
         if (user) {
@@ -38,6 +22,13 @@ const ProfileComponent = () => {
         }
     }, [user]);
 
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [actualPassword, setActualPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [repeatedNewPassword, setRepeatedNewPassword] = useState('');
+
     const handleEditUser = async (e) => {
         e.preventDefault();
         try {
@@ -46,7 +37,7 @@ const ProfileComponent = () => {
                 firstName,
                 lastName,
                 phone,
-                userId
+                user?.id
             );
             toast.success(data.message, {
                 id: 'ok',
@@ -68,7 +59,7 @@ const ProfileComponent = () => {
                     authToken,
                     actualPassword,
                     newPassword,
-                    userId
+                    user?.id
                 );
                 toast.success(data.message, {
                     id: 'ok',
@@ -84,6 +75,12 @@ const ProfileComponent = () => {
         }
     };
 
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
+    };
+
     const handleDeleteUser = async (e) => {
         e.preventDefault();
         if (
@@ -92,7 +89,7 @@ const ProfileComponent = () => {
             )
         ) {
             try {
-                const data = await fetchDeleteUserServices(authToken, userId);
+                const data = await fetchDeleteUserServices(authToken, user?.id);
                 toast.success(data.message, {
                     id: 'ok',
                 });
@@ -232,3 +229,7 @@ const ProfileComponent = () => {
 };
 
 export default ProfileComponent;
+
+ProfileComponent.propTypes = {
+    user: PropTypes.object,
+};

@@ -1,9 +1,12 @@
+import App from './App.jsx';
+import Modal from 'react-modal';
+import { Toaster } from 'react-hot-toast';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext.jsx';
-import App from './App.jsx';
-import { Toaster } from 'react-hot-toast';
+import { BrowserRouter } from 'react-router-dom';
+
+Modal.setAppElement('#root');
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>

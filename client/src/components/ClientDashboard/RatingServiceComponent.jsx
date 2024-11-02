@@ -1,9 +1,10 @@
-import { useState, useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
-import { fetchRatingServiceServices } from '../../services/serviceServices';
-import { FaStar } from 'react-icons/fa';
 import Modal from 'react-modal';
 import toast from 'react-hot-toast';
+import PropTypes from 'prop-types';
+import { FaStar } from 'react-icons/fa';
+import { AuthContext } from '../../context/AuthContext';
+import { useState, useContext } from 'react';
+import { fetchRatingServiceServices } from '../../services/serviceServices';
 
 const RatingServiceComponent = ({
     serviceId,
@@ -101,3 +102,16 @@ const RatingModal = ({
 };
 
 export default RatingModal;
+
+RatingServiceComponent.propTypes = {
+    serviceId: PropTypes.string,
+    onRequestClose: PropTypes.func,
+    onRatingSuccess: PropTypes.func,
+};
+
+RatingModal.propTypes = {
+    isOpen: PropTypes.bool,
+    onRequestClose: PropTypes.func,
+    serviceId: PropTypes.string,
+    onRatingSuccess: PropTypes.func,
+};

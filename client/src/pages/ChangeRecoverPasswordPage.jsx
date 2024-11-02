@@ -1,16 +1,10 @@
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { fetchChangePasswordUserServices } from '../services/userServices.js';
 import toast from 'react-hot-toast';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { fetchChangePasswordUserServices } from '../services/userServices.js';
 
 const ChangeRecoverPasswordPage = () => {
     const navigate = useNavigate();
-
-    const delayedNavigation = (path) => {
-        setTimeout(() => {
-            navigate(path);
-        }, 750);
-    };
 
     const [recoverPasswordCode, setRecoverPasswordCode] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -21,6 +15,12 @@ const ChangeRecoverPasswordPage = () => {
         setRecoverPasswordCode('');
         setNewPassword('');
         setRepeatedPassword('');
+    };
+
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
     };
 
     const handleChangeRecoverPassword = async (e) => {

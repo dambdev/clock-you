@@ -1,16 +1,15 @@
-import { AuthContext } from '../../../context/AuthContext.jsx';
-import { useState, useEffect, useContext } from 'react';
 import toast from 'react-hot-toast';
-
+import PropTypes from 'prop-types';
+import { AuthContext } from '../../../context/AuthContext.jsx';
+import { VITE_API_URL } from '../../../../env.local.js';
 import { fetchAllUsersServices } from '../../../services/userServices.js';
 import { fetchNewShiftRecordServices } from '../../../services/shiftRecordServices.js';
-
-const { VITE_API_URL } = import.meta.env;
+import { useState, useEffect, useContext } from 'react';
 
 const ListEmployeeComponent = ({ serviceId, onEmployeeAssigned }) => {
-    const { authToken } = useContext(AuthContext);
-
     const role = 'employee';
+
+    const { authToken } = useContext(AuthContext);
 
     const [data, setData] = useState([]);
     const [active, setActive] = useState('');
@@ -43,6 +42,13 @@ const ListEmployeeComponent = ({ serviceId, onEmployeeAssigned }) => {
         getAllUserList();
     }, [city, job, active, authToken]);
 
+    const citiesNoRepeated = [...new Set(data.map((item) => item.city))].sort(
+        (a, b) => a.localeCompare(b)
+    );
+    const jobNoRepeated = [...new Set(data.map((item) => item.job))].sort(
+        (a, b) => a.localeCompare(b)
+    );
+
     const resetFilters = (e) => {
         e.preventDefault();
         setActive('');
@@ -69,13 +75,6 @@ const ListEmployeeComponent = ({ serviceId, onEmployeeAssigned }) => {
             });
         }
     };
-
-    const citiesNoRepeated = [...new Set(data.map((item) => item.city))].sort(
-        (a, b) => a.localeCompare(b)
-    );
-    const jobNoRepeated = [...new Set(data.map((item) => item.job))].sort(
-        (a, b) => a.localeCompare(b)
-    );
 
     return (
         <>
@@ -176,3 +175,8 @@ const ListEmployeeComponent = ({ serviceId, onEmployeeAssigned }) => {
 };
 
 export default ListEmployeeComponent;
+
+ListEmployeeComponent.propTypes = {
+    serviceId: PropTypes.string.isRequired,
+    onEmployeeAssigned: PropTypes.func.isRequired,
+};

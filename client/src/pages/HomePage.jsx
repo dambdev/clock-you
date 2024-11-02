@@ -1,7 +1,6 @@
-import { NavLink } from 'react-router-dom';
 import ContactFormComponent from '../components/ContactFormComponent.jsx';
-
-const { VITE_APP_TITLE } = import.meta.env;
+import { NavLink } from 'react-router-dom';
+import { VITE_APP_TITLE } from '../../env.local.js';
 
 const HomePage = () => {
     return (

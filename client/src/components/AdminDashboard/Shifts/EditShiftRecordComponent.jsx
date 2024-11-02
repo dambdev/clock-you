@@ -1,11 +1,12 @@
+import Modal from 'react-modal';
+import toast from 'react-hot-toast';
+import PropTypes from 'prop-types';
 import { AuthContext } from '../../../context/AuthContext';
 import { useState, useEffect, useContext } from 'react';
 import {
     fetchDetailShiftRecordServices,
     fetchEditShiftRecordServices,
 } from '../../../services/shiftRecordServices';
-import Modal from 'react-modal';
-import toast from 'react-hot-toast';
 
 const EditShiftRecordComponent = ({
     shiftRecordId,
@@ -138,3 +139,16 @@ const EditShiftRecordModal = ({
 };
 
 export default EditShiftRecordModal;
+
+EditShiftRecordModal.propTypes = {
+    isOpen: PropTypes.bool,
+    onRequestClose: PropTypes.func,
+    shiftRecordId: PropTypes.string,
+    onEditSuccess: PropTypes.func,
+};
+
+EditShiftRecordComponent.propTypes = {
+    shiftRecordId: PropTypes.string,
+    onRequestClose: PropTypes.func.isRequired,
+    onEditSuccess: PropTypes.func.isRequired,
+};

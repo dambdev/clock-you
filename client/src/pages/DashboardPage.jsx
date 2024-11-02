@@ -1,23 +1,21 @@
-import { useState, useEffect, useContext } from 'react';
-import { NavLink, Navigate, useLocation } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
 import useUser from '../hooks/useUser';
+import UsersComponent from '../components/AdminDashboard/Users/UsersComponent';
+import OrdersComponent from '../components/ClientDashboard/OrdersComponent';
+import ShiftsComponent from '../components/AdminDashboard/Shifts/ShiftsComponent';
 import AvatarComponent from '../components/AvatarComponent';
 import ProfileComponent from '../components/ProfileComponent';
-import UsersComponent from '../components/AdminDashboard/Users/UsersComponent';
 import ServicesComponent from '../components/AdminDashboard/Services/ServicesComponent';
 import ContractsComponent from '../components/AdminDashboard/Contracts/ContractsComponent';
-import ShiftsComponent from '../components/AdminDashboard/Shifts/ShiftsComponent';
 import MyServicesComponent from '../components/EmployeeDashBoard/MyServicesComponent';
-import OrdersComponent from '../components/ClientDashboard/OrdersComponent';
+import { AuthContext } from '../context/AuthContext';
+import { NavLink, Navigate, useLocation } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
 
 const DashboardPage = () => {
-    const { authToken } = useContext(AuthContext);
-    const { user } = useUser();
-
     const location = useLocation();
 
-    const userRole = user?.role;
+    const { user } = useUser();
+    const { authToken } = useContext(AuthContext);
 
     const [activeSection, setActiveSection] = useState('profile');
 
@@ -28,13 +26,13 @@ const DashboardPage = () => {
     }, [location]);
 
     const sectionComponents = {
-        profile: <ProfileComponent />,
-        users: userRole === 'admin' && <UsersComponent />,
-        services: userRole === 'admin' && <ServicesComponent />,
-        contracts: userRole === 'admin' && <ContractsComponent />,
-        shifts: userRole === 'admin' && <ShiftsComponent />,
-        orders: userRole === 'client' && <OrdersComponent />,
-        myservices: userRole === 'employee' && <MyServicesComponent />,
+        profile: <ProfileComponent user={user} />,
+        users: user?.role === 'admin' && <UsersComponent />,
+        services: user?.role === 'admin' && <ServicesComponent />,
+        contracts: user?.role === 'admin' && <ContractsComponent />,
+        shifts: user?.role === 'admin' && <ShiftsComponent />,
+        orders: user?.role === 'client' && <OrdersComponent />,
+        myservices: user?.role === 'employee' && <MyServicesComponent />,
     };
 
     const renderNavLink = (section, label, extraClass = '') => (
@@ -47,7 +45,7 @@ const DashboardPage = () => {
 
     return (
         <>
-            <AvatarComponent />
+            <AvatarComponent user={user} />
             <section className='manager-tabs'>
                 {renderNavLink(
                     'profile',
@@ -55,7 +53,7 @@ const DashboardPage = () => {
                     activeSection === 'profile' && 'activeSelectedLink'
                 )}
 
-                {userRole === 'admin' && (
+                {user?.role === 'admin' && (
                     <>
                         {renderNavLink(
                             'users',
@@ -81,14 +79,14 @@ const DashboardPage = () => {
                     </>
                 )}
 
-                {userRole === 'client' &&
+                {user?.role === 'client' &&
                     renderNavLink(
                         'orders',
                         'Pedidos',
                         activeSection === 'orders' && 'activeSelectedLink'
                     )}
 
-                {userRole === 'employee' &&
+                {user?.role === 'employee' &&
                     renderNavLink(
                         'myservices',
                         'Servicios',

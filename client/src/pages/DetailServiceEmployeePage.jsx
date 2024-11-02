@@ -1,10 +1,9 @@
-import { FaStar } from 'react-icons/fa';
-import { useLocation } from 'react-router-dom';
-import { useContext } from 'react';
-
-import { AuthContext } from '../context/AuthContext.jsx';
 import MapComponent from '../components/MapComponent.jsx';
 import ShiftRecordComponent from '../components/EmployeeDashBoard/ShiftRecordComponent.jsx';
+import { FaStar } from 'react-icons/fa';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext.jsx';
+import { useLocation } from 'react-router-dom';
 
 const DetailServiceEmployeePage = () => {
     const location = useLocation();

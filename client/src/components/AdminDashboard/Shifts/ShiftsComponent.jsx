@@ -1,10 +1,10 @@
-const { VITE_API_URL } = import.meta.env;
+import toast from 'react-hot-toast';
+import EditShiftRecordModal from './EditShiftRecordComponent';
 import { AuthContext } from '../../../context/AuthContext';
+import { VITE_API_URL } from '../../../../env.local.js';
+import { fetchAllShiftRecordsServices } from '../../../services/shiftRecordServices';
 import { useEffect, useState, useContext } from 'react';
 import { FaStar, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
-import { fetchAllShiftRecordsServices } from '../../../services/shiftRecordServices';
-import EditShiftRecordModal from './EditShiftRecordComponent';
-import toast from 'react-hot-toast';
 
 const ShiftsComponent = () => {
     const { authToken } = useContext(AuthContext);
@@ -18,14 +18,6 @@ const ShiftsComponent = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedShiftRecordId, setSelectedShiftRecordId] = useState(null);
     const [generateExcel, setGenerateExcel] = useState(false);
-
-    const resetFilter = (e) => {
-        e.preventDefault();
-        setEmployeeId('');
-        setTypeOfService('');
-        setStartDate('');
-        setEndDate('');
-    };
 
     const getShifts = async () => {
         const searchParams = new URLSearchParams({
@@ -83,6 +75,14 @@ const ShiftsComponent = () => {
     const typeNoRepeated = [...new Set(details.map((item) => item.type))].sort(
         (a, b) => a.localeCompare(b)
     );
+
+    const resetFilter = (e) => {
+        e.preventDefault();
+        setEmployeeId('');
+        setTypeOfService('');
+        setStartDate('');
+        setEndDate('');
+    };
 
     const openModal = (shiftRecordId) => {
         setSelectedShiftRecordId(shiftRecordId);
@@ -147,7 +147,7 @@ const ShiftsComponent = () => {
                 </button>
             </form>
             <ul className='cards'>
-                {details.map((item) => {
+                {details.map((item, index) => {
                     const clockIn = item.clockIn
                         ? new Date(item.clockIn).toLocaleString()
                         : null;
@@ -159,7 +159,7 @@ const ShiftsComponent = () => {
                         : null;
 
                     return (
-                        <li key={item.id} className='relative'>
+                        <li key={index} className='relative'>
                             <div className='icon-container'>
                                 {item.status === 'completed' ? (
                                     <FaCheckCircle className='text-green-500' />
@@ -192,7 +192,7 @@ const ShiftsComponent = () => {
                                 <div className='flex my-2'>
                                     {[...Array(5)].map((_, index) => (
                                         <FaStar
-                                            key={item.id}
+                                            key={index}
                                             size={30}
                                             color={
                                                 index + 1 <= item.rating
@@ -211,8 +211,8 @@ const ShiftsComponent = () => {
                 })}
             </ul>
             <ul className='cards'>
-                {totals.map((total) => (
-                    <li key={total.employeeId} className='relative'>
+                {totals.map((total, index) => (
+                    <li key={index} className='relative'>
                         <h3>{`${total.firstName} ${total.lastName}`}</h3>
                         <p className='mb-2'>
                             Lleva trabajado: {total.totalHoursWorked} Horas y{' '}

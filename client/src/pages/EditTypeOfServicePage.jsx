@@ -1,5 +1,6 @@
-const { VITE_API_URL } = import.meta.env;
+import toast from 'react-hot-toast';
 import { AuthContext } from '../context/AuthContext';
+import { VITE_API_URL } from '../../env.local.js';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import {
@@ -8,19 +9,12 @@ import {
     fetchEditTypeOfServiceServices,
     fetchEditImageTypeOfServicesService,
 } from '../services/typeOfServiceServices';
-import toast from 'react-hot-toast';
 
 const EditTypeOfServicePage = () => {
-    const { typeOfServiceId } = useParams();
-    const { authToken } = useContext(AuthContext);
-
     const navigate = useNavigate();
 
-    const delayedNavigation = (path) => {
-        setTimeout(() => {
-            navigate(path);
-        }, 750);
-    };
+    const { typeOfServiceId } = useParams();
+    const { authToken } = useContext(AuthContext);
 
     const [data, setData] = useState([]);
     const [description, setDescription] = useState('');
@@ -29,17 +23,6 @@ const EditTypeOfServicePage = () => {
     const [enableEditImage, setEnableEditImage] = useState(false);
     const [previewUrl, setPreviewUrl] = useState(null);
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        setImage(file);
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => setPreviewUrl(reader.result);
-            reader.readAsDataURL(file);
-        } else {
-            setPreviewUrl(null);
-        }
-    };
     useEffect(() => {
         const getTypeOfService = async () => {
             try {
@@ -57,6 +40,24 @@ const EditTypeOfServicePage = () => {
 
         getTypeOfService();
     }, [typeOfServiceId]);
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        setImage(file);
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => setPreviewUrl(reader.result);
+            reader.readAsDataURL(file);
+        } else {
+            setPreviewUrl(null);
+        }
+    };
+
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
+    };
 
     const handleEditImage = async (e) => {
         e.preventDefault();

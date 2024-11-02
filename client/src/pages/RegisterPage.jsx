@@ -1,17 +1,11 @@
+import toast from 'react-hot-toast';
+import useUser from '../hooks/useUser';
 import { useState } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { fetchRegisterUserServices } from '../services/userServices';
-import useUser from '../hooks/useUser';
-import toast from 'react-hot-toast';
 
 const RegisterPage = () => {
     const navigate = useNavigate();
-
-    const delayedNavigation = (path) => {
-        setTimeout(() => {
-            navigate(path);
-        }, 750);
-    };
 
     const { user } = useUser();
     const [email, setEmail] = useState('');
@@ -31,6 +25,12 @@ const RegisterPage = () => {
         setPhone('');
         setPassword('');
         setRepeatedPassword('');
+    };
+
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
     };
 
     const handleRegister = async (e) => {

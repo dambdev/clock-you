@@ -1,24 +1,18 @@
+import toast from 'react-hot-toast';
+import MapComponent from '../MapComponent';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
 
 import {
     fetchClockInShiftRecordServices,
     fetchClockOutShiftRecordServices,
 } from '../../services/shiftRecordServices';
-import MapComponent from '../MapComponent';
 
 const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
     const navigate = useNavigate();
 
     const [location, setLocation] = useState({});
     const [loading, setLoading] = useState(false);
-
-    const delayedNavigation = (path) => {
-        setTimeout(() => {
-            navigate(path);
-        }, 750);
-    };
 
     const getLocation = async () => {
         if (!navigator.geolocation) {
@@ -73,6 +67,12 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
         };
         fetchInitialLocation();
     }, []);
+
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
+    };
 
     const getStart = async (e) => {
         e.preventDefault();

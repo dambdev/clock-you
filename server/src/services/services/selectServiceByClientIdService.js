@@ -16,7 +16,7 @@ const selectServiceByClientIdService = async (
         INNER JOIN services s ON a.id = s.addressId
         INNER JOIN users u ON u.id = s.clientId
         INNER JOIN typeOfServices t ON s.typeOfServicesId = t.id
-        WHERE u.id = ?
+        WHERE u.id = ? AND s.deletedAt IS NULL
     `;
 
     let sqlValues = [clientId];

@@ -1,22 +1,15 @@
-const { VITE_API_URL } = import.meta.env;
+import toast from 'react-hot-toast';
+import { FaStar } from 'react-icons/fa';
+import { NavLink } from 'react-router-dom';
+import { VITE_API_URL } from '../../env.local.js';
 import { useEffect, useState } from 'react';
 import { fetchAllTypeOfServicesServices } from '../services/typeOfServiceServices';
-import { NavLink } from 'react-router-dom';
-import { FaStar } from 'react-icons/fa';
-import toast from 'react-hot-toast';
 
 const TypeOfServicesPage = () => {
     const [data, setData] = useState([]);
     const [city, setCity] = useState('');
     const [type, setType] = useState('');
     const [price, setPrice] = useState('');
-
-    const resetFilters = (e) => {
-        e.preventDefault();
-        setCity('');
-        setType('');
-        setPrice('');
-    };
 
     useEffect(() => {
         const getTypeOfServices = async () => {
@@ -46,6 +39,13 @@ const TypeOfServicesPage = () => {
     const typeNoRepeated = [...new Set(data.map((item) => item.type))].sort(
         (a, b) => a.localeCompare(b)
     );
+
+    const resetFilters = (e) => {
+        e.preventDefault();
+        setCity('');
+        setType('');
+        setPrice('');
+    };
 
     return (
         <>
@@ -129,7 +129,7 @@ const TypeOfServicesPage = () => {
                             </div>
                             <p className='font-black'>{item.city}</p>
                             <p>{item.price}€</p>
-                            <NavLink to={`/typeOfServices/${item.id}`}>
+                            <NavLink to={`/typeOfServices/${item?.id}`}>
                                 Infórmate
                             </NavLink>
                         </li>

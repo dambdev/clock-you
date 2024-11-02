@@ -1,12 +1,12 @@
+import toast from 'react-hot-toast';
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchActiveUserServices } from '../services/userServices';
-import toast from 'react-hot-toast';
 
 const ValidateUserPage = () => {
-    const { registrationCode } = useParams();
-
     const navigate = useNavigate();
+
+    const { registrationCode } = useParams();
 
     const delayedNavigation = (path) => {
         setTimeout(() => {

@@ -1,14 +1,13 @@
-import { FaStar, FaTrash } from 'react-icons/fa';
-import { useParams, Navigate } from 'react-router-dom';
-import { useState, useEffect, useContext } from 'react';
 import toast from 'react-hot-toast';
-
-import { AuthContext } from '../context/AuthContext';
-import { fetchDetailServiceServices } from '../services/serviceServices.js';
-import { fetchDeleteShiftRecordServices } from '../services/shiftRecordServices';
 import useUser from '../hooks/useUser';
 import MapComponent from '../components/MapComponent.jsx';
 import ListEmployeeComponent from '../components/AdminDashboard/Services/ListEmployeeComponent.jsx';
+import { AuthContext } from '../context/AuthContext';
+import { FaStar, FaTrash } from 'react-icons/fa';
+import { useParams, Navigate } from 'react-router-dom';
+import { fetchDetailServiceServices } from '../services/serviceServices.js';
+import { fetchDeleteShiftRecordServices } from '../services/shiftRecordServices';
+import { useState, useEffect, useContext } from 'react';
 
 const DetailServicePage = () => {
     const { serviceId } = useParams();
@@ -127,9 +126,9 @@ const DetailServicePage = () => {
                     <fieldset>
                         <legend>Empleado/s</legend>
                         {Array.isArray(data.employees) &&
-                            data.employees.map((employee, index) => (
+                            data.employees.map((employee) => (
                                 <>
-                                    <div key={index}>
+                                    <div key={employee.shiftRecordId}>
                                         <p>
                                             {employee.firstNameEmployee}{' '}
                                             {employee.lastNameEmployee}

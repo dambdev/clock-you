@@ -1,30 +1,19 @@
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
 import toast from 'react-hot-toast';
-
-import { AuthContext } from '../../../context/AuthContext.jsx';
-import { fetchAllServicesServices } from '../../../services/serviceServices.js';
 import CalendarComponent from '../../../components/CalendarComponent.jsx';
+import { AuthContext } from '../../../context/AuthContext.jsx';
+import { useNavigate } from 'react-router-dom';
+import { fetchAllServicesServices } from '../../../services/serviceServices.js';
+import { useEffect, useState, useContext } from 'react';
 
 const ContractsComponent = () => {
-    const { authToken } = useContext(AuthContext);
     const navigate = useNavigate();
+
+    const { authToken } = useContext(AuthContext);
 
     const [data, setData] = useState([]);
     const [status, setStatus] = useState('');
     const [type, setType] = useState('');
     const [isVisible, setIsVisible] = useState(false);
-
-    const handleHideClick = (e) => {
-        e.preventDefault();
-        setIsVisible(!isVisible);
-    };
-
-    const resetFilter = (e) => {
-        e.preventDefault();
-        setStatus('');
-        setType('');
-    };
 
     useEffect(() => {
         const getServices = async () => {
@@ -52,6 +41,17 @@ const ContractsComponent = () => {
     const typeNoRepeated = [...new Set(data.map((item) => item.type))].sort(
         (a, b) => a.localeCompare(b)
     );
+
+    const resetFilter = (e) => {
+        e.preventDefault();
+        setStatus('');
+        setType('');
+    };
+
+    const handleHideClick = (e) => {
+        e.preventDefault();
+        setIsVisible(!isVisible);
+    };
 
     const calendarEvents = data.map((event) => ({
         title: event.type,

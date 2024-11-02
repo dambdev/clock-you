@@ -1,22 +1,22 @@
+import toast from 'react-hot-toast';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
 import { fetchSendRecoverPasswordUserServices } from '../services/userServices.js';
 
 const SendRecoverPasswordPage = () => {
     const navigate = useNavigate();
-
-    const delayedNavigation = (path) => {
-        setTimeout(() => {
-            navigate(path);
-        }, 750);
-    };
 
     const [email, setEmail] = useState('');
 
     const resetInputs = (e) => {
         e.preventDefault();
         setEmail('');
+    };
+
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
     };
 
     const handleRecover = async (e) => {

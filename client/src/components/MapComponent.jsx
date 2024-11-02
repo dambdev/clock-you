@@ -1,3 +1,6 @@
+import 'leaflet/dist/leaflet.css';
+import PropTypes from 'prop-types';
+import { IconLocationComponent } from './IconLocationComponent';
 import {
     MapContainer,
     TileLayer,
@@ -5,10 +8,6 @@ import {
     Popup,
     Polyline,
 } from 'react-leaflet';
-
-import { IconLocationComponent } from './IconLocationComponent';
-
-import 'leaflet/dist/leaflet.css';
 
 const MapComponent = ({ location }) => {
     const { currentLocation, startLocation, exitLocation } = location;
@@ -47,3 +46,7 @@ const MapComponent = ({ location }) => {
 };
 
 export default MapComponent;
+
+MapComponent.propTypes = {
+    location: PropTypes.object.isRequired,
+};

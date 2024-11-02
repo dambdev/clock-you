@@ -1,48 +1,19 @@
-const { VITE_START_TIME, VITE_END_TIME } = import.meta.env;
+import toast from 'react-hot-toast';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
+import { VITE_START_TIME, VITE_END_TIME } from '../../env.local.js';
 import { useContext, useEffect, useState } from 'react';
 import {
     fetchDetailServiceServices,
     fetchEditServiceServices,
     fetchDeleteServiceService,
 } from '../services/serviceServices';
-import toast from 'react-hot-toast';
 
 const EditServicePage = () => {
-    const { serviceId } = useParams();
-    const { authToken } = useContext(AuthContext);
-
     const navigate = useNavigate();
 
-    const delayedNavigation = (path) => {
-        setTimeout(() => {
-            navigate(path);
-        }, 750);
-    };
-
-    const getTomorrowDate = () => {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        return tomorrow.toISOString().split('T')[0];
-    };
-
-    const [hours, setHours] = useState(1);
-
-    const timeIntervals = () => {
-        const options = [];
-        const startHour = VITE_START_TIME;
-        const endHour = VITE_END_TIME - hours;
-        for (let i = startHour * 60; i <= endHour * 60; i += 30) {
-            const hours = Math.floor(i / 60);
-            const minutes = i % 60;
-            const time = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-            options.push(time);
-        }
-        return options;
-    };
-
-    const valuesTimeInterval = timeIntervals();
+    const { serviceId } = useParams();
+    const { authToken } = useContext(AuthContext);
 
     const [data, setData] = useState([]);
     const [startDateTime, setStartDateTime] = useState('');
@@ -52,10 +23,7 @@ const EditServicePage = () => {
     const [comments, setComments] = useState('');
     const [numberOfPeople, setNumberOfPeople] = useState();
     const [totalPrice, setTotalPrice] = useState('');
-
-    useEffect(() => {
-        setTotalPrice(hours * numberOfPeople * data.price);
-    }, [hours, numberOfPeople, data.price]);
+    const [hours, setHours] = useState('');
 
     useEffect(() => {
         const getService = async () => {
@@ -82,6 +50,37 @@ const EditServicePage = () => {
 
         getService();
     }, [serviceId, authToken]);
+
+    const getTomorrowDate = () => {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        return tomorrow.toISOString().split('T')[0];
+    };
+
+    const timeIntervals = () => {
+        const options = [];
+        const startHour = VITE_START_TIME;
+        const endHour = VITE_END_TIME - hours;
+        for (let i = startHour * 60; i <= endHour * 60; i += 30) {
+            const hours = Math.floor(i / 60);
+            const minutes = i % 60;
+            const time = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+            options.push(time);
+        }
+        return options;
+    };
+
+    const valuesTimeInterval = timeIntervals();
+
+    useEffect(() => {
+        setTotalPrice(hours * numberOfPeople * data.price);
+    }, [hours, numberOfPeople, data.price]);
+
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
+    };
 
     const handleEditService = async (e) => {
         e.preventDefault();

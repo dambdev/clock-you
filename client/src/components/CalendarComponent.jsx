@@ -1,14 +1,13 @@
-import { Calendar, dayjsLocalizer } from 'react-big-calendar';
-import dayjs from 'dayjs';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'dayjs/locale/es';
-
-dayjs.locale('es');
-
-const { VITE_START_TIME, VITE_END_TIME } = import.meta.env;
-const localizer = dayjsLocalizer(dayjs);
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import dayjs from 'dayjs';
+import PropTypes from 'prop-types';
+import { Calendar, dayjsLocalizer } from 'react-big-calendar';
+import { VITE_START_TIME, VITE_END_TIME } from '../../env.local.js';
 
 const CalendarComponent = ({ events, onSelectEvent, defaultView }) => {
+    const localizer = dayjsLocalizer(dayjs);
+    dayjs.locale('es');
     const eventStyle = (event) => {
         let backgroundColor = '';
         switch (event.status) {
@@ -91,3 +90,9 @@ const CalendarComponent = ({ events, onSelectEvent, defaultView }) => {
 };
 
 export default CalendarComponent;
+
+CalendarComponent.propTypes = {
+    events: PropTypes.array.isRequired,
+    onSelectEvent: PropTypes.func.isRequired,
+    defaultView: PropTypes.string.isRequired,
+};

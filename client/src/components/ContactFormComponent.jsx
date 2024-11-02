@@ -1,5 +1,5 @@
-const { VITE_APP_TITLE, VITE_EMAIL_KEY } = import.meta.env;
 import toast from 'react-hot-toast';
+import { VITE_APP_TITLE, VITE_EMAIL_KEY } from '../../env.local.js';
 
 const ContactFormComponent = () => {
     const onSubmit = async (event) => {

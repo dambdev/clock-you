@@ -1,7 +1,7 @@
-import { useState, useContext } from 'react';
-import { AuthContext } from '../../../context/AuthContext';
-import { fetchNewTypeOfServiceServices } from '../../../services/typeOfServiceServices';
 import toast from 'react-hot-toast';
+import { AuthContext } from '../../../context/AuthContext';
+import { useState, useContext } from 'react';
+import { fetchNewTypeOfServiceServices } from '../../../services/typeOfServiceServices';
 
 const RegisterNewTypeOfServiceController = () => {
     const { authToken } = useContext(AuthContext);

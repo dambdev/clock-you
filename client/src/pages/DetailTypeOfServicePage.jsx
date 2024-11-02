@@ -1,12 +1,12 @@
-const { VITE_API_URL } = import.meta.env;
+import toast from 'react-hot-toast';
+import NewServiceFormComponent from '../components/NewServiceFormComponent';
+import { FaStar } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
+import { VITE_API_URL } from '../../env.local.js';
 import { useState, useEffect } from 'react';
 import { fetchTypeOfServiceServices } from '../services/typeOfServiceServices';
-import { FaStar } from 'react-icons/fa';
-import NewServiceFormComponent from '../components/NewServiceFormComponent';
-import toast from 'react-hot-toast';
 
-const NewServicePage = () => {
+const DetailTypeOfServicePage = () => {
     const { typeOfServiceId } = useParams();
 
     const [data, setData] = useState([]);
@@ -63,4 +63,4 @@ const NewServicePage = () => {
     );
 };
 
-export default NewServicePage;
+export default DetailTypeOfServicePage;

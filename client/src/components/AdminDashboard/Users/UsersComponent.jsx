@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import ListUserComponent from './ListUserComponent';
 import RegisterAdminUserComponent from './RegisterAdminUserComponent';
+import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
 
 const UsersComponent = () => {
     const [activeSection, setActiveSection] = useState('ListUserComponent');
 
-    const handleChange = (section, e) => {
-        e.preventDefault();
-        setActiveSection(section);
-    };
-
     const sectionComponents = {
         ListUserComponent: <ListUserComponent />,
         RegisterAdminUserComponent: <RegisterAdminUserComponent />,
+    };
+
+    const handleChange = (section, e) => {
+        e.preventDefault();
+        setActiveSection(section);
     };
 
     return (

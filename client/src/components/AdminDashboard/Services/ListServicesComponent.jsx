@@ -1,20 +1,13 @@
-import { useEffect, useState } from 'react';
-import { fetchAllTypeOfServicesServices } from '../../../services/typeOfServiceServices';
 import toast from 'react-hot-toast';
 import { NavLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { fetchAllTypeOfServicesServices } from '../../../services/typeOfServiceServices';
 
 const ListServicesComponent = () => {
     const [data, setData] = useState([]);
     const [city, setCity] = useState('');
     const [type, setType] = useState('');
     const [price, setPrice] = useState('');
-
-    const resetFilters = (e) => {
-        e.preventDefault();
-        setCity('');
-        setType('');
-        setPrice('');
-    };
 
     useEffect(() => {
         const getTypeOfServices = async () => {
@@ -38,8 +31,19 @@ const ListServicesComponent = () => {
         getTypeOfServices();
     }, [city, type, price]);
 
-    const citiesNoRepeated = [...new Set(data.map((item) => item.city))].sort();
-    const typeNoRepeated = [...new Set(data.map((item) => item.type))].sort();
+    const citiesNoRepeated = [...new Set(data.map((item) => item.city))].sort(
+        (a, b) => a.localeCompare(b)
+    );
+    const typeNoRepeated = [...new Set(data.map((item) => item.type))].sort(
+        (a, b) => a.localeCompare(b)
+    );
+
+    const resetFilters = (e) => {
+        e.preventDefault();
+        setCity('');
+        setType('');
+        setPrice('');
+    };
 
     return (
         <>

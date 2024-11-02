@@ -1,23 +1,15 @@
+import toast from 'react-hot-toast';
+import PropTypes from 'prop-types';
+import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useState, useContext } from 'react';
-
-import { AuthContext } from '../context/AuthContext';
 import { fetchNewServiceServices } from '../services/serviceServices';
-
-const { VITE_START_TIME, VITE_END_TIME } = import.meta.env;
-
-import toast from 'react-hot-toast';
+import { VITE_START_TIME, VITE_END_TIME } from '../../env.local.js';
 
 const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
-    const { authToken } = useContext(AuthContext);
-
     const navigate = useNavigate();
 
-    const delayedNavigation = (path) => {
-        setTimeout(() => {
-            navigate(path);
-        }, 750);
-    };
+    const { authToken } = useContext(AuthContext);
 
     const noAuthenticated = () => {
         if (!authToken) {
@@ -79,6 +71,12 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
         setAddress('');
         setPostCode('');
         setCity('');
+    };
+
+    const delayedNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 750);
     };
 
     const handleNewService = async (entry) => {
@@ -328,3 +326,8 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
 };
 
 export default NewServiceFormComponent;
+
+NewServiceFormComponent.propTypes = {
+    typeOfServiceId: PropTypes.string,
+    price: PropTypes.string,
+};
