@@ -3,7 +3,7 @@ import morgan from 'morgan';
 import routes from './src/routes/index.js';
 import express from 'express';
 import fileUpload from 'express-fileupload';
-import { PORT, UPLOADS_DIR } from './env.js';
+import { UPLOADS_DIR } from './env.js';
 
 import {
     notFoundErrorController,
@@ -29,6 +29,8 @@ app.use(routes);
 app.use(notFoundErrorController);
 
 app.use(errorController);
+
+const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
     console.log(`Server running on port http://localhost:${PORT}`);
