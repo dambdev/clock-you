@@ -1,5 +1,4 @@
 import mysql from 'mysql2/promise';
-
 import { MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB } from '../../env.js';
 
 let pool;

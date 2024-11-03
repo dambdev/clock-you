@@ -1,6 +1,5 @@
-import randomstring from 'randomstring';
 import Joi from 'joi';
-
+import randomstring from 'randomstring';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 import insertUserService from '../../services/users/insertUserService.js';
 

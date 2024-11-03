@@ -1,11 +1,9 @@
-import express from 'express';
 import cors from 'cors';
-import fileUpload from 'express-fileupload';
 import morgan from 'morgan';
-
-import { PORT, UPLOADS_DIR } from './env.js';
-
 import routes from './src/routes/index.js';
+import express from 'express';
+import fileUpload from 'express-fileupload';
+import { PORT, UPLOADS_DIR } from './env.js';
 
 import {
     notFoundErrorController,

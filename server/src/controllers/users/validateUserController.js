@@ -1,7 +1,6 @@
 import Joi from 'joi';
-
-import updateUserRegisterService from '../../services/users/updateUserRegisterService.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
+import updateUserRegisterService from '../../services/users/updateUserRegisterService.js';
 
 const validateUserController = async (req, res, next) => {
     try {

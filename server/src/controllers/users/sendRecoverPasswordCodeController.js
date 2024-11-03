@@ -1,8 +1,7 @@
-import randomstring from 'randomstring';
 import Joi from 'joi';
-
-import selectUserByEmailService from '../../services/users/selectUserByEmailService.js';
+import randomstring from 'randomstring';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
+import selectUserByEmailService from '../../services/users/selectUserByEmailService.js';
 import updateRecoverPasswordService from '../../services/users/updateRecoverPasswordService.js';
 
 const sendRecoverPasswordCodeController = async (req, res, next) => {

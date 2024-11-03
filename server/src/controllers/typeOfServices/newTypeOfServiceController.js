@@ -1,8 +1,7 @@
 import Joi from 'joi';
-
-import { savePictureUtil } from '../../utils/photoUtil.js';
-import insertTypeOfServiceService from '../../services/typeOfServices/insertTypeOfServiceService.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
+import insertTypeOfServiceService from '../../services/typeOfServices/insertTypeOfServiceService.js';
+import { savePictureUtil } from '../../utils/photoUtil.js';
 
 const newTypeOfServiceController = async (req, res, next) => {
     try {

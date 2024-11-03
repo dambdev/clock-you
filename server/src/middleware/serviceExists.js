@@ -1,5 +1,4 @@
 import Joi from 'joi';
-
 import getPool from '../db/getPool.js';
 import generateErrorUtil from '../utils/generateErrorUtil.js';
 

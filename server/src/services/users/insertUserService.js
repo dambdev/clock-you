@@ -1,9 +1,8 @@
 import bcrypt from 'bcrypt';
-import { v4 as uuid } from 'uuid';
-
+import crypto from 'crypto';
 import getPool from '../../db/getPool.js';
-import generateErrorUtil from '../../utils/generateErrorUtil.js';
 import sendMailUtil from '../../utils/sendMailUtil.js';
+import generateErrorUtil from '../../utils/generateErrorUtil.js';
 import { CLIENT_URL } from '../../../env.js';
 
 const insertUserService = async (
@@ -45,7 +44,7 @@ const insertUserService = async (
         VALUES (?,?,?,?,?,?,?,?)
         `,
         [
-            uuid(),
+            crypto.randomUUID(),
             email,
             passwordHashed,
             firstName,

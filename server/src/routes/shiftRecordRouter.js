@@ -1,18 +1,17 @@
 import express from 'express';
-
-import authUser from '../middleware/authUser.js';
 import isAdmin from '../middleware/isAdmin.js';
+import authUser from '../middleware/authUser.js';
 import isEmployee from '../middleware/isEmployee.js';
 import serviceExists from '../middleware/serviceExists.js';
 import shiftRecordExists from '../middleware/shiftRecordExists.js';
 
 import {
     newShiftRecordController,
-    listShiftRecordsController,
     editShiftRecordController,
+    listShiftRecordsController,
+    exitShiftRecordsController,
     detailShiftRecordController,
     startShiftRecordsController,
-    exitShiftRecordsController,
     deleteShiftRecordController,
 } from '../controllers/shiftRecords/index.js';
 

@@ -1,7 +1,6 @@
 import Joi from 'joi';
-
-import updateChangeUserPasswordService from '../../services/users/updateChangeUserPasswordService.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
+import updateChangeUserPasswordService from '../../services/users/updateChangeUserPasswordService.js';
 
 const changeUserPasswordController = async (req, res, next) => {
     try {

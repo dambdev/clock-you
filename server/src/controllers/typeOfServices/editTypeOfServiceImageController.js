@@ -1,6 +1,6 @@
-import { deletePictureUtil, savePictureUtil } from '../../utils/photoUtil.js';
 import selectTypeOfServiceByIdService from '../../services/typeOfServices/selectTypeOfServiceByIdService.js';
 import updateTypeOfServiceImageService from '../../services/typeOfServices/updateTypeOfServiceImageService.js';
+import { deletePictureUtil, savePictureUtil } from '../../utils/photoUtil.js';
 
 const editTypeOfserviceImageController = async (req, res, next) => {
     try {

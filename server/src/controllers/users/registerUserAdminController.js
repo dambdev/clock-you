@@ -1,7 +1,6 @@
 import Joi from 'joi';
-
-import insertAdminService from '../../services/users/insertUserAdminService.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
+import insertAdminService from '../../services/users/insertUserAdminService.js';
 
 const registerUserAdminController = async (req, res, next) => {
     try {

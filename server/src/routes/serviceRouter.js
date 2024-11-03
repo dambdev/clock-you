@@ -1,21 +1,19 @@
 import express from 'express';
-
-import authUser from '../middleware/authUser.js';
 import isAdmin from '../middleware/isAdmin.js';
+import authUser from '../middleware/authUser.js';
 import isClient from '../middleware/isClient.js';
 import isEmployee from '../middleware/isEmployee.js';
 import serviceExists from '../middleware/serviceExists.js';
 import typeOfServiceExists from '../middleware/typeOfServiceExists.js';
-
 import {
     newServiceController,
-    listAdminServicesController,
+    editServiceController,
     detailServiceController,
+    validateServiceController,
+    listAdminServicesController,
     deleteServiceByIdController,
     listClientServiceController,
     listEmployeeServiceController,
-    editServiceController,
-    validateServiceController,
     editRatingServiceByIdController,
 } from '../controllers/services/index.js';
 

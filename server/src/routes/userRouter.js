@@ -1,23 +1,22 @@
 import express from 'express';
-
-import authUser from '../middleware/authUser.js';
 import isAdmin from '../middleware/isAdmin.js';
+import authUser from '../middleware/authUser.js';
 import userExists from '../middleware/userExists.js';
 
 import {
-    registerUserController,
-    validateUserController,
-    loginUserController,
-    changeUserPasswordController,
-    sendRecoverPasswordCodeController,
-    registerUserAdminController,
-    editUserController,
     getUserController,
+    editUserController,
+    loginUserController,
     listUsersController,
     deleteUserController,
+    registerUserController,
+    validateUserController,
     editUserAvatarController,
-    editUserPasswordController,
     getUserProfileController,
+    editUserPasswordController,
+    registerUserAdminController,
+    changeUserPasswordController,
+    sendRecoverPasswordCodeController,
 } from '../controllers/users/index.js';
 
 const router = express.Router();

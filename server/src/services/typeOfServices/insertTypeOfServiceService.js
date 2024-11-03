@@ -1,4 +1,4 @@
-import { v4 as uuid } from 'uuid';
+import crypto from 'crypto';
 import getPool from '../../db/getPool.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 
@@ -21,7 +21,7 @@ const insertTypeOfServiceService = async (
     if (service.length)
         generateErrorUtil('El servicio ya se encuentra registrado', 409);
 
-    const id = uuid();
+    const id = crypto.randomUUID();
 
     await pool.query(
         `

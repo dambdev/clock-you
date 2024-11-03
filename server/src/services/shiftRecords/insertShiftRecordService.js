@@ -1,9 +1,8 @@
-import { v4 as uuid } from 'uuid';
-import { CLIENT_URL } from '../../../env.js';
-
+import crypto from 'crypto';
 import getPool from '../../db/getPool.js';
 import sendMailUtils from '../../utils/sendMailUtil.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
+import { CLIENT_URL } from '../../../env.js';
 
 const insertShiftRecordService = async (serviceId, employeeId) => {
     const pool = await getPool();
@@ -17,7 +16,7 @@ const insertShiftRecordService = async (serviceId, employeeId) => {
 
     if (created.length) generateErrorUtil('El empleado ya está asignado', 401);
 
-    const id = uuid();
+    const id = crypto.randomUUID();
 
     await pool.query(
         `

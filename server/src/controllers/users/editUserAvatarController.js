@@ -1,7 +1,7 @@
-import selectUserByIdService from '../../services/users/selectUserByIdService.js';
-import { deletePictureUtil, savePictureUtil } from '../../utils/photoUtil.js';
-import updateUserAvatarService from '../../services/users/updateUserAvatarService.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
+import selectUserByIdService from '../../services/users/selectUserByIdService.js';
+import updateUserAvatarService from '../../services/users/updateUserAvatarService.js';
+import { deletePictureUtil, savePictureUtil } from '../../utils/photoUtil.js';
 
 const editUserAvatarController = async (req, res, next) => {
     try {

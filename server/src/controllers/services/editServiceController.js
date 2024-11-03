@@ -1,6 +1,6 @@
+import Joi from 'joi';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 import updateServiceByIdService from '../../services/services/updateServiceByIdService.js';
-import Joi from 'joi';
 
 const editServiceController = async (req, res, next) => {
     try {

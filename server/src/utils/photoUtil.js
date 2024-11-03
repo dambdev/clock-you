@@ -1,10 +1,9 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { UPLOADS_DIR } from '../../env.js';
 import sharp from 'sharp';
-import { v4 as uuidv4 } from 'uuid';
-
+import crypto from 'crypto';
 import generateErrorUtil from './generateErrorUtil.js';
+import { UPLOADS_DIR } from '../../env.js';
 
 export const savePictureUtil = async (img, width, height) => {
     try {
@@ -20,7 +19,7 @@ export const savePictureUtil = async (img, width, height) => {
 
         sharpImg.resize({ width, height });
 
-        const imgName = `${uuidv4()}.jpg`;
+        const imgName = `${crypto.randomUUID()}.jpg`;
 
         const pathImg = path.join(uploadDir, imgName);
 

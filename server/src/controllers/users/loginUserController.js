@@ -1,11 +1,9 @@
+import Joi from 'joi';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import Joi from 'joi';
-
-import { SECRET } from '../../../env.js';
-
-import selectUserByEmailService from '../../services/users/selectUserByEmailService.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
+import selectUserByEmailService from '../../services/users/selectUserByEmailService.js';
+import { SECRET } from '../../../env.js';
 
 const loginUserController = async (req, res, next) => {
     try {

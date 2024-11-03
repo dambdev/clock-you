@@ -1,10 +1,9 @@
-import { v4 as uuid } from 'uuid';
-import { ADMIN_EMAIL } from '../../../env.js';
-import { CLIENT_URL } from '../../../env.js';
+import crypto from 'crypto';
 import getPool from '../../db/getPool.js';
 import Randomstring from 'randomstring';
-import generateErrorUtil from '../../utils/generateErrorUtil.js';
 import sendMailUtils from '../../utils/sendMailUtil.js';
+import generateErrorUtil from '../../utils/generateErrorUtil.js';
+import { ADMIN_EMAIL, CLIENT_URL } from '../../../env.js';
 
 const insertServiceService = async (
     typeOfServiceId,
@@ -58,7 +57,7 @@ const insertServiceService = async (
             401
         );
 
-    const addressId = uuid();
+    const addressId = crypto.randomUUID();
 
     await pool.query(
         `
@@ -69,7 +68,7 @@ const insertServiceService = async (
 
     const validationCode = Randomstring.generate(30);
 
-    const serviceId = uuid();
+    const serviceId = crypto.randomUUID();
 
     await pool.query(
         `

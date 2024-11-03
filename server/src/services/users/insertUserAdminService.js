@@ -1,4 +1,4 @@
-import { v4 as uuid } from 'uuid';
+import crypto from 'crypto';
 import sendMailUtils from '../../utils/sendMailUtil.js';
 import getPool from '../../db/getPool.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
@@ -29,8 +29,8 @@ const insertAdminService = async (
     }
 
     const recoverPasswordCode = randomstring.generate(10);
-    const defaultPassword = uuid();
-    const id = uuid();
+    const defaultPassword = crypto.randomUUID();
+    const id = crypto.randomUUID();
 
     await pool.query(
         `

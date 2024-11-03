@@ -1,5 +1,4 @@
 import Joi from 'joi';
-
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 import updateTypeOfServiceService from '../../services/typeOfServices/updateTypeOfServiceService.js';
 

@@ -1,7 +1,6 @@
 import Joi from 'joi';
-
-import updateServiceService from '../../services/services/updateServiceService.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
+import updateServiceService from '../../services/services/updateServiceService.js';
 
 const validateServiceController = async (req, res, next) => {
     try {

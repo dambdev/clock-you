@@ -1,14 +1,13 @@
 import express from 'express';
-
-import authUser from '../middleware/authUser.js';
 import isAdmin from '../middleware/isAdmin.js';
+import authUser from '../middleware/authUser.js';
 import typeOfServiceExists from '../middleware/typeOfServiceExists.js';
 
 import {
     newTypeOfServiceController,
+    editTypeOfServiceController,
     listTypeOfServicesController,
     deleteTypeOfServiceController,
-    editTypeOfServiceController,
     detailTypeOfServicesController,
     editTypeOfServiceImageController,
 } from '../controllers/typeOfServices/index.js';
