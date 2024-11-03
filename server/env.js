@@ -1,4 +1,4 @@
-process.loadEnvFile();
+import dotenv from 'dotenv/config';
 
 const {
     MYSQL_HOST,
