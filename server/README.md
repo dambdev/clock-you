@@ -41,7 +41,7 @@ Clases Particulares, Entrenamientos Personales, Cuidado de Mascotas, Limpiezas A
 | city                | VARCHAR(25)  | Ciudad de trabajo del empleado                  |
 | role                | ENUM         | Rol del usuario ("admin", "employee", "client") |
 | job                 | VARCHAR(20)  | Trabajo del empleado                            |
-| avatar              | CHAR(40)     | URL del avatar del usuario                      |
+| avatar              | CHAR(41)     | URL del avatar del usuario                      |
 | active              | BOOLEAN      | Indica si el usuario está activo o no           |
 | registrationCode    | VARCHAR(30)  | Código de registro del usuario                  |
 | recoverPasswordCode | VARCHAR(10)  | Código de recuperación de contraseña            |
@@ -57,7 +57,7 @@ Clases Particulares, Entrenamientos Personales, Cuidado de Mascotas, Limpiezas A
 | type        | VARCHAR(255) | Tipo de servicio                         |
 | description | VARCHAR(500) | Descripción del servicio ofertado        |
 | city        | VARCHAR(30)  | Cuidad disponible del servicio           |
-| image       | CHAR(40)     | Url de la imágen de tipo de servicio     |
+| image       | CHAR(41)     | Url de la imágen de tipo de servicio     |
 | createdAt   | TIMESTAMP    | Fecha y hora de creación                 |
 | modifiedAt  | TIMESTAMP    | Fecha y hora de la última modificación   |
 | deletedAt   | TIMESTAMP    | Fecha y hora del borrado lógico          |

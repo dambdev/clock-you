@@ -19,7 +19,7 @@ export const savePictureUtil = async (img, width, height) => {
 
         sharpImg.resize({ width, height });
 
-        const imgName = `${crypto.randomUUID()}.jpg`;
+        const imgName = `${crypto.randomUUID()}.webp`;
 
         const pathImg = path.join(uploadDir, imgName);
 

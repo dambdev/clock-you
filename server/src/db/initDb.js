@@ -43,7 +43,7 @@ const initDb = async () => {
                 city VARCHAR(25),
                 role ENUM('admin', 'employee', 'client') DEFAULT 'client',
                 job VARCHAR(20),
-                avatar CHAR(40),
+                avatar CHAR(41),
                 active BOOLEAN DEFAULT false,
                 registrationCode CHAR(30),
                 recoverPasswordCode CHAR(10),
@@ -61,7 +61,7 @@ const initDb = async () => {
                 price DECIMAL(5,2) NOT NULL,
                 description VARCHAR(250) NOT NULL,
                 city VARCHAR(30) NOT NULL,
-                image CHAR(40),
+                image CHAR(41),
                 createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 modifiedAt TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 deletedAt TIMESTAMP )

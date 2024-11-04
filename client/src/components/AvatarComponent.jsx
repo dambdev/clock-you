@@ -70,7 +70,7 @@ const AvatarComponent = ({ user }) => {
                     <input
                         id='file'
                         type='file'
-                        accept='image/png, image/jpg, image/jpeg, image/tiff'
+                        accept='image/png, image/jpg, image/jpeg, image/tiff, image/webp'
                         className='hidden'
                         required
                         onChange={handleAvatarChange}

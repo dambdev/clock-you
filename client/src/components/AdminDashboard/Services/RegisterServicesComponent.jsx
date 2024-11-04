@@ -120,7 +120,7 @@ const RegisterNewTypeOfServiceController = () => {
                     id='file'
                     type='file'
                     className='hidden'
-                    accept='image/png, image/jpg, image/jpeg, image/tiff'
+                    accept='image/png, image/jpg, image/jpeg, image/tiff, image/webp'
                     onChange={handleImageChange}
                 ></input>
                 {previewUrl && (
