@@ -18,9 +18,14 @@ const ListServicesComponent = () => {
             });
             const searchParamsToString = searchParams.toString();
             try {
-                const data =
-                    await fetchAllTypeOfServicesServices(searchParamsToString);
-                setData(data);
+                const data = await fetchAllTypeOfServicesServices(
+                    searchParamsToString
+                );
+                if (!data) {
+                    setData(null);
+                } else {
+                    setData(data);
+                }
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',
@@ -31,12 +36,12 @@ const ListServicesComponent = () => {
         getTypeOfServices();
     }, [city, type, price]);
 
-    const citiesNoRepeated = [...new Set(data.map((item) => item.city))].sort(
-        (a, b) => a.localeCompare(b)
-    );
-    const typeNoRepeated = [...new Set(data.map((item) => item.type))].sort(
-        (a, b) => a.localeCompare(b)
-    );
+    const citiesNoRepeated = [
+        ...new Set((data || []).map((item) => item.city)),
+    ].sort((a, b) => a.localeCompare(b));
+    const typeNoRepeated = [
+        ...new Set((data || []).map((item) => item.type)),
+    ].sort((a, b) => a.localeCompare(b));
 
     const resetFilters = (e) => {
         e.preventDefault();
@@ -102,28 +107,34 @@ const ListServicesComponent = () => {
                 </select>
                 <button onClick={resetFilters}>Limpiar Filtros</button>
             </form>
-            <ul className='cards'>
-                {data.map((item) => {
-                    return (
-                        <li id={item.id} key={item.id}>
-                            <h3>{item.type}</h3>
+            {data ? (
+                <ul className='cards'>
+                    {data.map((item) => {
+                        return (
+                            <li id={item.id} key={item.id}>
+                                <h3>{item.type}</h3>
 
-                            <p className='grow'>{item.description}</p>
+                                <p className='grow'>{item.description}</p>
 
-                            <p className='font-extrabold'>{item.city}</p>
+                                <p className='font-extrabold'>{item.city}</p>
 
-                            <p>{item.price}€</p>
+                                <p>{item.price}€</p>
 
-                            <NavLink
-                                className='mb-4'
-                                to={`/typeOfServices/edit/${item.id}`}
-                            >
-                                Editar
-                            </NavLink>
-                        </li>
-                    );
-                })}
-            </ul>
+                                <NavLink
+                                    className='mb-4'
+                                    to={`/typeOfServices/edit/${item.id}`}
+                                >
+                                    Editar
+                                </NavLink>
+                            </li>
+                        );
+                    })}
+                </ul>
+            ) : (
+                <h3 className='mt-4 text-center'>
+                    No se encontraron servicios
+                </h3>
+            )}
         </>
     );
 };

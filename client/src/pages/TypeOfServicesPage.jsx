@@ -20,9 +20,14 @@ const TypeOfServicesPage = () => {
             });
             const searchParamsToString = searchParams.toString();
             try {
-                const data =
-                    await fetchAllTypeOfServicesServices(searchParamsToString);
-                setData(data);
+                const data = await fetchAllTypeOfServicesServices(
+                    searchParamsToString
+                );
+                if (!data) {
+                    setData(null);
+                } else {
+                    setData(data);
+                }
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',
@@ -33,12 +38,12 @@ const TypeOfServicesPage = () => {
         getTypeOfServices();
     }, [city, type, price]);
 
-    const citiesNoRepeated = [...new Set(data.map((item) => item.city))].sort(
-        (a, b) => a.localeCompare(b)
-    );
-    const typeNoRepeated = [...new Set(data.map((item) => item.type))].sort(
-        (a, b) => a.localeCompare(b)
-    );
+    const citiesNoRepeated = [
+        ...new Set((data || []).map((item) => item.city)),
+    ].sort((a, b) => a.localeCompare(b));
+    const typeNoRepeated = [
+        ...new Set((data || []).map((item) => item.type)),
+    ].sort((a, b) => a.localeCompare(b));
 
     const resetFilters = (e) => {
         e.preventDefault();
@@ -104,38 +109,44 @@ const TypeOfServicesPage = () => {
                 </select>
                 <button onClick={resetFilters}>Limpiar Filtros</button>
             </form>
-            <ul className='cards'>
-                {data.map((item) => {
-                    return (
-                        <li key={item.id}>
-                            <img
-                                src={`${VITE_API_URL}/${item.image}`}
-                                alt={item.description}
-                            />
-                            <h3>{item.type}</h3>
-                            <div className='flex mt-2'>
-                                {[...Array(5)].map((_, index) => (
-                                    <FaStar
-                                        key={index}
-                                        size={30}
-                                        color={
-                                            index + 1 <=
-                                            Math.ceil(item.averageRating)
-                                                ? '#ffc107'
-                                                : '#e4e5e9'
-                                        }
-                                    />
-                                ))}
-                            </div>
-                            <p className='font-black'>{item.city}</p>
-                            <p>{item.price}€</p>
-                            <NavLink to={`/typeOfServices/${item?.id}`}>
-                                Infórmate
-                            </NavLink>
-                        </li>
-                    );
-                })}
-            </ul>
+            {Array.isArray(data) && data.length > 0 ? (
+                <ul className='cards'>
+                    {data.map((item) => {
+                        return (
+                            <li key={item.id}>
+                                <img
+                                    src={`${VITE_API_URL}/${item.image}`}
+                                    alt={item.description}
+                                />
+                                <h3>{item.type}</h3>
+                                <div className='flex mt-2'>
+                                    {[...Array(5)].map((_, index) => (
+                                        <FaStar
+                                            key={index}
+                                            size={30}
+                                            color={
+                                                index + 1 <=
+                                                Math.ceil(item.averageRating)
+                                                    ? '#ffc107'
+                                                    : '#e4e5e9'
+                                            }
+                                        />
+                                    ))}
+                                </div>
+                                <p className='font-black'>{item.city}</p>
+                                <p>{item.price}€</p>
+                                <NavLink to={`/typeOfServices/${item?.id}`}>
+                                    Infórmate
+                                </NavLink>
+                            </li>
+                        );
+                    })}
+                </ul>
+            ) : (
+                <h3 className='mt-4 text-center'>
+                    No se encontraron servicios
+                </h3>
+            )}
         </>
     );
 };

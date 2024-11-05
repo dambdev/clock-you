@@ -1,7 +1,14 @@
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import getPool from './getPool.js';
-import { ADMIN_EMAIL, ADMIN_PASSWORD } from '../../env.js';
+import {
+    ADMIN_EMAIL,
+    ADMIN_PASSWORD,
+    ADMIN_FIRST_NAME,
+    ADMIN_LAST_NAME,
+    ADMIN_DNI,
+    ADMIN_PHONE,
+} from '../../env.js';
 
 const initDb = async () => {
     try {
@@ -117,9 +124,19 @@ const initDb = async () => {
 
         await pool.query(
             `
-            INSERT INTO users (id, email, password, role, active) VALUES (?, ?, ?, ?, ?)
+            INSERT INTO users (id, firstName, lastName, phone, dni, email, password, role, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             `,
-            [crypto.randomUUID(), ADMIN_EMAIL, hashedPass, 'admin', 1]
+            [
+                crypto.randomUUID(),
+                ADMIN_FIRST_NAME,
+                ADMIN_LAST_NAME,
+                ADMIN_PHONE,
+                ADMIN_DNI,
+                ADMIN_EMAIL,
+                hashedPass,
+                'admin',
+                1,
+            ]
         );
 
         console.log('¡Tablas creadas!');
