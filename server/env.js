@@ -1,9 +1,10 @@
-import dotenv from 'dotenv/config';
+import 'dotenv/config';
 
 const {
     MYSQL_HOST,
     MYSQL_USER,
     MYSQL_PASS,
+    MYSQL_PORT,
     MYSQL_DB,
     ADMIN_EMAIL,
     ADMIN_PASSWORD,
@@ -25,6 +26,7 @@ export {
     MYSQL_HOST,
     MYSQL_USER,
     MYSQL_PASS,
+    MYSQL_PORT,
     MYSQL_DB,
     ADMIN_EMAIL,
     ADMIN_PASSWORD,
