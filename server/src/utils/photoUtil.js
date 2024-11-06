@@ -7,7 +7,7 @@ import { UPLOADS_DIR } from '../../env.js';
 
 export const savePictureUtil = async (img, width, height) => {
     try {
-        const uploadDir = path.join(process.cwd(), `/${UPLOADS_DIR}`);
+        const uploadDir = path.join(process.cwd(), `/data/${UPLOADS_DIR}`);
 
         try {
             await fs.access(uploadDir);
@@ -33,7 +33,11 @@ export const savePictureUtil = async (img, width, height) => {
 
 export const deletePictureUtil = async (imgName) => {
     try {
-        const imagePath = path.join(process.cwd(), `/${UPLOADS_DIR}`, imgName);
+        const imagePath = path.join(
+            process.cwd(),
+            `/data/${UPLOADS_DIR}`,
+            imgName
+        );
 
         try {
             await fs.access(imagePath);
