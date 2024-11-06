@@ -18,7 +18,7 @@ app.use(morgan('dev'));
 
 app.use(cors());
 
-app.use(express.static(UPLOADS_DIR));
+app.use('/uploads', express.static(UPLOADS_DIR));
 
 app.use(express.json());
 
