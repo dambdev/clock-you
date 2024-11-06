@@ -38,7 +38,10 @@ const ShiftsComponent = () => {
             setTotals(data.totals);
 
             if (generateExcel && data.excelFilePath) {
-                window.open(`${VITE_API_URL}/${data.excelFilePath}`, '_blank');
+                window.open(
+                    `${VITE_API_URL}/uploads/${data.excelFilePath}`,
+                    '_blank'
+                );
             }
 
             setGenerateExcel(false);

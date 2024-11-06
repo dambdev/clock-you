@@ -143,7 +143,9 @@ const EditTypeOfServicePage = () => {
                         <img
                             src={
                                 previewUrl ||
-                                (data?.image ? `${VITE_API_URL}/${image}` : '')
+                                (data?.image
+                                    ? `${VITE_API_URL}/uploads/${image}`
+                                    : '')
                             }
                             alt={`${data.description}`}
                         />

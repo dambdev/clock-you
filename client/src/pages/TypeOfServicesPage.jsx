@@ -115,7 +115,7 @@ const TypeOfServicesPage = () => {
                         return (
                             <li key={item.id}>
                                 <img
-                                    src={`${VITE_API_URL}/${item.image}`}
+                                    src={`${VITE_API_URL}/uploads/${item.image}`}
                                     alt={item.description}
                                 />
                                 <h3>{item.type}</h3>

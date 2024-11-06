@@ -141,7 +141,7 @@ const ListEmployeeComponent = ({ serviceId, onEmployeeAssigned }) => {
                             <img
                                 src={`${
                                     item.avatar
-                                        ? `${VITE_API_URL}/${item.avatar}`
+                                        ? `${VITE_API_URL}/uploads/${item.avatar}`
                                         : '/default-avatar.png'
                                 }`}
                                 alt='Avatar'
