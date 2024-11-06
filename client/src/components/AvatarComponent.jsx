@@ -54,7 +54,7 @@ const AvatarComponent = ({ user }) => {
                 src={
                     previewUrl ||
                     (user?.avatar
-                        ? `${VITE_API_URL}/uploads/${user.avatar}`
+                        ? `${VITE_API_URL}/${user.avatar}`
                         : '/default-avatar.png')
                 }
                 alt='Avatar'
