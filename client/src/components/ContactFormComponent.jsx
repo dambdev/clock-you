@@ -32,29 +32,33 @@ const ContactFormComponent = () => {
                 <legend>Contacta con {VITE_APP_TITLE}</legend>
                 <label htmlFor='name'>Nombre</label>
                 <input
+                    required
                     type='text'
                     id='name'
                     name='name'
                     placeholder='Escribe aquí tu nombre'
-                    required
                 />
                 <label htmlFor='email'>Email</label>
                 <input
+                    required
                     type='email'
                     id='email'
                     name='email'
                     placeholder='Escribe aquí tu email'
-                    required
                 />
                 <label htmlFor='comments'>Cuéntanos</label>
                 <textarea
                     required
                     id='comments'
                     name='message'
-                    placeholder='Mensaje...'
                     minLength='10'
-                    maxLength='250'
-                    rows='7'
+                    maxLength='500'
+                    placeholder='Mensaje...'
+                    style={{ height: 'auto' }}
+                    onInput={(e) => {
+                        e.target.style.height = 'auto';
+                        e.target.style.height = e.target.scrollHeight + 'px';
+                    }}
                 ></textarea>
                 <div className='mx-auto'>
                     <button className='mr-4' type='submit'>

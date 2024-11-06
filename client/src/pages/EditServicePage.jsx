@@ -64,7 +64,9 @@ const EditServicePage = () => {
         for (let i = startHour * 60; i <= endHour * 60; i += 30) {
             const hours = Math.floor(i / 60);
             const minutes = i % 60;
-            const time = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+            const time = `${hours.toString().padStart(2, '0')}:${minutes
+                .toString()
+                .padStart(2, '0')}`;
             options.push(time);
         }
         return options;
@@ -255,9 +257,13 @@ const EditServicePage = () => {
                 <textarea
                     value={comments}
                     minLength='10'
-                    maxLength='250'
-                    rows='5'
+                    maxLength='500'
                     required
+                    style={{ height: 'auto' }}
+                    onInput={(e) => {
+                        e.target.style.height = 'auto';
+                        e.target.style.height = e.target.scrollHeight + 'px';
+                    }}
                     onChange={(e) => setComments(e.target.value)}
                 />
                 <div className='mx-auto'>

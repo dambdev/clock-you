@@ -5,7 +5,7 @@ import updateTypeOfServiceService from '../../services/typeOfServices/updateType
 const editTypeOfServiceController = async (req, res, next) => {
     try {
         const schema = Joi.object().keys({
-            description: Joi.string().max(250).required(),
+            description: Joi.string().max(500).required(),
             price: Joi.number().min(1).max(100).required(),
         });
 

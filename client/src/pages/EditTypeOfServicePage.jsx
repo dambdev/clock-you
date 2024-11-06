@@ -177,13 +177,20 @@ const EditTypeOfServicePage = () => {
                     onSubmit={handleEditService}
                 >
                     <fieldset>
-                        <legend>Editar</legend>
-                        <label htmlFor='description'>Descripción</label>
-                        <input
+                        <label className='mt-2' htmlFor='description'>
+                            Descripción
+                        </label>
+                        <textarea
                             required
                             id='description'
-                            type='text'
+                            maxLength='500'
                             value={description}
+                            style={{ height: 'auto' }}
+                            onInput={(e) => {
+                                e.target.style.height = 'auto';
+                                e.target.style.height =
+                                    e.target.scrollHeight + 'px';
+                            }}
                             onChange={(e) => {
                                 setDescription(e.target.value);
                             }}

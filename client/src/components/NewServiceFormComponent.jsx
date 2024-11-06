@@ -32,7 +32,9 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
         for (let i = startHour * 60; i <= endHour * 60; i += 30) {
             const currentHours = Math.floor(i / 60);
             const minutes = i % 60;
-            const time = `${currentHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+            const time = `${currentHours.toString().padStart(2, '0')}:${minutes
+                .toString()
+                .padStart(2, '0')}`;
             options.push(time);
         }
         return options;
@@ -244,10 +246,15 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
                         required
                         id='comments'
                         minLength='10'
-                        maxLength='250'
-                        rows='3'
+                        maxLength='500'
                         placeholder='Añada comentarios adicionales para describir con detalle sus necesidades sobre el servicio solicitado'
                         onFocus={noAuthenticated}
+                        style={{ height: 'auto' }}
+                        onInput={(e) => {
+                            e.target.style.height = 'auto';
+                            e.target.style.height =
+                                e.target.scrollHeight + 'px';
+                        }}
                         value={currentEntry.comments}
                         onChange={(e) =>
                             handleServiceChange('comments', e.target.value)

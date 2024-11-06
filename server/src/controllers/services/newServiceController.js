@@ -12,7 +12,7 @@ const newServiceController = async (req, res, next) => {
             address: Joi.string().max(255).required(),
             city: Joi.string().max(40).required(),
             postCode: Joi.string().length(5).required(),
-            comments: Joi.string().max(250).required(),
+            comments: Joi.string().max(500).required(),
             totalPrice: Joi.number().required(),
         });
 

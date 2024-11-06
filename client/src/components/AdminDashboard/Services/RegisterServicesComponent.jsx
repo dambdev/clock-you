@@ -104,10 +104,14 @@ const RegisterNewTypeOfServiceController = () => {
                     id='description'
                     type='text'
                     minLength='10'
-                    maxLength='250'
-                    rows='2'
+                    maxLength='500'
                     placeholder='Escribe aquí una descripción'
                     value={description}
+                    style={{ height: 'auto' }}
+                    onInput={(e) => {
+                        e.target.style.height = 'auto';
+                        e.target.style.height = e.target.scrollHeight + 'px';
+                    }}
                     onChange={(e) => {
                         setDescription(e.target.value);
                     }}

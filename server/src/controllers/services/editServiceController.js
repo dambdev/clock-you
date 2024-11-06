@@ -8,7 +8,7 @@ const editServiceController = async (req, res, next) => {
             startDateTime: Joi.date().min('now').required(),
             endDateTime: Joi.date().min('now').required(),
             hours: Joi.number().min(1).max(8).required(),
-            comments: Joi.string().max(250).required(),
+            comments: Joi.string().max(500).required(),
             address: Joi.string().max(255).required(),
             city: Joi.string().max(40).required(),
             postCode: Joi.string().length(5).required(),
