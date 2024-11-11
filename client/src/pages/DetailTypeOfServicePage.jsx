@@ -35,7 +35,7 @@ const DetailTypeOfServicePage = () => {
                 <fieldset>
                     <img
                         className='w-full h-full object-cover'
-                        src={`${VITE_API_URL}/uploads/${data.image}`}
+                        src={`${VITE_API_URL}/${data.image}`}
                         alt={`${data.description}`}
                     />
                     <p>{data.description}</p>

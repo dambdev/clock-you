@@ -138,7 +138,7 @@ const ListUserComponent = () => {
                             <img
                                 src={`${
                                     item.avatar
-                                        ? `${VITE_API_URL}/uploads/${item.avatar}`
+                                        ? `${VITE_API_URL}/${item.avatar}`
                                         : '/default-avatar.png'
                                 }`}
                                 alt='Avatar'
