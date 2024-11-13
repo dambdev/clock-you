@@ -12,8 +12,8 @@ const RegisterAdminUserComponent = () => {
     const [lastName, setLastName] = useState('');
     const [dni, setDni] = useState('');
     const [phone, setPhone] = useState('');
-    const [job, setJob] = useState('');
-    const [city, setCity] = useState('');
+    const [job, setJob] = useState();
+    const [city, setCity] = useState();
     const [role, setRole] = useState('');
 
     const resetInputs = (e) => {
@@ -23,9 +23,8 @@ const RegisterAdminUserComponent = () => {
         setLastName('');
         setDni('');
         setPhone('');
-
-        setJob('');
-        setCity('');
+        setJob();
+        setCity();
         setRole('');
     };
 
@@ -71,25 +70,28 @@ const RegisterAdminUserComponent = () => {
                     <option value='admin'>Admin</option>
                     <option value='employee'>Empleado</option>
                 </select>
-
-                <label htmlFor='job'>Trabajo</label>
-                <input
-                    type='text'
-                    id='job'
-                    value={job}
-                    onChange={(e) => setJob(e.target.value)}
-                    placeholder='Escribe aquí su trabajo'
-                    required
-                />
-                <label htmlFor='city'>Ciudad</label>
-                <input
-                    type='text'
-                    id='city'
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    placeholder='Escribe aquí la ciudad'
-                    required
-                />
+                {role !== 'admin' && (
+                    <>
+                        <label htmlFor='job'>Trabajo</label>
+                        <input
+                            type='text'
+                            id='job'
+                            value={job}
+                            onChange={(e) => setJob(e.target.value)}
+                            placeholder='Escribe aquí su trabajo'
+                            required
+                        />
+                        <label htmlFor='city'>Ciudad</label>
+                        <input
+                            type='text'
+                            id='city'
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            placeholder='Escribe aquí la ciudad'
+                            required
+                        />
+                    </>
+                )}
                 <label htmlFor='email'>Email</label>
                 <input
                     type='email'
@@ -134,6 +136,7 @@ const RegisterAdminUserComponent = () => {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder='Escribe aquí su teléfono'
+                    pattern='^\d{9}$'
                     required
                 />
 

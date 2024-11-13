@@ -10,9 +10,9 @@ const registerUserAdminController = async (req, res, next) => {
             firstName: Joi.string().max(25).required(),
             lastName: Joi.string().max(40).required(),
             dni: Joi.string().length(9).required(),
-            phone: Joi.string().max(15).required(),
-            job: Joi.string().max(25).required(),
-            city: Joi.string().max(25).required(),
+            job: Joi.string().max(25).optional(),
+            city: Joi.string().max(25).optional(),
+            phone: Joi.string().pattern(/^\d{9}$/).required()
         });
 
         const validation = schema.validate(req.body);
