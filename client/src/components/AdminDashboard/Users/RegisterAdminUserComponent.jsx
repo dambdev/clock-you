@@ -1,12 +1,14 @@
 import { AuthContext } from '../../../context/AuthContext';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { fetchRegisterAdminUserServices } from '../../../services/userServices';
+import { fetchAllTypeOfServicesServices } from '../../../services/typeOfServiceServices';
 
 import toast from 'react-hot-toast';
 
 const RegisterAdminUserComponent = () => {
     const { authToken } = useContext(AuthContext);
 
+    const [data, setData] = useState([]);
     const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -14,7 +16,7 @@ const RegisterAdminUserComponent = () => {
     const [phone, setPhone] = useState('');
     const [job, setJob] = useState();
     const [city, setCity] = useState();
-    const [role, setRole] = useState('');
+    const [role, setRole] = useState('admin');
 
     const resetInputs = (e) => {
         e.preventDefault();
@@ -25,8 +27,30 @@ const RegisterAdminUserComponent = () => {
         setPhone('');
         setJob();
         setCity();
-        setRole('');
+        setRole('admin');
     };
+
+    useEffect(() => {
+        const getTypesOfServices = async () => {
+            try {
+                const data = await fetchAllTypeOfServicesServices();
+                setData(data);
+            } catch (error) {
+                toast.error(error.message, {
+                    id: 'error',
+                });
+            }
+        };
+
+        getTypesOfServices();
+    }, []);
+
+    const typeNoRepeated = [
+        ...new Set((data || []).map((item) => item.type)),
+    ].sort((a, b) => a.localeCompare(b));
+    const citiesNoRepeated = [
+        ...new Set((data || []).map((item) => item.city)),
+    ].sort((a, b) => a.localeCompare(b));
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -57,39 +81,56 @@ const RegisterAdminUserComponent = () => {
         <form onSubmit={handleRegister}>
             <fieldset>
                 <legend>Usuario</legend>
-                <label htmlFor='role'>Rol</label>
+                <label htmlFor='role'>Tipo de usuario:</label>
                 <select
                     id='role'
                     value={role}
-                    onChange={(e) => setRole(e.target.value)}
+                    onChange={(e) => {
+                        setRole(e.target.value);
+                        setJob();
+                        setCity();
+                    }}
                     required
                 >
-                    <option value='' disabled>
-                        Tipo:
-                    </option>
-                    <option value='admin'>Admin</option>
+                    <option value='admin'>Administrador</option>
                     <option value='employee'>Empleado</option>
                 </select>
                 {role !== 'admin' && (
                     <>
-                        <label htmlFor='job'>Trabajo</label>
-                        <input
-                            type='text'
+                        <label htmlFor='job'>Seleccione el trabajo:</label>
+                        <select
+                            name='job'
                             id='job'
                             value={job}
-                            onChange={(e) => setJob(e.target.value)}
-                            placeholder='Escribe aquí su trabajo'
-                            required
-                        />
-                        <label htmlFor='city'>Ciudad</label>
-                        <input
-                            type='text'
+                            onChange={(e) => {
+                                setJob(e.target.value);
+                            }}
+                        >
+                            {typeNoRepeated.map((type) => {
+                                return (
+                                    <option key={type} value={type}>
+                                        {type}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                        <label htmlFor='city'>Seleccione la ciudad:</label>
+                        <select
+                            name='city'
                             id='city'
                             value={city}
-                            onChange={(e) => setCity(e.target.value)}
-                            placeholder='Escribe aquí la ciudad'
-                            required
-                        />
+                            onChange={(e) => {
+                                setCity(e.target.value);
+                            }}
+                        >
+                            {citiesNoRepeated.map((city) => {
+                                return (
+                                    <option key={city} value={city}>
+                                        {city}
+                                    </option>
+                                );
+                            })}
+                        </select>
                     </>
                 )}
                 <label htmlFor='email'>Email</label>
