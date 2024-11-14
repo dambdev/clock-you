@@ -105,7 +105,7 @@ const ProfileComponent = ({ user }) => {
 
     return (
         <section className='flex-1024'>
-            <form className='profile-form mx-auto' onSubmit={handleEditUser}>
+            <form className='form-1024' onSubmit={handleEditUser}>
                 <fieldset>
                     <legend>Datos</legend>
                     <label htmlFor='email'>Email</label>
@@ -156,11 +156,8 @@ const ProfileComponent = ({ user }) => {
                     </div>
                 </fieldset>
             </form>
-            <section className='mx-auto'>
-                <form
-                    className='profile-form mx-auto'
-                    onSubmit={handleEditPassword}
-                >
+            <section className='form-1024'>
+                <form onSubmit={handleEditPassword}>
                     <fieldset>
                         <legend>Contraseña</legend>
                         <label htmlFor='actualPassword'>
@@ -211,7 +208,7 @@ const ProfileComponent = ({ user }) => {
                         </div>
                     </fieldset>
                 </form>
-                <form className='mx-auto' onSubmit={handleDeleteUser}>
+                <form onSubmit={handleDeleteUser}>
                     <fieldset>
                         <div className='mx-auto'>
                             <button

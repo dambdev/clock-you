@@ -72,7 +72,7 @@ const OrdersComponent = () => {
 
     return (
         <>
-            <form className='mx-auto form-filters'>
+            <form className='form-filters'>
                 <input
                     id='startDate'
                     type='datetime-local'

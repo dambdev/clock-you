@@ -48,7 +48,7 @@ const AvatarComponent = ({ user }) => {
     };
 
     return (
-        <form className='mx-auto' onSubmit={handleEditAvatar}>
+        <form onSubmit={handleEditAvatar}>
             <img
                 className='user-avatar mx-auto'
                 src={

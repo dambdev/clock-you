@@ -54,7 +54,7 @@ const RegisterAdminUserComponent = () => {
         }
     };
     return (
-        <form className='mx-auto' onSubmit={handleRegister}>
+        <form onSubmit={handleRegister}>
             <fieldset>
                 <legend>Usuario</legend>
                 <label htmlFor='role'>Rol</label>

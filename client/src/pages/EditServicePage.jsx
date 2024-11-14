@@ -153,7 +153,7 @@ const EditServicePage = () => {
     };
 
     return (
-        <form className='profile-form mx-auto'>
+        <form>
             <fieldset>
                 <legend>
                     {data.type} en {data.province}

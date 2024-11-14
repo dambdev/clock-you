@@ -89,7 +89,7 @@ const EditShiftRecordComponent = ({
 
     return (
         <section className='mx-auto'>
-            <form className='profile-form' onSubmit={handleEditShiftRecord}>
+            <form onSubmit={handleEditShiftRecord}>
                 <fieldset>
                     <legend>Horarios</legend>
                     <label htmlFor='clockin'>Entrada</label>

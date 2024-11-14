@@ -52,7 +52,7 @@ const ListServicesComponent = () => {
 
     return (
         <>
-            <form className='mx-auto form-filters'>
+            <form className='form-filters'>
                 <select
                     name='city'
                     id='city'

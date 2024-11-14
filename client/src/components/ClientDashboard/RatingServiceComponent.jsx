@@ -38,7 +38,7 @@ const RatingServiceComponent = ({
     };
 
     return (
-        <form className='mx-auto' onSubmit={handleRatingService}>
+        <form onSubmit={handleRatingService}>
             <fieldset>
                 <section className='flex justify-center mt-4'>
                     {[...Array(5)].map((_, index) => {

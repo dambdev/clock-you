@@ -64,7 +64,7 @@ const RegisterPage = () => {
     if (user) return <Navigate to='/' />;
 
     return (
-        <form className='form mx-auto' onSubmit={handleRegister}>
+        <form onSubmit={handleRegister}>
             <fieldset>
                 <legend>Registro</legend>
                 <label htmlFor='email'>Email</label>

@@ -163,7 +163,7 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
     };
 
     return (
-        <form className='profile-form' onSubmit={handleSubmit}>
+        <form className='form-1024' onSubmit={handleSubmit}>
             <fieldset>
                 <legend>Solicítalo</legend>
                 <section className='flex flex-col gap-2'>

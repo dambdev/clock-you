@@ -121,7 +121,7 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
     };
 
     return (
-        <form className='mx-auto'>
+        <form>
             <fieldset className='mb-4'>
                 {!clockIn ? (
                     <button

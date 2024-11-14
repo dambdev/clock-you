@@ -54,7 +54,7 @@ const TypeOfServicesPage = () => {
 
     return (
         <>
-            <form className='form-filters mx-auto'>
+            <form className='form-filters'>
                 <select
                     name='city'
                     id='city'

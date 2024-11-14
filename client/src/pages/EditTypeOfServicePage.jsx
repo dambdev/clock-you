@@ -135,10 +135,7 @@ const EditTypeOfServicePage = () => {
                 {data.type} en {data.city}
             </h2>
             <section className='flex-1024'>
-                <form
-                    className='profile-form mx-auto'
-                    onSubmit={handleEditImage}
-                >
+                <form className='form-1024' onSubmit={handleEditImage}>
                     <fieldset>
                         <img
                             src={
@@ -172,10 +169,7 @@ const EditTypeOfServicePage = () => {
                         </button>
                     </fieldset>
                 </form>
-                <form
-                    className='profile-form mx-auto'
-                    onSubmit={handleEditService}
-                >
+                <form className='form-1024' onSubmit={handleEditService}>
                     <fieldset>
                         <label className='mt-2' htmlFor='description'>
                             Descripción

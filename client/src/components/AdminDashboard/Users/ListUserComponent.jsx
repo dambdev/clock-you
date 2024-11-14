@@ -60,7 +60,7 @@ const ListUserComponent = () => {
 
     return (
         <>
-            <form className='mx-auto form-filters'>
+            <form className='form-filters'>
                 <select
                     name='active'
                     id='active'

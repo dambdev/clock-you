@@ -27,7 +27,7 @@ const ContactFormComponent = () => {
     };
 
     return (
-        <form className='mx-auto' onSubmit={onSubmit}>
+        <form onSubmit={onSubmit}>
             <fieldset>
                 <legend>Contacta con {VITE_APP_TITLE}</legend>
                 <label htmlFor='name'>Nombre</label>

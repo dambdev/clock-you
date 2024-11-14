@@ -68,7 +68,7 @@ const ContractsComponent = () => {
 
     return (
         <>
-            <form className='mx-auto form-filters'>
+            <form className='form-filters'>
                 <select
                     name='status'
                     id='status'

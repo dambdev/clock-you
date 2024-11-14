@@ -27,8 +27,8 @@ const DetailTypeOfServicePage = () => {
     }, [typeOfServiceId]);
 
     return (
-        <section className='mx-auto flex-1024'>
-            <form className='profile-form'>
+        <section className='flex-1024'>
+            <form>
                 <h3 className='mb-4'>
                     {data.type} en {data.city}
                 </h3>

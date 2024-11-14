@@ -44,7 +44,7 @@ const LoginPage = () => {
     if (user) return <Navigate to='/' />;
 
     return (
-        <form className='mx-auto' onSubmit={handleLogin}>
+        <form onSubmit={handleLogin}>
             <fieldset>
                 <legend>Inicio</legend>
                 <label htmlFor='email'>Email</label>

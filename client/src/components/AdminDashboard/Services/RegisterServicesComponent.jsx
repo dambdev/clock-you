@@ -59,7 +59,7 @@ const RegisterNewTypeOfServiceController = () => {
     };
 
     return (
-        <form className='mx-auto' onSubmit={handleRegisterNewTypeOfService}>
+        <form onSubmit={handleRegisterNewTypeOfService}>
             <fieldset>
                 <legend>Servicio</legend>
                 <label htmlFor='type'>Tipo</label>

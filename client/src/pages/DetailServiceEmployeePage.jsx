@@ -38,7 +38,7 @@ const DetailServiceEmployeePage = () => {
 
     return (
         <section>
-            <form className='mx-auto'>
+            <form>
                 <fieldset>
                     <legend>Cliente</legend>
                     <p className='mt-2'>
@@ -47,7 +47,7 @@ const DetailServiceEmployeePage = () => {
                     <p>{data.phone}</p>
                 </fieldset>
             </form>
-            <form className='mx-auto'>
+            <form>
                 <fieldset>
                     <legend>Solicitud</legend>
                     <p className='mt-2'>{data.type}</p>
@@ -71,7 +71,7 @@ const DetailServiceEmployeePage = () => {
                 />
             )}
             {data.clockIn && data.clockOut !== null && (
-                <form className='mx-auto'>
+                <form>
                     <fieldset>
                         <legend>Turno</legend>
                         <p className='mt-2'>Entrada: {clockIn}</p>

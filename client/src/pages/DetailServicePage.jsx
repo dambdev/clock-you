@@ -64,7 +64,7 @@ const DetailServicePage = () => {
 
     return (
         <section>
-            <form className='mx-auto'>
+            <form>
                 <fieldset>
                     <legend>Cliente</legend>
                     <p className='mt-2'>
@@ -75,7 +75,7 @@ const DetailServicePage = () => {
                     <p>{data.phone}</p>
                 </fieldset>
             </form>
-            <form className='mx-auto'>
+            <form>
                 <fieldset>
                     <legend>Solicitud</legend>
                     <p className='mt-2'>{data.type}</p>
@@ -93,7 +93,7 @@ const DetailServicePage = () => {
             </form>
             {data.status !== 'completed' && data.status !== 'canceled' ? (
                 <>
-                    <form className='mx-auto'>
+                    <form>
                         <fieldset>
                             <legend>Empleados asignados</legend>
                             {Array.isArray(data.employees) &&
@@ -122,7 +122,7 @@ const DetailServicePage = () => {
                     />
                 </>
             ) : (
-                <form className='mx-auto'>
+                <form>
                     <fieldset>
                         <legend>Empleado/s</legend>
                         {Array.isArray(data.employees) &&
