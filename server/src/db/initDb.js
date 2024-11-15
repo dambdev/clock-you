@@ -26,6 +26,18 @@ const initDb = async () => {
 
         await pool.query(
             `
+            CREATE TABLE IF NOT EXISTS messages (
+                id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+                firstName VARCHAR(25) NOT NULL,
+                lastName VARCHAR(50) NOT NULL,
+                content VARCHAR(500) NOT NULL,
+                time VARCHAR(10) NOT NULL,
+                createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP )
+            `
+        );
+
+        await pool.query(
+            `
             CREATE TABLE IF NOT EXISTS addresses (
                 id CHAR(36) PRIMARY KEY NOT NULL,
                 address VARCHAR(255) NOT NULL,

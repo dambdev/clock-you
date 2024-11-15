@@ -15,6 +15,17 @@ Clases Particulares, Entrenamientos Personales, Cuidado de Mascotas, Limpiezas A
 
 ## Base de datos
 
+### messages
+
+| Campo     | Tipo         | Descripción                                |
+| --------- | ------------ | ------------------------------------------ |
+| id        | INT UNSIGNED | Identificador único del mensaje            |
+| firstName | VARCHAR(25)  | Nombre del usuario que envía el mensaje    |
+| lastName  | VARCHAR(50)  | Apellidos del usuario que envía el mensaje |
+| time      | VARCHAR(10)  | Hora de envío del mensaje                  |
+| content   | VARCHAR(500) | Contenido del mensaje                      |
+| createdAt | TIMESTAMP    | Fecha y hora de creación                   |
+
 ### addresses
 
 | Campo      | Tipo         | Descripción                            |

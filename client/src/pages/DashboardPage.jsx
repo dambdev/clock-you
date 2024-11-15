@@ -1,4 +1,5 @@
 import useUser from '../hooks/useUser';
+import ChatComponent from '../components/ChatComponent';
 import UsersComponent from '../components/AdminDashboard/Users/UsersComponent';
 import OrdersComponent from '../components/ClientDashboard/OrdersComponent';
 import ShiftsComponent from '../components/AdminDashboard/Shifts/ShiftsComponent';
@@ -27,6 +28,7 @@ const DashboardPage = () => {
 
     const sectionComponents = {
         profile: <ProfileComponent user={user} />,
+        chat: user?.role !== 'client' && <ChatComponent user={user} />,
         users: user?.role === 'admin' && <UsersComponent />,
         services: user?.role === 'admin' && <ServicesComponent />,
         contracts: user?.role === 'admin' && <ContractsComponent />,
@@ -35,11 +37,16 @@ const DashboardPage = () => {
         myservices: user?.role === 'employee' && <MyServicesComponent />,
     };
 
-    const renderNavLink = (section, label, extraClass = '') => (
-        <NavLink className={extraClass} to={`#${section}`}>
-            {label}
-        </NavLink>
-    );
+    const renderNavLink = (section, label, extraClass = '') => {
+        const isActive = activeSection === section;
+        return isActive ? (
+            <span className={`disabledLink ${extraClass}`}>{label}</span>
+        ) : (
+            <NavLink className={extraClass} to={`#${section}`}>
+                {label}
+            </NavLink>
+        );
+    };
 
     if (!authToken && !user) return <Navigate to='/' />;
 
@@ -49,22 +56,17 @@ const DashboardPage = () => {
             <section className='manager-tabs'>
                 {renderNavLink(
                     'profile',
-                    'Mi Perfil',
+                    'Perfil',
                     activeSection === 'profile' && 'activeSelectedLink'
                 )}
-
+                {user?.role !== 'client' &&
+                    renderNavLink(
+                        'chat',
+                        'Chat',
+                        activeSection === 'chat' && 'activeSelectedLink'
+                    )}
                 {user?.role === 'admin' && (
                     <>
-                        {renderNavLink(
-                            'users',
-                            'Usuarios',
-                            activeSection === 'users' && 'activeSelectedLink'
-                        )}
-                        {renderNavLink(
-                            'services',
-                            'Servicios',
-                            activeSection === 'services' && 'activeSelectedLink'
-                        )}
                         {renderNavLink(
                             'contracts',
                             'Contratos',
@@ -72,13 +74,22 @@ const DashboardPage = () => {
                                 'activeSelectedLink'
                         )}
                         {renderNavLink(
+                            'services',
+                            'Servicios',
+                            activeSection === 'services' && 'activeSelectedLink'
+                        )}
+                        {renderNavLink(
                             'shifts',
                             'Turnos',
                             activeSection === 'shifts' && 'activeSelectedLink'
                         )}
+                        {renderNavLink(
+                            'users',
+                            'Usuarios',
+                            activeSection === 'users' && 'activeSelectedLink'
+                        )}
                     </>
                 )}
-
                 {user?.role === 'client' &&
                     renderNavLink(
                         'orders',
