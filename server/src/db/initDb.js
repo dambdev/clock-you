@@ -61,7 +61,7 @@ const initDb = async () => {
                 phone VARCHAR(15) NOT NULL,
                 city VARCHAR(25),
                 role ENUM('admin', 'employee', 'client') DEFAULT 'client',
-                job VARCHAR(20),
+                job VARCHAR(50),
                 avatar CHAR(41),
                 active BOOLEAN DEFAULT false,
                 registrationCode CHAR(30),

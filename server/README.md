@@ -51,7 +51,7 @@ Clases Particulares, Entrenamientos Personales, Cuidado de Mascotas, Limpiezas A
 | phone               | VARCHAR(15)  | Teléfono del usuario                            |
 | city                | VARCHAR(25)  | Ciudad de trabajo del empleado                  |
 | role                | ENUM         | Rol del usuario ("admin", "employee", "client") |
-| job                 | VARCHAR(20)  | Trabajo del empleado                            |
+| job                 | VARCHAR(50)  | Trabajo del empleado                            |
 | avatar              | CHAR(41)     | URL del avatar del usuario                      |
 | active              | BOOLEAN      | Indica si el usuario está activo o no           |
 | registrationCode    | VARCHAR(30)  | Código de registro del usuario                  |

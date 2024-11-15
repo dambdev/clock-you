@@ -43,7 +43,7 @@ const ChatComponent = ({ user }) => {
         newSocket.on(
             'chatMessage',
             (message, firstName, lastName, time, serverOffset) => {
-                const textarea = document.getElementById(`messages-${user.id}`);
+                const textarea = document.getElementById('messages');
                 textarea.value += `${firstName} ${lastName}
 ${time}: ${message}
 \n`;
@@ -65,7 +65,7 @@ ${time}: ${message}
             <fieldset>
                 <textarea
                     className='mt-4 mb-2'
-                    id={`messages-${user.id}`}
+                    id='messages'
                     rows={10}
                     readOnly
                 ></textarea>
