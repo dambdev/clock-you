@@ -4,7 +4,7 @@ import routes from './src/routes/index.js';
 import express from 'express';
 import fileUpload from 'express-fileupload';
 import socketController from './src/controllers/sockets/socketController.js';
-import { UPLOADS_DIR } from './env.js';
+import { UPLOADS_DIR, CLIENT_URL } from './env.js';
 import { createServer } from 'node:http';
 import {
     notFoundErrorController,
@@ -15,13 +15,18 @@ const app = express();
 
 const server = createServer(app);
 
+const corsOptions = {
+    origin: CLIENT_URL,
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
 socketController(server);
 
 app.disable('x-powered-by');
 
 app.use(morgan('dev'));
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use(express.static(UPLOADS_DIR));
 
