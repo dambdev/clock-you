@@ -11,7 +11,7 @@ const useUser = () => {
     useEffect(() => {
         const getUser = async () => {
             try {
-                const user = await fetchProfileUserServices(authToken);
+                const user = await fetchProfileUserServices();
 
                 setUser(user);
             } catch (err) {

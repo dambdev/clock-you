@@ -82,25 +82,24 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
     };
 
     const handleNewService = async (entry) => {
-        try {
-            const startDate = new Date(`${entry.date}T${entry.time}`);
+        const startDate = new Date(`${entry.date}T${entry.time}`);
 
-            const endDate = new Date(
-                startDate.getTime() + entry.hours * 60 * 60 * 1000
-            );
+        const endDate = new Date(
+            startDate.getTime() + entry.hours * 60 * 60 * 1000
+        );
 
-            const formattedStartDateTime = startDate
-                .toISOString()
-                .slice(0, 19)
-                .replace('T', ' ');
+        const formattedStartDateTime = startDate
+            .toISOString()
+            .slice(0, 19)
+            .replace('T', ' ');
 
-            const formattedEndDateTime = endDate
-                .toISOString()
-                .slice(0, 19)
-                .replace('T', ' ');
+        const formattedEndDateTime = endDate
+            .toISOString()
+            .slice(0, 19)
+            .replace('T', ' ');
 
-            const data = await fetchNewServiceServices(
-                authToken,
+        toast.promise(
+            fetchNewServiceServices(
                 typeOfServiceId,
                 formattedStartDateTime,
                 formattedEndDateTime,
@@ -111,14 +110,18 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
                 city,
                 entry.comments,
                 entry.totalPrice
-            );
-
-            toast.success(data.message, { id: 'ok' });
-
-            delayedNavigation('/user#orders');
-        } catch (error) {
-            toast.error(error.message, { id: 'error' });
-        }
+            ),
+            {
+                loading: 'Creando servicio...',
+                success: (response) => {
+                    delayedNavigation('/user#orders');
+                    return <b>{response}</b>;
+                },
+                error: (error) => {
+                    return <b>{error.message}</b>;
+                },
+            }
+        );
     };
 
     const handleServiceChange = (field, value) => {

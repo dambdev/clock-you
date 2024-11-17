@@ -13,7 +13,7 @@ const MyServicesComponent = () => {
     const [data, setData] = useState([]);
     const [status, setStatus] = useState('');
     const [isVisible, setIsVisible] = useState(false);
-
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         const searchParams = new URLSearchParams({
             status: status,
@@ -21,11 +21,10 @@ const MyServicesComponent = () => {
         const searchParamsToString = searchParams.toString();
         const getServices = async () => {
             try {
-                const data = await fetchEmployeeAllServicesServices(
-                    searchParamsToString,
-                    authToken
+                const response = await fetchEmployeeAllServicesServices(
+                    searchParamsToString
                 );
-                const dataFiltered = data.filter((data) => {
+                const dataFiltered = response.filter((data) => {
                     return (
                         data.status === 'confirmed' ||
                         data.status === 'completed' ||
@@ -33,7 +32,8 @@ const MyServicesComponent = () => {
                     );
                 });
 
-                setData(dataFiltered);
+                setData(response);
+                setLoading(false);
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',
@@ -72,6 +72,8 @@ const MyServicesComponent = () => {
             });
         }
     };
+
+    if (loading) return null;
 
     return (
         <>

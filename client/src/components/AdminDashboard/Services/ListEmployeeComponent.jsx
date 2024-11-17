@@ -15,6 +15,7 @@ const ListEmployeeComponent = ({ serviceId, onEmployeeAssigned }) => {
     const [active, setActive] = useState('');
     const [job, setJob] = useState('');
     const [city, setCity] = useState('');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getAllUserList = async () => {
@@ -25,18 +26,10 @@ const ListEmployeeComponent = ({ serviceId, onEmployeeAssigned }) => {
                 active: active,
             });
             const searchParamsToString = searchParams.toString();
-            try {
-                const data = await fetchAllUsersServices(
-                    searchParamsToString,
-                    authToken
-                );
+            const response = await fetchAllUsersServices(searchParamsToString);
 
-                setData(data);
-            } catch (error) {
-                toast.error(error.message, {
-                    id: 'error',
-                });
-            }
+            setData(response);
+            setLoading(false);
         };
 
         getAllUserList();
@@ -56,25 +49,21 @@ const ListEmployeeComponent = ({ serviceId, onEmployeeAssigned }) => {
         setJob('');
     };
 
-    const handleNewShiftRecord = async (employeeId, serviceId, authToken) => {
-        try {
-            const data = await fetchNewShiftRecordServices(
-                employeeId,
-                serviceId,
-                authToken
-            );
+    const handleNewShiftRecord = async (employeeId, serviceId) => {
+        toast.promise(fetchNewShiftRecordServices(employeeId, serviceId), {
+            loading: 'Asignando empleado...',
+            success: (response) => {
+                return <b>{response}</b>;
+            },
+            error: (error) => {
+                return <b>{error.message}</b>;
+            },
+        });
 
-            toast.success(data.message, {
-                id: 'ok',
-            });
-
-            onEmployeeAssigned();
-        } catch (error) {
-            toast.error(error.message, {
-                id: 'error',
-            });
-        }
+        onEmployeeAssigned();
     };
+
+    if (loading) return null;
 
     return (
         <>
@@ -157,11 +146,7 @@ const ListEmployeeComponent = ({ serviceId, onEmployeeAssigned }) => {
 
                             <button
                                 onClick={() => {
-                                    handleNewShiftRecord(
-                                        employeeId,
-                                        serviceId,
-                                        authToken
-                                    );
+                                    handleNewShiftRecord(employeeId, serviceId);
                                 }}
                             >
                                 Asignar Empleado

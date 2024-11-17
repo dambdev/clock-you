@@ -1,9 +1,9 @@
 import Joi from 'joi';
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 import selectUserByEmailService from '../../services/users/selectUserByEmailService.js';
-import { SECRET } from '../../../env.js';
+import { SECRET, NODE_ENV } from '../../../env.js';
 
 const loginUserController = async (req, res, next) => {
     try {
@@ -36,7 +36,14 @@ const loginUserController = async (req, res, next) => {
         };
 
         const data = jwt.sign(tokenInfo, SECRET, {
-            expiresIn: '7d',
+            expiresIn: '1d',
+        });
+
+        res.cookie('authToken', data, {
+            httpOnly: true,
+            secure: NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 1000 * 60 * 60 * 24,
         });
 
         res.send({

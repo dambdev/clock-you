@@ -16,24 +16,21 @@ const ValidateUserPage = () => {
 
     useEffect(() => {
         const activateUser = async () => {
-            try {
-                const data = await fetchActiveUserServices(registrationCode);
-
-                toast.success(data, {
-                    id: 'ok',
-                });
-
-                delayedNavigation('/login');
-            } catch (error) {
-                toast.error(error.message, {
-                    id: 'error',
-                });
-            }
+            toast.promise(fetchActiveUserServices(registrationCode), {
+                loading: 'Validando usuario...',
+                success: (response) => {
+                    delayedNavigation('/login');
+                    return <b>{response}</b>;
+                },
+                error: (error) => {
+                    return <b>{error.message}</b>;
+                },
+            });
         };
         activateUser();
     }, []);
 
-    return <h3 className='mt-8 text-center'>Validando usuario...</h3>;
+    return <div></div>;
 };
 
 export default ValidateUserPage;

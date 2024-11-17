@@ -17,7 +17,7 @@ const OrdersComponent = () => {
     const [endDate, setEndDate] = useState('');
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedServiceId, setSelectedServiceId] = useState(null);
-
+    const [loading, setLoading] = useState(true);
     const getList = async () => {
         const searchParams = new URLSearchParams({
             status: status,
@@ -28,11 +28,11 @@ const OrdersComponent = () => {
         });
         const searchParamsToString = searchParams.toString();
         try {
-            const data = await fetchClientAllServicesServices(
-                searchParamsToString,
-                authToken
+            const response = await fetchClientAllServicesServices(
+                searchParamsToString
             );
-            setData(data);
+            setData(response);
+            setLoading(false);
         } catch (error) {
             toast.error(error.message, {
                 id: 'error',
@@ -69,6 +69,8 @@ const OrdersComponent = () => {
         setModalIsOpen(false);
         setSelectedServiceId(null);
     };
+
+    if (loading) return null;
 
     return (
         <>

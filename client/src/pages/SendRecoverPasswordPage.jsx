@@ -20,20 +20,17 @@ const SendRecoverPasswordPage = () => {
     };
 
     const handleRecover = async (e) => {
-        try {
-            e.preventDefault();
-
-            const data = await fetchSendRecoverPasswordUserServices(email);
-            toast.success(data, {
-                id: 'ok',
-            });
-
-            delayedNavigation('/password');
-        } catch (error) {
-            toast.error(error.message, {
-                id: 'error',
-            });
-        }
+        e.preventDefault();
+        toast.promise(fetchSendRecoverPasswordUserServices(email), {
+            loading: 'Enviando correo...',
+            success: (response) => {
+                delayedNavigation('/password');
+                return <b>{response}</b>;
+            },
+            error: (error) => {
+                return <b>{error.message}</b>;
+            },
+        });
     };
     return (
         <form onSubmit={handleRecover}>

@@ -14,39 +14,37 @@ const DetailServicePage = () => {
     const { authToken } = useContext(AuthContext);
     const { user } = useUser();
 
-    const [data, setData] = useState({});
+    const [data, setData] = useState([]);
     const [refresh, setRefresh] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const detailService = async () => {
             try {
-                const data = await fetchDetailServiceServices(
-                    serviceId,
-                    authToken
-                );
-
-                setData(data);
+                const response = await fetchDetailServiceServices(serviceId);
+                setData(response);
+                setLoading(false);
             } catch (error) {
                 toast.error(error.message, { id: 'error' });
             }
         };
         detailService();
-    }, [serviceId, authToken, refresh]);
+    }, [serviceId, refresh]);
 
     if (!authToken && !user) return <Navigate to='/' />;
 
     const deleteShiftRecord = async (e, shiftRecordId) => {
         e.preventDefault();
-        try {
-            const response = await fetchDeleteShiftRecordServices(
-                authToken,
-                shiftRecordId
-            );
-            toast.success(response.message, { id: 'ok' });
-            setRefresh((prev) => !prev);
-        } catch (error) {
-            toast.error(error.message, { id: 'error' });
-        }
+        toast.promise(fetchDeleteShiftRecordServices(shiftRecordId), {
+            loading: 'Eliminando turno...',
+            success: (response) => {
+                setRefresh((prev) => !prev);
+                return <b>{response}</b>;
+            },
+            error: (error) => {
+                return <b>{error.message}</b>;
+            },
+        });
     };
 
     const formatDate = (date) => new Date(date).toLocaleString();
@@ -61,6 +59,8 @@ const DetailServicePage = () => {
     });
 
     const startDate = new Date(data.startDateTime).toLocaleDateString();
+
+    if (loading) return null;
 
     return (
         <section>

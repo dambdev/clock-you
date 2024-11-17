@@ -10,12 +10,16 @@ const DetailTypeOfServicePage = () => {
     const { typeOfServiceId } = useParams();
 
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getTypeOfService = async () => {
             try {
-                const data = await fetchTypeOfServiceServices(typeOfServiceId);
-                setData(data);
+                const response = await fetchTypeOfServiceServices(
+                    typeOfServiceId
+                );
+                setData(response);
+                setLoading(false);
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',
@@ -25,6 +29,8 @@ const DetailTypeOfServicePage = () => {
 
         getTypeOfService();
     }, [typeOfServiceId]);
+
+    if (loading) return null;
 
     return (
         <section className='flex-1024'>

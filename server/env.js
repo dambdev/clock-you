@@ -1,6 +1,7 @@
 import 'dotenv/config';
 
-const {
+export const {
+    PORT,
     MYSQL_HOST,
     MYSQL_USER,
     MYSQL_PASS,
@@ -11,7 +12,9 @@ const {
     ADMIN_LAST_NAME,
     ADMIN_PHONE,
     ADMIN_DNI,
+    SALT_ROUNDS,
     SECRET,
+    NODE_ENV,
     SMTP_HOST,
     SMTP_PORT,
     SMTP_USER,
@@ -20,24 +23,3 @@ const {
     CLIENT_URL,
     UPLOADS_DIR,
 } = process.env;
-
-export {
-    MYSQL_HOST,
-    MYSQL_USER,
-    MYSQL_PASS,
-    MYSQL_DB,
-    ADMIN_EMAIL,
-    ADMIN_PASSWORD,
-    ADMIN_DNI,
-    ADMIN_FIRST_NAME,
-    ADMIN_LAST_NAME,
-    ADMIN_PHONE,
-    SECRET,
-    SMTP_HOST,
-    SMTP_PORT,
-    SMTP_USER,
-    SMTP_PASS,
-    SMTP_EMAIL,
-    CLIENT_URL,
-    UPLOADS_DIR,
-};

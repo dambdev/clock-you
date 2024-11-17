@@ -1,4 +1,3 @@
-import 'dayjs/locale/es';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import dayjs from 'dayjs';
 import PropTypes from 'prop-types';

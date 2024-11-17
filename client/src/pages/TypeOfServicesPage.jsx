@@ -10,6 +10,7 @@ const TypeOfServicesPage = () => {
     const [city, setCity] = useState('');
     const [type, setType] = useState('');
     const [price, setPrice] = useState('');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getTypeOfServices = async () => {
@@ -28,6 +29,7 @@ const TypeOfServicesPage = () => {
                 } else {
                     setData(data);
                 }
+                setLoading(false);
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',
@@ -51,6 +53,8 @@ const TypeOfServicesPage = () => {
         setType('');
         setPrice('');
     };
+
+    if (loading) return null;
 
     return (
         <>

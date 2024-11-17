@@ -14,6 +14,7 @@ const ContractsComponent = () => {
     const [status, setStatus] = useState('');
     const [type, setType] = useState('');
     const [isVisible, setIsVisible] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getServices = async () => {
@@ -23,12 +24,12 @@ const ContractsComponent = () => {
             });
             const searchParamsToString = searchParams.toString();
             try {
-                const data = await fetchAllServicesServices(
-                    searchParamsToString,
-                    authToken
+                const response = await fetchAllServicesServices(
+                    searchParamsToString
                 );
 
-                setData(data.data);
+                setData(response.data);
+                setLoading(false);
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',
@@ -65,6 +66,8 @@ const ContractsComponent = () => {
     const handleSelectEvent = (event) => {
         navigate(`/services/${event.serviceId}`);
     };
+
+    if (loading) return null;
 
     return (
         <>

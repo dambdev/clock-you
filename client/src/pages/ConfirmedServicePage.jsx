@@ -16,25 +16,21 @@ const ConfirmedServicePage = () => {
 
     useEffect(() => {
         const confirmService = async () => {
-            try {
-                const data = await fetchConfirmServiceServices(validationCode);
-
-                toast.success(data, {
-                    id: 'ok',
-                });
-
-                delayedNavigation('/user#orders');
-            } catch (error) {
-                toast.error(error.message, {
-                    id: 'error',
-                });
-            }
+            toast.promise(fetchConfirmServiceServices(validationCode), {
+                loading: 'Confirmando servicio...',
+                success: (response) => {
+                    delayedNavigation('/user#orders');
+                    return <b>{response}</b>;
+                },
+                error: (error) => {
+                    return <b>{error.message}</b>;
+                },
+            });
         };
 
         confirmService();
     }, []);
-
-    return <h3 className='mt-8 text-center'>Confirmando servicio...</h3>;
+    return <div></div>;
 };
 
 export default ConfirmedServicePage;

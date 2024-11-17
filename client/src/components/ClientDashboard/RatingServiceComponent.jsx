@@ -19,22 +19,17 @@ const RatingServiceComponent = ({
     const handleRatingService = async (e) => {
         e.preventDefault();
 
-        try {
-            const data = await fetchRatingServiceServices(
-                serviceId,
-                rating,
-                authToken
-            );
-            toast.success(data.message, {
-                id: 'ok',
-            });
-            onRequestClose();
-            onRatingSuccess();
-        } catch (error) {
-            toast.error(error.message, {
-                id: 'error',
-            });
-        }
+        toast.promise(fetchRatingServiceServices(serviceId, rating), {
+            loading: 'Valorando...',
+            success: (response) => {
+                onRequestClose();
+                onRatingSuccess();
+                return <b>{response}</b>;
+            },
+            error: (error) => {
+                return <b>{error.message}</b>;
+            },
+        });
     };
 
     return (

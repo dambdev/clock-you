@@ -25,25 +25,25 @@ const RegisterNewTypeOfServiceController = () => {
 
     const handleRegisterNewTypeOfService = async (e) => {
         e.preventDefault();
-        try {
-            const data = await fetchNewTypeOfServiceServices(
+        toast.promise(
+            fetchNewTypeOfServiceServices(
                 type,
                 description,
                 city,
                 price,
-                image,
-                authToken
-            );
-
-            toast.success(data.message, {
-                id: 'ok',
-            });
-            resetInputs(e);
-        } catch (error) {
-            toast.error(error.message, {
-                id: 'error',
-            });
-        }
+                image
+            ),
+            {
+                loading: 'Registrando servicio...',
+                success: (response) => {
+                    return <b>{response}</b>;
+                },
+                error: (error) => {
+                    return <b>{error.message}</b>;
+                },
+            }
+        );
+        resetInputs(e);
     };
 
     const handleImageChange = (e) => {

@@ -17,6 +17,7 @@ const RegisterAdminUserComponent = () => {
     const [job, setJob] = useState();
     const [city, setCity] = useState();
     const [role, setRole] = useState('admin');
+    const [loading, setLoading] = useState(true);
 
     const resetInputs = (e) => {
         e.preventDefault();
@@ -33,8 +34,9 @@ const RegisterAdminUserComponent = () => {
     useEffect(() => {
         const getTypesOfServices = async () => {
             try {
-                const data = await fetchAllTypeOfServicesServices();
-                setData(data);
+                const response = await fetchAllTypeOfServicesServices();
+                setData(response);
+                setLoading(false);
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',
@@ -63,8 +65,7 @@ const RegisterAdminUserComponent = () => {
                 phone,
                 job,
                 city,
-                role,
-                authToken
+                role
             );
 
             toast.success(data, {
@@ -77,6 +78,9 @@ const RegisterAdminUserComponent = () => {
             });
         }
     };
+
+    if (loading) return null;
+
     return (
         <form onSubmit={handleRegister}>
             <fieldset>

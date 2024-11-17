@@ -21,9 +21,8 @@ const EditShiftRecordComponent = ({
     useEffect(() => {
         const getDetailShiftRecord = async () => {
             try {
-                const data = await fetchDetailShiftRecordServices(
-                    shiftRecordId,
-                    authToken
+                const response = await fetchDetailShiftRecordServices(
+                    shiftRecordId
                 );
 
                 const formatDateToLocal = (date) => {
@@ -35,11 +34,11 @@ const EditShiftRecordComponent = ({
                     return `${year}-${month}-${day}T${hours}:${minutes}`;
                 };
 
-                const clockIn = data.clockIn
-                    ? formatDateToLocal(new Date(data.clockIn))
+                const clockIn = response.clockIn
+                    ? formatDateToLocal(new Date(response.clockIn))
                     : 'null';
-                const clockOut = data.clockOut
-                    ? formatDateToLocal(new Date(data.clockOut))
+                const clockOut = response.clockOut
+                    ? formatDateToLocal(new Date(response.clockOut))
                     : 'null';
 
                 {
@@ -58,33 +57,31 @@ const EditShiftRecordComponent = ({
 
     const handleEditShiftRecord = async (e) => {
         e.preventDefault();
-        try {
-            const formattedClockIn = new Date(clockIn)
-                .toISOString()
-                .slice(0, 19)
-                .replace('T', ' ');
-            const formattedClockOut = new Date(clockOut)
-                .toISOString()
-                .slice(0, 19)
-                .replace('T', ' ');
-            const data = await fetchEditShiftRecordServices(
+        const formattedClockIn = new Date(clockIn)
+            .toISOString()
+            .slice(0, 19)
+            .replace('T', ' ');
+        const formattedClockOut = new Date(clockOut)
+            .toISOString()
+            .slice(0, 19)
+            .replace('T', ' ');
+        toast.promise(
+            fetchEditShiftRecordServices(
                 shiftRecordId,
                 formattedClockIn,
-                formattedClockOut,
-                authToken
-            );
-
-            toast.success(data.message, {
+                formattedClockOut
+            ),
+            {
+                loading: 'Editando horario...',
+                success: (response) => {
+                    return <b>{response}</b>;
+                },
                 id: 'ok',
-            });
+            }
+        );
 
-            onRequestClose();
-            onEditSuccess();
-        } catch (error) {
-            toast.error(error.message, {
-                id: 'error',
-            });
-        }
+        onRequestClose();
+        onEditSuccess();
     };
 
     return (

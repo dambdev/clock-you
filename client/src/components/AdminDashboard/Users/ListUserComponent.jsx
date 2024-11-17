@@ -12,7 +12,7 @@ const ListUserComponent = () => {
     const [job, setJob] = useState('');
     const [role, setRole] = useState('');
     const [active, setActive] = useState('');
-
+    const [loading, setLoading] = useState(true);
     const resetFilters = (e) => {
         e.preventDefault();
         setCity('');
@@ -31,12 +31,13 @@ const ListUserComponent = () => {
             });
             const searchParamsToString = searchParams.toString();
             try {
-                const data = await fetchAllUsersServices(
+                const response = await fetchAllUsersServices(
                     searchParamsToString,
                     authToken
                 );
 
-                setData(data);
+                setData(response);
+                setLoading(false);
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',
@@ -51,12 +52,15 @@ const ListUserComponent = () => {
         ...new Set(
             data.map((item) => item.city).filter((city) => city && city.trim())
         ),
-    ].sort();
+    ].sort((a, b) => a.localeCompare(b));
+
     const jobNoRepeated = [
         ...new Set(
             data.map((item) => item.job).filter((job) => job && job.trim())
         ),
-    ].sort();
+    ].sort((a, b) => a.localeCompare(b));
+
+    if (loading) return null;
 
     return (
         <>

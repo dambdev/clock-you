@@ -31,47 +31,46 @@ const ProfileComponent = ({ user }) => {
 
     const handleEditUser = async (e) => {
         e.preventDefault();
-        try {
-            const data = await fetchEditUserServices(
-                authToken,
-                firstName,
-                lastName,
-                phone,
-                user?.id
-            );
-            toast.success(data.message, {
-                id: 'ok',
-            });
-        } catch (error) {
-            toast.error(error.message, {
-                id: 'error',
-            });
-        }
+        toast.promise(
+            fetchEditUserServices(firstName, lastName, phone, user?.id),
+            {
+                loading: 'Editando datos...',
+                success: (response) => {
+                    toast.success(response, {
+                        id: 'ok',
+                    });
+                },
+                error: (error) => {
+                    return <b>{error.message}</b>;
+                },
+            }
+        );
     };
 
     const handleEditPassword = async (e) => {
         e.preventDefault();
-        try {
-            if (newPassword !== repeatedNewPassword) {
-                throw new Error('¡Las nuevas contraseñas no coinciden!');
-            } else {
-                const data = await fetchEditPasswordUserServices(
-                    authToken,
+        if (newPassword !== repeatedNewPassword) {
+            throw new Error('¡Las nuevas contraseñas no coinciden!');
+        } else {
+            toast.promise(
+                fetchEditPasswordUserServices(
                     actualPassword,
                     newPassword,
                     user?.id
-                );
-                toast.success(data.message, {
-                    id: 'ok',
-                });
-                setActualPassword('');
-                setNewPassword('');
-                setRepeatedNewPassword('');
-            }
-        } catch (error) {
-            toast.error(error.message, {
-                id: 'error',
-            });
+                ),
+                {
+                    loading: 'Editando contraseña...',
+                    success: (response) => {
+                        setActualPassword('');
+                        setNewPassword('');
+                        setRepeatedNewPassword('');
+                        return <b>{response}</b>;
+                    },
+                    error: (error) => {
+                        return <b>{error.message}</b>;
+                    },
+                }
+            );
         }
     };
 
@@ -88,20 +87,21 @@ const ProfileComponent = ({ user }) => {
                 '¿Estás seguro de querer eliminar tu cuenta?\n¡¡¡Esta acción no se puede deshacer!!!'
             )
         ) {
-            try {
-                const data = await fetchDeleteUserServices(authToken, user?.id);
-                toast.success(data.message, {
-                    id: 'ok',
-                });
-                authLogout();
-                delayedNavigation('/');
-            } catch (error) {
-                toast.error(error.message, {
-                    id: 'error',
-                });
-            }
+            toast.promise(fetchDeleteUserServices(user?.id), {
+                loading: 'Eliminando usuario...',
+                success: (response) => {
+                    authLogout();
+                    delayedNavigation('/');
+                    return <b>{response}</b>;
+                },
+                error: (error) => {
+                    return <b>{error.message}</b>;
+                },
+            });
         }
     };
+
+    if (!user) return null;
 
     return (
         <section className='flex-1024'>

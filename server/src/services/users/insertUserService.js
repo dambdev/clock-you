@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import getPool from '../../db/getPool.js';
 import sendMailUtil from '../../utils/sendMailUtil.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
-import { CLIENT_URL } from '../../../env.js';
+import { CLIENT_URL, SALT_ROUNDS } from '../../../env.js';
 
 const insertUserService = async (
     email,
@@ -36,7 +36,7 @@ const insertUserService = async (
     if (verifyDni.length)
         generateErrorUtil('El DNI/NIE ya se encuentra registrado', 409);
 
-    const passwordHashed = await bcrypt.hash(password, 10);
+    const passwordHashed = await bcrypt.hash(password, SALT_ROUNDS);
 
     await pool.query(
         `

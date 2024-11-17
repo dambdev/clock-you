@@ -1,13 +1,10 @@
 import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
-import { AuthContext } from '../context/AuthContext.jsx';
+import { useState } from 'react';
 import { VITE_API_URL } from '../../env.local.js';
-import { useState, useContext } from 'react';
 import { fetchEditAvatarUserServices } from '../services/userServices.js';
 
 const AvatarComponent = ({ user }) => {
-    const { authToken } = useContext(AuthContext);
-
     const [avatar, setAvatar] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
     const [enableEditAvatar, setEnableEditAvatar] = useState(false);
@@ -26,26 +23,22 @@ const AvatarComponent = ({ user }) => {
 
     const handleEditAvatar = async (e) => {
         e.preventDefault();
-        try {
-            if (enableEditAvatar) {
-                const data = await fetchEditAvatarUserServices(
-                    user?.id,
-                    authToken,
-                    avatar
-                );
-                setAvatar(null);
-
-                toast.success(data.message, {
-                    id: 'ok',
-                });
-            }
-            setEnableEditAvatar(!enableEditAvatar);
-        } catch (error) {
-            toast.error(error.message, {
-                id: 'error',
+        if (enableEditAvatar) {
+            toast.promise(fetchEditAvatarUserServices(user?.id, avatar), {
+                loading: 'Cambiando avatar...',
+                success: (response) => {
+                    return <b>{response}</b>;
+                },
+                error: (error) => {
+                    return <b>{error.message}</b>;
+                },
             });
+            setAvatar(null);
+            setEnableEditAvatar(!enableEditAvatar);
         }
     };
+
+    if (!user) return null;
 
     return (
         <form onSubmit={handleEditAvatar}>

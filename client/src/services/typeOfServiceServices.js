@@ -29,19 +29,16 @@ export const fetchAllTypeOfServicesServices = async (searchParamsToString) => {
 export const fetchEditTypeOfServiceServices = async (
     typeOfServiceId,
     description,
-    price,
-    authToken
+    price
 ) => {
     const res = await fetch(
         `${VITE_API_URL}/typeOfServices/${typeOfServiceId}`,
         {
             method: 'PUT',
-            headers: authToken
-                ? {
-                      Authorization: authToken,
-                      'Content-Type': 'application/json',
-                  }
-                : {},
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
                 description,
                 price,
@@ -55,23 +52,18 @@ export const fetchEditTypeOfServiceServices = async (
         throw new Error(body.message);
     }
 
-    return body;
+    return body.message;
 };
 
-export const fetchDeleteTypeOfServiceServices = async (
-    typeOfServiceId,
-    authToken
-) => {
+export const fetchDeleteTypeOfServiceServices = async (typeOfServiceId) => {
     const res = await fetch(
         `${VITE_API_URL}/typeOfServices/${typeOfServiceId}`,
         {
             method: 'DELETE',
-            headers: authToken
-                ? {
-                      Authorization: authToken,
-                      'Content-Type': 'application/json',
-                  }
-                : {},
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
         }
     );
 
@@ -81,7 +73,7 @@ export const fetchDeleteTypeOfServiceServices = async (
         throw new Error(body.message);
     }
 
-    return body;
+    return body.message;
 };
 
 export const fetchNewTypeOfServiceServices = async (
@@ -89,8 +81,7 @@ export const fetchNewTypeOfServiceServices = async (
     description,
     city,
     price,
-    image,
-    authToken
+    image
 ) => {
     const formData = new FormData();
     formData.append('type', type);
@@ -101,7 +92,7 @@ export const fetchNewTypeOfServiceServices = async (
 
     const res = await fetch(`${VITE_API_URL}/typeOfServices`, {
         method: 'POST',
-        headers: { Authorization: authToken },
+        credentials: 'include',
         body: formData,
     });
     const body = await res.json();
@@ -110,12 +101,11 @@ export const fetchNewTypeOfServiceServices = async (
         throw new Error(body.message);
     }
 
-    return body;
+    return body.message;
 };
 
 export const fetchEditImageTypeOfServicesService = async (
     image,
-    authToken,
     typeOfServiceId
 ) => {
     const formData = new FormData();
@@ -125,7 +115,7 @@ export const fetchEditImageTypeOfServicesService = async (
         `${VITE_API_URL}/typeOfServices/${typeOfServiceId}`,
         {
             method: 'PATCH',
-            headers: { Authorization: authToken },
+            credentials: 'include',
             body: formData,
         }
     );
@@ -136,5 +126,5 @@ export const fetchEditImageTypeOfServicesService = async (
         throw new Error(body.message);
     }
 
-    return body;
+    return body.message;
 };

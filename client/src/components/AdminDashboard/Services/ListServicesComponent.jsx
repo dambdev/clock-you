@@ -8,6 +8,7 @@ const ListServicesComponent = () => {
     const [city, setCity] = useState('');
     const [type, setType] = useState('');
     const [price, setPrice] = useState('');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getTypeOfServices = async () => {
@@ -18,14 +19,15 @@ const ListServicesComponent = () => {
             });
             const searchParamsToString = searchParams.toString();
             try {
-                const data = await fetchAllTypeOfServicesServices(
+                const response = await fetchAllTypeOfServicesServices(
                     searchParamsToString
                 );
-                if (!data) {
+                if (!response) {
                     setData(null);
                 } else {
-                    setData(data);
+                    setData(response);
                 }
+                setLoading(false);
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',
@@ -49,6 +51,8 @@ const ListServicesComponent = () => {
         setType('');
         setPrice('');
     };
+
+    if (loading) return null;
 
     return (
         <>

@@ -1,7 +1,6 @@
 const { VITE_API_URL } = import.meta.env;
 
 export const fetchNewServiceServices = async (
-    authToken,
     typeOfServiceId,
     startDateTime,
     endDateTime,
@@ -15,8 +14,8 @@ export const fetchNewServiceServices = async (
 ) => {
     const res = await fetch(`${VITE_API_URL}/services/${typeOfServiceId}`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
-            Authorization: authToken,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -38,17 +37,14 @@ export const fetchNewServiceServices = async (
         throw new Error(body.message);
     }
 
-    return body;
+    return body.message;
 };
 
-export const fetchAllServicesServices = async (
-    searchParamsToString,
-    authToken
-) => {
+export const fetchAllServicesServices = async (searchParamsToString) => {
     const res = await fetch(
         `${VITE_API_URL}/services/?${searchParamsToString}`,
         {
-            headers: { Authorization: authToken },
+            credentials: 'include',
         }
     );
 
@@ -75,11 +71,9 @@ export const fetchConfirmServiceServices = async (validationCode) => {
     return body.message;
 };
 
-export const fetchDetailServiceServices = async (serviceId, authToken) => {
+export const fetchDetailServiceServices = async (serviceId) => {
     const res = await fetch(`${VITE_API_URL}/services/${serviceId}`, {
-        headers: {
-            Authorization: authToken,
-        },
+        credentials: 'include',
     });
 
     const body = await res.json();
@@ -91,18 +85,14 @@ export const fetchDetailServiceServices = async (serviceId, authToken) => {
     return body.data;
 };
 
-export const fetchClientAllServicesServices = async (
-    searchParamsToString,
-    authToken
-) => {
+export const fetchClientAllServicesServices = async (searchParamsToString) => {
     const res = await fetch(
         `${VITE_API_URL}/services/client/?${searchParamsToString}`,
         {
-            headers: {
-                Authorization: authToken,
-            },
+            credentials: 'include',
         }
     );
+
     const body = await res.json();
 
     if (body.status === 'error') {
@@ -113,15 +103,12 @@ export const fetchClientAllServicesServices = async (
 };
 
 export const fetchEmployeeAllServicesServices = async (
-    searchParamsToString,
-    authToken
+    searchParamsToString
 ) => {
     const res = await fetch(
         `${VITE_API_URL}/services/employee?${searchParamsToString}`,
         {
-            headers: {
-                Authorization: authToken,
-            },
+            credentials: 'include',
         }
     );
 
@@ -144,13 +131,12 @@ export const fetchEditServiceServices = async (
     endDateTime,
     totalPrice,
     postCode,
-    numberOfPeople,
-    authToken
+    numberOfPeople
 ) => {
     const res = await fetch(`${VITE_API_URL}/services/${serviceId}`, {
         method: 'PUT',
+        credentials: 'include',
         headers: {
-            Authorization: authToken,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -172,18 +158,14 @@ export const fetchEditServiceServices = async (
         throw new Error(body.message);
     }
 
-    return body;
+    return body.message;
 };
 
-export const fetchRatingServiceServices = async (
-    serviceId,
-    rating,
-    authToken
-) => {
+export const fetchRatingServiceServices = async (serviceId, rating) => {
     const res = await fetch(`${VITE_API_URL}/services/${serviceId}`, {
         method: 'PATCH',
+        credentials: 'include',
         headers: {
-            Authorization: authToken,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ rating }),
@@ -195,14 +177,14 @@ export const fetchRatingServiceServices = async (
         throw new Error(body.message);
     }
 
-    return body;
+    return body.message;
 };
 
-export const fetchDeleteServiceService = async (serviceId, authToken) => {
+export const fetchDeleteServiceService = async (serviceId) => {
     const res = await fetch(`${VITE_API_URL}/services/${serviceId}`, {
         method: 'DELETE',
+        credentials: 'include',
         headers: {
-            Authorization: authToken,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({}),
@@ -214,5 +196,5 @@ export const fetchDeleteServiceService = async (serviceId, authToken) => {
         throw new Error(body.message);
     }
 
-    return body;
+    return body.message;
 };

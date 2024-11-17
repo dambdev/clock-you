@@ -50,6 +50,8 @@ const DashboardPage = () => {
 
     if (!authToken && !user) return <Navigate to='/' />;
 
+    if (!user) return null;
+
     return (
         <>
             <AvatarComponent user={user} />

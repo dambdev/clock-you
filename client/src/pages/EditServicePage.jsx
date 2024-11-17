@@ -24,23 +24,22 @@ const EditServicePage = () => {
     const [numberOfPeople, setNumberOfPeople] = useState();
     const [totalPrice, setTotalPrice] = useState('');
     const [hours, setHours] = useState('');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getService = async () => {
             try {
-                const data = await fetchDetailServiceServices(
-                    serviceId,
-                    authToken
-                );
-                setData(data);
-                setHours(data.hours);
-                setStartDateTime(data.startDateTime);
-                setAddress(data.address);
-                setPostCode(data.postCode);
-                setCity(data.city);
-                setComments(data.comments);
-                setNumberOfPeople(data.numberOfPeople);
-                setTotalPrice(data.totalPrice);
+                const response = await fetchDetailServiceServices(serviceId);
+                setData(response);
+                setHours(response.hours);
+                setStartDateTime(response.startDateTime);
+                setAddress(response.address);
+                setPostCode(response.postCode);
+                setCity(response.city);
+                setComments(response.comments);
+                setNumberOfPeople(response.numberOfPeople);
+                setTotalPrice(response.totalPrice);
+                setLoading(false);
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',
@@ -87,24 +86,22 @@ const EditServicePage = () => {
     const handleEditService = async (e) => {
         e.preventDefault();
 
-        try {
-            const startDate = new Date(startDateTime);
+        const startDate = new Date(startDateTime);
 
-            const endDate = new Date(
-                startDate.getTime() + hours * 60 * 60 * 1000
-            );
+        const endDate = new Date(startDate.getTime() + hours * 60 * 60 * 1000);
 
-            const formattedStartDateTime = startDate
-                .toISOString()
-                .slice(0, 19)
-                .replace('T', ' ');
+        const formattedStartDateTime = startDate
+            .toISOString()
+            .slice(0, 19)
+            .replace('T', ' ');
 
-            const formattedEndDateTime = endDate
-                .toISOString()
-                .slice(0, 19)
-                .replace('T', ' ');
+        const formattedEndDateTime = endDate
+            .toISOString()
+            .slice(0, 19)
+            .replace('T', ' ');
 
-            const data = await fetchEditServiceServices(
+        toast.promise(
+            fetchEditServiceServices(
                 serviceId,
                 comments,
                 address,
@@ -114,19 +111,19 @@ const EditServicePage = () => {
                 formattedEndDateTime,
                 totalPrice,
                 postCode,
-                numberOfPeople,
-                authToken
-            );
-            toast.success(data.message, {
-                id: 'ok',
-            });
-
-            delayedNavigation('/user#orders');
-        } catch (error) {
-            toast.error(error.message, {
-                id: 'error',
-            });
-        }
+                numberOfPeople
+            ),
+            {
+                loading: 'Editando servicio...',
+                success: (response) => {
+                    delayedNavigation('/user#orders');
+                    return <b>{response}</b>;
+                },
+                error: (error) => {
+                    return <b>{error.message}</b>;
+                },
+            }
+        );
     };
 
     const handleDeleteService = async () => {
@@ -135,22 +132,20 @@ const EditServicePage = () => {
                 '¿Estás seguro de querer eliminar este servicio?\n¡¡¡Esta acción no se puede deshacer!!!'
             )
         ) {
-            try {
-                const data = await fetchDeleteServiceService(
-                    serviceId,
-                    authToken
-                );
-                toast.success(data.message, {
-                    id: 'ok',
-                });
-                delayedNavigation('/user#orders');
-            } catch (error) {
-                toast.error(error.message, {
-                    id: 'error',
-                });
-            }
+            toast.promise(fetchDeleteServiceService(serviceId), {
+                loading: 'Eliminando servicio...',
+                success: (response) => {
+                    delayedNavigation('/user#orders');
+                    return <b>{response}</b>;
+                },
+                error: (error) => {
+                    return <b>{error.message}</b>;
+                },
+            });
         }
     };
+
+    if (loading) return null;
 
     return (
         <form>

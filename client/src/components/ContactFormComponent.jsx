@@ -2,28 +2,35 @@ import toast from 'react-hot-toast';
 import { VITE_APP_TITLE, VITE_EMAIL_KEY } from '../../env.local.js';
 
 const ContactFormComponent = () => {
-    const onSubmit = async (event) => {
-        event.preventDefault();
-        const formData = new FormData(event.target);
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
 
         formData.append('access_key', VITE_EMAIL_KEY);
 
         const object = Object.fromEntries(formData);
         const json = JSON.stringify(object);
 
-        const res = await fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
-            body: json,
-        }).then((res) => res.json());
-
-        if (res.success) {
-            toast.success('Consulta enviada correctamente', { id: 'ok' });
-            event.target.reset();
-        }
+        toast.promise(
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                },
+                body: json,
+            }),
+            {
+                loading: 'Enviando consulta...',
+                success: (response = 'Consulta enviada correctamente') => {
+                    e.target.reset();
+                    return <b>{response}</b>;
+                },
+                error: (error) => {
+                    return <b>{error.message}</b>;
+                },
+            }
+        );
     };
 
     return (

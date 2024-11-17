@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 
 const DetailServiceEmployeePage = () => {
     const location = useLocation();
+
     const { state: eventData } = location;
     const { authToken } = useContext(AuthContext);
 
@@ -35,6 +36,8 @@ const DetailServiceEmployeePage = () => {
     const startDate = new Date(data.startDateTime).toLocaleDateString();
     const clockIn = new Date(data.clockIn).toLocaleString();
     const clockOut = new Date(data.clockOut).toLocaleString();
+
+    if (!data) return null;
 
     return (
         <section>

@@ -22,15 +22,19 @@ const EditTypeOfServicePage = () => {
     const [image, setImage] = useState('');
     const [enableEditImage, setEnableEditImage] = useState(false);
     const [previewUrl, setPreviewUrl] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getTypeOfService = async () => {
             try {
-                const data = await fetchTypeOfServiceServices(typeOfServiceId);
-                setData(data);
-                setDescription(data.description);
-                setPrice(data.price);
-                setImage(data.image);
+                const response = await fetchTypeOfServiceServices(
+                    typeOfServiceId
+                );
+                setData(response);
+                setDescription(response.description);
+                setPrice(response.price);
+                setImage(response.image);
+                setLoading(false);
             } catch (error) {
                 toast.error(error.message, {
                     id: 'error',
@@ -62,23 +66,19 @@ const EditTypeOfServicePage = () => {
     const handleEditImage = async (e) => {
         e.preventDefault();
         if (enableEditImage) {
-            try {
-                const data = await fetchEditImageTypeOfServicesService(
-                    image,
-                    authToken,
-                    typeOfServiceId
-                );
-
-                toast.success(data.message, {
-                    id: 'ok',
-                });
-
-                delayedNavigation('/user#services');
-            } catch (error) {
-                toast.error(error.message, {
-                    id: 'error',
-                });
-            }
+            toast.promise(
+                fetchEditImageTypeOfServicesService(image, typeOfServiceId),
+                {
+                    loading: 'Editando Imágen...',
+                    success: (response) => {
+                        delayedNavigation('/user#services');
+                        return <b>{response}</b>;
+                    },
+                    error: (error) => {
+                        return <b>{error.message}</b>;
+                    },
+                }
+            );
             setEnableEditImage(false);
         } else {
             setEnableEditImage(true);
@@ -87,22 +87,19 @@ const EditTypeOfServicePage = () => {
 
     const handleEditService = async (e) => {
         e.preventDefault();
-        try {
-            const data = await fetchEditTypeOfServiceServices(
-                typeOfServiceId,
-                description,
-                price,
-                authToken
-            );
-            toast.success(data.message, {
-                id: 'ok',
-            });
-            delayedNavigation('/user#services');
-        } catch (error) {
-            toast.error(error.message, {
-                id: 'error',
-            });
-        }
+        toast.promise(
+            fetchEditTypeOfServiceServices(typeOfServiceId, description, price),
+            {
+                loading: 'Editando Servicio...',
+                success: (response) => {
+                    delayedNavigation('/user#services');
+                    return <b>{response}</b>;
+                },
+                error: (error) => {
+                    return <b>{error.message}</b>;
+                },
+            }
+        );
     };
 
     const handleDeleteService = async (e) => {
@@ -112,22 +109,20 @@ const EditTypeOfServicePage = () => {
                 '¿Estás seguro de querer eliminar el servicio?\n¡¡¡Esta acción no se puede deshacer!!!'
             )
         ) {
-            try {
-                const data = await fetchDeleteTypeOfServiceServices(
-                    typeOfServiceId,
-                    authToken
-                );
-                toast.success(data.message, {
-                    id: 'ok',
-                });
-                delayedNavigation('/user#services');
-            } catch (error) {
-                toast.error(error.message, {
-                    id: 'error',
-                });
-            }
+            toast.promise(fetchDeleteTypeOfServiceServices(typeOfServiceId), {
+                loading: 'Eliminando Servicio...',
+                success: (response) => {
+                    delayedNavigation('/user#services');
+                    return <b>{response}</b>;
+                },
+                error: (error) => {
+                    return <b>{error.message}</b>;
+                },
+            });
         }
     };
+
+    if (loading) return null;
 
     return (
         <>

@@ -1,14 +1,10 @@
 const { VITE_API_URL } = import.meta.env;
 
-export const fetchNewShiftRecordServices = async (
-    employeeId,
-    serviceId,
-    authToken
-) => {
+export const fetchNewShiftRecordServices = async (employeeId, serviceId) => {
     const res = await fetch(`${VITE_API_URL}/shiftRecords/${serviceId}`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
-            Authorization: authToken,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -22,17 +18,14 @@ export const fetchNewShiftRecordServices = async (
         throw new Error(body.message);
     }
 
-    return body;
+    return body.message;
 };
 
-export const fetchAllShiftRecordsServices = async (
-    searchParamsToString,
-    authToken
-) => {
+export const fetchAllShiftRecordsServices = async (searchParamsToString) => {
     const res = await fetch(
         `${VITE_API_URL}/shiftrecords/?${searchParamsToString}`,
         {
-            headers: { Authorization: authToken },
+            credentials: 'include',
         }
     );
 
@@ -46,15 +39,14 @@ export const fetchAllShiftRecordsServices = async (
 };
 
 export const fetchClockInShiftRecordServices = async (
-    authToken,
     clockIn,
     location,
     shiftRecordId
 ) => {
     const res = await fetch(`${VITE_API_URL}/shiftrecords`, {
         method: 'PUT',
+        credentials: 'include',
         headers: {
-            Authorization: authToken,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -69,19 +61,18 @@ export const fetchClockInShiftRecordServices = async (
         throw new Error(body.message);
     }
 
-    return body;
+    return body.message;
 };
 
 export const fetchClockOutShiftRecordServices = async (
-    authToken,
     clockOut,
     location,
     shiftRecordId
 ) => {
     const res = await fetch(`${VITE_API_URL}/shiftrecords`, {
         method: 'PATCH',
+        credentials: 'include',
         headers: {
-            Authorization: authToken,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -97,16 +88,13 @@ export const fetchClockOutShiftRecordServices = async (
         throw new Error(body.message);
     }
 
-    return body;
+    return body.message;
 };
 
-export const fetchDetailShiftRecordServices = async (
-    shiftRecordId,
-    authToken
-) => {
+export const fetchDetailShiftRecordServices = async (shiftRecordId) => {
     const res = await fetch(`${VITE_API_URL}/shiftrecords/${shiftRecordId}`, {
+        credentials: 'include',
         headers: {
-            Authorization: authToken,
             'Content-Type': 'application/json',
         },
     });
@@ -123,15 +111,14 @@ export const fetchDetailShiftRecordServices = async (
 export const fetchEditShiftRecordServices = async (
     shiftRecordId,
     clockIn,
-    clockOut,
-    authToken
+    clockOut
 ) => {
     const res = await fetch(
         `${VITE_API_URL}/shiftrecords/edit/${shiftRecordId}`,
         {
             method: 'PUT',
+            credentials: 'include',
             headers: {
-                Authorization: authToken,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
@@ -147,18 +134,13 @@ export const fetchEditShiftRecordServices = async (
         throw new Error(body.message);
     }
 
-    return body;
+    return body.message;
 };
 
-export const fetchDeleteShiftRecordServices = async (
-    authToken,
-    shiftRecordId
-) => {
+export const fetchDeleteShiftRecordServices = async (shiftRecordId) => {
     const res = await fetch(`${VITE_API_URL}/shiftrecords/${shiftRecordId}`, {
         method: 'DELETE',
-        headers: {
-            Authorization: authToken,
-        },
+        credentials: 'include',
     });
 
     const body = await res.json();
@@ -167,5 +149,5 @@ export const fetchDeleteShiftRecordServices = async (
         throw new Error(body.message);
     }
 
-    return body;
+    return body.message;
 };

@@ -9,7 +9,7 @@ import {
     fetchClockOutShiftRecordServices,
 } from '../../services/shiftRecordServices';
 
-const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
+const ShiftRecordComponent = ({ shiftRecordId, clockIn }) => {
     const navigate = useNavigate();
 
     const [location, setLocation] = useState({});
@@ -80,22 +80,21 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
         setLoading(true);
         const startDateTime = new Date();
         const clockIn = startDateTime.toISOString().slice(0, 16);
-        try {
-            const location = await getLocation();
-            setLocation({ currentLocation: location });
-            const data = await fetchClockInShiftRecordServices(
-                authToken,
-                clockIn,
-                location,
-                shiftRecordId
-            );
-            toast.success(data.message, { id: 'ok' });
-            delayedNavigation('/user#myservices');
-        } catch (error) {
-            toast.error(error.message, { id: 'error' });
-        } finally {
-            setLoading(false);
-        }
+        const location = await getLocation();
+        setLocation({ currentLocation: location });
+        toast.promise(
+            fetchClockInShiftRecordServices(clockIn, location, shiftRecordId),
+            {
+                loading: 'Registrando entrada...',
+                success: (response) => {
+                    return <b>{response}</b>;
+                },
+                error: (error) => {
+                    return <b>{error.message}</b>;
+                },
+            }
+        );
+        setLoading(false);
     };
 
     const getEnd = async (e) => {
@@ -103,22 +102,25 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
         setLoading(true);
         const exitDateTime = new Date();
         const clockOut = exitDateTime.toISOString().slice(0, 16);
-        try {
-            const location = await getLocation();
-            setLocation({ currentLocation: location });
-            const data = await fetchClockOutShiftRecordServices(
-                clockOut,
-                location,
-                shiftRecordId
-            );
-            toast.success(data.message, { id: 'ok' });
-            delayedNavigation('/user#myservices');
-        } catch (error) {
-            toast.error(error.message, { id: 'error' });
-        } finally {
-            setLoading(false);
-        }
+        const location = await getLocation();
+        setLocation({ currentLocation: location });
+        toast.promise(
+            fetchClockOutShiftRecordServices(clockOut, location, shiftRecordId),
+            {
+                loading: 'Registrando salida...',
+                success: (response) => {
+                    return <b>{response}</b>;
+                },
+                error: (error) => {
+                    return <b>{error.message}</b>;
+                },
+            }
+        );
+        delayedNavigation('/user#myservices');
+        setLoading(false);
     };
+
+    if (!shiftRecordId) return null;
 
     return (
         <form>

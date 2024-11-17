@@ -18,6 +18,7 @@ const ShiftsComponent = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedShiftRecordId, setSelectedShiftRecordId] = useState(null);
     const [generateExcel, setGenerateExcel] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const getShifts = async () => {
         const searchParams = new URLSearchParams({
@@ -29,16 +30,19 @@ const ShiftsComponent = () => {
         });
         const searchParamsToString = searchParams.toString();
         try {
-            const data = await fetchAllShiftRecordsServices(
-                searchParamsToString,
-                authToken
+            const response = await fetchAllShiftRecordsServices(
+                searchParamsToString
             );
 
-            setDetails(data.details);
-            setTotals(data.totals);
+            setDetails(response.details);
+            setTotals(response.totals);
+            setLoading(false);
 
-            if (generateExcel && data.excelFilePath) {
-                window.open(`${VITE_API_URL}/${data.excelFilePath}`, '_blank');
+            if (generateExcel && response.excelFilePath) {
+                window.open(
+                    `${VITE_API_URL}/${response.excelFilePath}`,
+                    '_blank'
+                );
             }
 
             setGenerateExcel(false);
@@ -93,6 +97,8 @@ const ShiftsComponent = () => {
         setModalIsOpen(false);
         setSelectedShiftRecordId(null);
     };
+
+    if (loading) return null;
 
     return (
         <>

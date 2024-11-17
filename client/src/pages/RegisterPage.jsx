@@ -35,29 +35,29 @@ const RegisterPage = () => {
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        try {
-            if (password !== repeatedPassword) {
-                throw new Error('¡Las contraseñas no coinciden!');
-            } else {
-                const data = await fetchRegisterUserServices(
+        if (password !== repeatedPassword) {
+            throw new Error('¡Las contraseñas no coinciden!');
+        } else {
+            toast.promise(
+                fetchRegisterUserServices(
                     email,
                     firstName,
                     lastName,
                     dni,
                     phone,
                     password
-                );
-
-                toast.success(data, {
-                    id: 'ok',
-                });
-
-                delayedNavigation('/login');
-            }
-        } catch (error) {
-            toast.error(error.message, {
-                id: 'error',
-            });
+                ),
+                {
+                    loading: 'Registrando usuario...',
+                    success: (response) => {
+                        delayedNavigation('/login');
+                        return <b>{response}</b>;
+                    },
+                    error: (error) => {
+                        return <b>{error.message}</b>;
+                    },
+                }
+            );
         }
     };
 
