@@ -142,6 +142,12 @@ const Header = () => {
                 <div
                     onClick={handleBurguer}
                     className={menuBurguer ? 'menuburguer open' : 'menuburguer'}
+                    role='button'
+                    tabIndex={0}
+                    aria-expanded={menuBurguer}
+                    onKeyUp={(e) => {
+                        if (e.key === 'Enter') handleBurguer();
+                    }}
                 >
                     <span></span>
                     <span></span>

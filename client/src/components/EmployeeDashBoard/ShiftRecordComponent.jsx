@@ -1,4 +1,5 @@
 import toast from 'react-hot-toast';
+import PropTypes from 'prop-types';
 import MapComponent from '../MapComponent';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -106,7 +107,6 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
             const location = await getLocation();
             setLocation({ currentLocation: location });
             const data = await fetchClockOutShiftRecordServices(
-                authToken,
                 clockOut,
                 location,
                 shiftRecordId
@@ -153,3 +153,9 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn, authToken }) => {
 };
 
 export default ShiftRecordComponent;
+
+ShiftRecordComponent.propTypes = {
+    shiftRecordId: PropTypes.string.isRequired,
+    clockIn: PropTypes.string.isRequired,
+    authToken: PropTypes.string.isRequired,
+};
