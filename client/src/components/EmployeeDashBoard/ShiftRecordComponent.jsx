@@ -87,10 +87,10 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn }) => {
             {
                 loading: 'Registrando entrada...',
                 success: (response) => {
-                    return <b>{response}</b>;
+                    return response;
                 },
                 error: (error) => {
-                    return <b>{error.message}</b>;
+                    return error.message;
                 },
             }
         );
@@ -109,10 +109,10 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn }) => {
             {
                 loading: 'Registrando salida...',
                 success: (response) => {
-                    return <b>{response}</b>;
+                    return response;
                 },
                 error: (error) => {
-                    return <b>{error.message}</b>;
+                    return error.message;
                 },
             }
         );

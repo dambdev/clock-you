@@ -24,10 +24,10 @@ const RatingServiceComponent = ({
             success: (response) => {
                 onRequestClose();
                 onRatingSuccess();
-                return <b>{response}</b>;
+                return response;
             },
             error: (error) => {
-                return <b>{error.message}</b>;
+                return error.message;
             },
         });
     };

@@ -25,10 +25,10 @@ const SendRecoverPasswordPage = () => {
             loading: 'Enviando correo...',
             success: (response) => {
                 delayedNavigation('/password');
-                return <b>{response}</b>;
+                return response;
             },
             error: (error) => {
-                return <b>{error.message}</b>;
+                return error.message;
             },
         });
     };

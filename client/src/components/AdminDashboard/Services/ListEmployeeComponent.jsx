@@ -53,10 +53,10 @@ const ListEmployeeComponent = ({ serviceId, onEmployeeAssigned }) => {
         toast.promise(fetchNewShiftRecordServices(employeeId, serviceId), {
             loading: 'Asignando empleado...',
             success: (response) => {
-                return <b>{response}</b>;
+                return response;
             },
             error: (error) => {
-                return <b>{error.message}</b>;
+                return error.message;
             },
         });
 

@@ -41,12 +41,8 @@ const EditShiftRecordComponent = ({
                     ? formatDateToLocal(new Date(response.clockOut))
                     : 'null';
 
-                {
-                    clockIn && setClockIn(clockIn);
-                }
-                {
-                    clockOut && setClockOut(clockOut);
-                }
+                setClockIn(clockIn);
+                setClockOut(clockOut);
             } catch (error) {
                 toast.error(error.message, { id: 'error' });
             }
@@ -74,9 +70,11 @@ const EditShiftRecordComponent = ({
             {
                 loading: 'Editando horario...',
                 success: (response) => {
-                    return <b>{response}</b>;
+                    return response;
                 },
-                id: 'ok',
+                error: (error) => {
+                    return error.message;
+                },
             }
         );
 

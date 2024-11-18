@@ -72,10 +72,10 @@ const EditTypeOfServicePage = () => {
                     loading: 'Editando Imágen...',
                     success: (response) => {
                         delayedNavigation('/user#services');
-                        return <b>{response}</b>;
+                        return response;
                     },
                     error: (error) => {
-                        return <b>{error.message}</b>;
+                        return error.message;
                     },
                 }
             );
@@ -93,10 +93,10 @@ const EditTypeOfServicePage = () => {
                 loading: 'Editando Servicio...',
                 success: (response) => {
                     delayedNavigation('/user#services');
-                    return <b>{response}</b>;
+                    return response;
                 },
                 error: (error) => {
-                    return <b>{error.message}</b>;
+                    return error.message;
                 },
             }
         );
@@ -113,10 +113,10 @@ const EditTypeOfServicePage = () => {
                 loading: 'Eliminando Servicio...',
                 success: (response) => {
                     delayedNavigation('/user#services');
-                    return <b>{response}</b>;
+                    return response;
                 },
                 error: (error) => {
-                    return <b>{error.message}</b>;
+                    return error.message;
                 },
             });
         }

@@ -20,10 +20,10 @@ const ValidateUserPage = () => {
                 loading: 'Validando usuario...',
                 success: (response) => {
                     delayedNavigation('/login');
-                    return <b>{response}</b>;
+                    return response;
                 },
                 error: (error) => {
-                    return <b>{error.message}</b>;
+                    return error.message;
                 },
             });
         };

@@ -39,10 +39,10 @@ const DetailServicePage = () => {
             loading: 'Eliminando turno...',
             success: (response) => {
                 setRefresh((prev) => !prev);
-                return <b>{response}</b>;
+                return response;
             },
             error: (error) => {
-                return <b>{error.message}</b>;
+                return error.message;
             },
         });
     };

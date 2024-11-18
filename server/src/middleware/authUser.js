@@ -5,7 +5,6 @@ import { SECRET } from '../../env.js';
 const authUser = (req, res, next) => {
     try {
         const authorization = req.cookies.authToken;
-        console.log('Token recibido en el middleware:', authorization);
 
         if (!authorization) {
             generateErrorUtil('No se ha proporcionado un token', 401);

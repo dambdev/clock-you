@@ -36,12 +36,10 @@ const ProfileComponent = ({ user }) => {
             {
                 loading: 'Editando datos...',
                 success: (response) => {
-                    toast.success(response, {
-                        id: 'ok',
-                    });
+                    return response;
                 },
                 error: (error) => {
-                    return <b>{error.message}</b>;
+                    return error.message;
                 },
             }
         );
@@ -64,10 +62,10 @@ const ProfileComponent = ({ user }) => {
                         setActualPassword('');
                         setNewPassword('');
                         setRepeatedNewPassword('');
-                        return <b>{response}</b>;
+                        return response;
                     },
                     error: (error) => {
-                        return <b>{error.message}</b>;
+                        return error.message;
                     },
                 }
             );
@@ -92,16 +90,16 @@ const ProfileComponent = ({ user }) => {
                 success: (response) => {
                     authLogout();
                     delayedNavigation('/');
-                    return <b>{response}</b>;
+                    return response;
                 },
                 error: (error) => {
-                    return <b>{error.message}</b>;
+                    return error.message;
                 },
             });
         }
     };
 
-    if (!user) return null;
+    if (!authToken && !user) return null;
 
     return (
         <section className='flex-1024'>
@@ -141,6 +139,7 @@ const ProfileComponent = ({ user }) => {
                         onChange={(e) => {
                             setPhone(e.target.value);
                         }}
+                        pattern='^\d{9}$'
                         required
                     />
                     {user?.role === 'employee' && (

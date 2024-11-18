@@ -29,9 +29,9 @@ const LoginPage = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const authToken = await fetchLoginUserServices(email, password);
+            const response = await fetchLoginUserServices(email, password);
 
-            authLogin(authToken.data);
+            authLogin(response);
 
             delayedNavigation('/');
         } catch (error) {

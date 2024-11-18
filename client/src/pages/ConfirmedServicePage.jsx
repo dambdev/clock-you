@@ -20,10 +20,10 @@ const ConfirmedServicePage = () => {
                 loading: 'Confirmando servicio...',
                 success: (response) => {
                     delayedNavigation('/user#orders');
-                    return <b>{response}</b>;
+                    return response;
                 },
                 error: (error) => {
-                    return <b>{error.message}</b>;
+                    return error.message;
                 },
             });
         };

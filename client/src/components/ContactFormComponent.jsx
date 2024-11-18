@@ -24,10 +24,10 @@ const ContactFormComponent = () => {
                 loading: 'Enviando consulta...',
                 success: (response = 'Consulta enviada correctamente') => {
                     e.target.reset();
-                    return <b>{response}</b>;
+                    return response;
                 },
                 error: (error) => {
-                    return <b>{error.message}</b>;
+                    return error.message;
                 },
             }
         );

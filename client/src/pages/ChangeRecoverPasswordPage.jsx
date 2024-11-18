@@ -38,10 +38,10 @@ const ChangeRecoverPasswordPage = () => {
                     loading: 'Cambiando contraseña...',
                     success: (response) => {
                         delayedNavigation('/login');
-                        return <b>{response}</b>;
+                        return response;
                     },
                     error: (error) => {
-                        return <b>{error.message}</b>;
+                        return error.message;
                     },
                 }
             );

@@ -27,10 +27,10 @@ const AvatarComponent = ({ user }) => {
             toast.promise(fetchEditAvatarUserServices(user?.id, avatar), {
                 loading: 'Cambiando avatar...',
                 success: (response) => {
-                    return <b>{response}</b>;
+                    return response;
                 },
                 error: (error) => {
-                    return <b>{error.message}</b>;
+                    return error.message;
                 },
             });
             setAvatar(null);

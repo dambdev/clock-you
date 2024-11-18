@@ -36,10 +36,10 @@ const RegisterNewTypeOfServiceController = () => {
             {
                 loading: 'Registrando servicio...',
                 success: (response) => {
-                    return <b>{response}</b>;
+                    return response;
                 },
                 error: (error) => {
-                    return <b>{error.message}</b>;
+                    return error.message;
                 },
             }
         );
