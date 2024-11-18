@@ -1,8 +1,8 @@
-import { useContext, useState, useEffect } from 'react';
+import useUser from '../../../hooks/useUser';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { FaUser, FaUserTie } from 'react-icons/fa';
-import useUser from '../../../hooks/useUser';
+import { useContext, useState, useEffect } from 'react';
 import './Header.css';
 
 const Header = () => {
@@ -10,6 +10,13 @@ const Header = () => {
     const { user } = useUser();
     const [menuBurguer, setMenuBurguer] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    const userIcon =
+        user?.role === 'admin' ? (
+            <FaUserTie />
+        ) : user?.role === 'employee' ? (
+            <FaUser />
+        ) : null;
 
     function handleBurguer() {
         if (windowWidth < 1023) setMenuBurguer(!menuBurguer);
@@ -74,15 +81,7 @@ const Header = () => {
                     id='navdinamica'
                     className={menuBurguer ? 'navdinamica show' : 'navdinamica'}
                 >
-                    <li className='identifyUserIcon'>
-                        {user?.role === 'admin' ? (
-                            <FaUserTie />
-                        ) : user?.role === 'employee' ? (
-                            <FaUser />
-                        ) : (
-                            ''
-                        )}
-                    </li>
+                    <li className='identifyUserIcon'>{userIcon}</li>
                     <li>
                         <NavLink
                             onClick={handleBurguer}

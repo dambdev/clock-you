@@ -102,7 +102,7 @@ export const fetchLoginUserServices = async (email, password) => {
         throw new Error(body.message);
     }
 
-    return body.data;
+    return body;
 };
 
 export const fetchProfileUserServices = async () => {

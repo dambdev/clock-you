@@ -1,4 +1,5 @@
 import toast from 'react-hot-toast';
+import Cookies from 'js-cookie';
 import useUser from '../hooks/useUser';
 import { AuthContext } from '../context/AuthContext';
 import { useContext, useState } from 'react';
@@ -29,9 +30,9 @@ const LoginPage = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetchLoginUserServices(email, password);
+            await fetchLoginUserServices(email, password);
 
-            authLogin(response);
+            authLogin(Cookies.get('authToken'));
 
             delayedNavigation('/');
         } catch (error) {
