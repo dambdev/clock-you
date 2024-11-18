@@ -86,6 +86,7 @@ export const fetchActiveUserServices = async (registrationCode) => {
 export const fetchLoginUserServices = async (email, password) => {
     const res = await fetch(`${VITE_API_URL}/users/login`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
         },

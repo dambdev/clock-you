@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     const authLogin = (newToken) => {
         Cookies.set('authToken', newToken, {
             expires: 1,
-            // httpOnly: true,
+            httpOnly: true,
             secure: VITE_NODE_ENV === 'production',
             sameSite: 'strict',
         });
