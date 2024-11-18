@@ -70,6 +70,8 @@ const EditShiftRecordComponent = ({
             {
                 loading: 'Editando horario...',
                 success: (response) => {
+                    onRequestClose();
+                    onEditSuccess();
                     return response;
                 },
                 error: (error) => {
@@ -77,9 +79,6 @@ const EditShiftRecordComponent = ({
                 },
             }
         );
-
-        onRequestClose();
-        onEditSuccess();
     };
 
     return (
