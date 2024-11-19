@@ -44,8 +44,6 @@ const exitShiftRecordService = async (shiftRecordId, location, clockOut) => {
         `,
         [serviceId[0].serviceId]
     );
-
-    return;
 };
 
 export default exitShiftRecordService;

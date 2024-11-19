@@ -126,7 +126,7 @@ const TypeOfServicesPage = () => {
                                 <div className='flex mt-2'>
                                     {[...Array(5)].map((_, index) => (
                                         <FaStar
-                                            key={index}
+                                            key={item.id + '-' + index}
                                             size={30}
                                             color={
                                                 index + 1 <=

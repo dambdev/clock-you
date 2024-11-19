@@ -1,12 +1,9 @@
 const { VITE_API_URL } = import.meta.env;
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchAllUsersServices } from '../../../services/userServices';
 import toast from 'react-hot-toast';
-import { AuthContext } from '../../../context/AuthContext';
 
 const ListUserComponent = () => {
-    const { session } = useContext(AuthContext);
-
     const [data, setData] = useState([]);
     const [city, setCity] = useState('');
     const [job, setJob] = useState('');
@@ -32,8 +29,7 @@ const ListUserComponent = () => {
             const searchParamsToString = searchParams.toString();
             try {
                 const response = await fetchAllUsersServices(
-                    searchParamsToString,
-                    session
+                    searchParamsToString
                 );
 
                 setData(response);
@@ -46,18 +42,16 @@ const ListUserComponent = () => {
         };
 
         getAllUserList();
-    }, [city, job, active, role, session]);
+    }, [city, job, active, role]);
 
     const citiesNoRepeated = [
         ...new Set(
-            data.map((item) => item.city).filter((city) => city && city.trim())
+            data.map((item) => item.city?.trim()).filter((city) => city)
         ),
     ].sort((a, b) => a.localeCompare(b));
 
     const jobNoRepeated = [
-        ...new Set(
-            data.map((item) => item.job).filter((job) => job && job.trim())
-        ),
+        ...new Set(data.map((item) => item.job?.trim()).filter((job) => job)),
     ].sort((a, b) => a.localeCompare(b));
 
     if (loading) return null;

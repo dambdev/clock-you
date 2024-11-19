@@ -1,14 +1,11 @@
 import toast from 'react-hot-toast';
 import RatingModal from './RatingServiceComponent.jsx';
 import { NavLink } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext.jsx';
 import { fetchClientAllServicesServices } from '../../services/serviceServices.js';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { FaStar, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 
 const OrdersComponent = () => {
-    const { session } = useContext(AuthContext);
-
     const [data, setData] = useState([]);
     const [status, setStatus] = useState('');
     const [type, setType] = useState('');
@@ -212,7 +209,7 @@ const OrdersComponent = () => {
                                 <div className='flex mt-2 mb-4'>
                                     {[...Array(5)].map((_, index) => (
                                         <FaStar
-                                            key={index}
+                                            key={index + '-' + item.id}
                                             size={30}
                                             color={
                                                 index + 1 <= item.rating

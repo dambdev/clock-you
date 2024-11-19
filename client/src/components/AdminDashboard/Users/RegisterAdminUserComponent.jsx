@@ -1,13 +1,10 @@
-import { AuthContext } from '../../../context/AuthContext';
-import { useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { fetchRegisterAdminUserServices } from '../../../services/userServices';
 import { fetchAllTypeOfServicesServices } from '../../../services/typeOfServiceServices';
 
 import toast from 'react-hot-toast';
 
 const RegisterAdminUserComponent = () => {
-    const { session } = useContext(AuthContext);
-
     const [data, setData] = useState([]);
     const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');

@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import ListServicesComponent from './ListServicesComponent.jsx';
-import RegisterServicesComponent from './RegisterServicesComponent.jsx';
+import RegisterNewTypeOfServiceController from './RegisterNewTypeOfServiceController.jsx';
 
 const ServicesComponent = () => {
     const [activeSection, setActiveSection] = useState('ListServicesComponent');
@@ -13,7 +13,7 @@ const ServicesComponent = () => {
 
     const sectionComponents = {
         ListServicesComponent: <ListServicesComponent />,
-        RegisterServicesComponent: <RegisterServicesComponent />,
+        RegisterServicesComponent: <RegisterNewTypeOfServiceController />,
     };
 
     return (

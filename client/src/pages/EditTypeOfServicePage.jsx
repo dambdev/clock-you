@@ -1,8 +1,7 @@
 import toast from 'react-hot-toast';
-import { AuthContext } from '../context/AuthContext';
 import { VITE_API_URL } from '../../env.local.js';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import {
     fetchTypeOfServiceServices,
     fetchDeleteTypeOfServiceServices,
@@ -14,7 +13,6 @@ const EditTypeOfServicePage = () => {
     const navigate = useNavigate();
 
     const { typeOfServiceId } = useParams();
-    const { session } = useContext(AuthContext);
 
     const [data, setData] = useState([]);
     const [description, setDescription] = useState('');

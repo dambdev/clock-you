@@ -1,11 +1,8 @@
 import toast from 'react-hot-toast';
-import { AuthContext } from '../../../context/AuthContext';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { fetchNewTypeOfServiceServices } from '../../../services/typeOfServiceServices';
 
 const RegisterNewTypeOfServiceController = () => {
-    const { session } = useContext(AuthContext);
-
     const [type, setType] = useState('');
     const [description, setDescription] = useState('');
     const [city, setCity] = useState('');

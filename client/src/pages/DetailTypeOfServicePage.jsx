@@ -48,7 +48,7 @@ const DetailTypeOfServicePage = () => {
                     <div className='flex justify-center mb-2'>
                         {[...Array(5)].map((_, index) => (
                             <FaStar
-                                key={index}
+                                key={data.id + '-' + index}
                                 size={30}
                                 color={
                                     index + 1 <= Math.ceil(data.averageRating)

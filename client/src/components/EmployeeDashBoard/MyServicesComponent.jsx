@@ -1,14 +1,11 @@
 import toast from 'react-hot-toast';
 import CalendarComponent from '../CalendarComponent.jsx';
-import { AuthContext } from '../../context/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchEmployeeAllServicesServices } from '../../services/serviceServices.js';
 
 const MyServicesComponent = () => {
     const navigate = useNavigate();
-
-    const { session } = useContext(AuthContext);
 
     const [data, setData] = useState([]);
     const [status, setStatus] = useState('');
@@ -24,14 +21,6 @@ const MyServicesComponent = () => {
                 const response = await fetchEmployeeAllServicesServices(
                     searchParamsToString
                 );
-                const dataFiltered = response.filter((data) => {
-                    return (
-                        data.status === 'confirmed' ||
-                        data.status === 'completed' ||
-                        data.status === 'accepted'
-                    );
-                });
-
                 setData(response);
                 setLoading(false);
             } catch (error) {
@@ -41,7 +30,7 @@ const MyServicesComponent = () => {
             }
         };
         getServices();
-    }, [status, session]);
+    }, [status]);
 
     const resetFilter = (e) => {
         e.preventDefault();

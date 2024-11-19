@@ -2,8 +2,7 @@ import Modal from 'react-modal';
 import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
 import { FaStar } from 'react-icons/fa';
-import { AuthContext } from '../../context/AuthContext';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { fetchRatingServiceServices } from '../../services/serviceServices';
 
 const RatingServiceComponent = ({
@@ -11,8 +10,6 @@ const RatingServiceComponent = ({
     onRequestClose,
     onRatingSuccess,
 }) => {
-    const { session } = useContext(AuthContext);
-
     const [rating, setRating] = useState(null);
     const [hover, setHover] = useState(null);
 

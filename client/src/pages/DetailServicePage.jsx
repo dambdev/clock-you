@@ -98,7 +98,12 @@ const DetailServicePage = () => {
                             <legend>Empleados asignados</legend>
                             {Array.isArray(data.employees) &&
                                 data.employees.map((employee, index) => (
-                                    <p key={index} className='mt-2'>
+                                    <p
+                                        key={
+                                            index + '-' + employee.shiftRecordId
+                                        }
+                                        className='mt-2'
+                                    >
                                         {employee.firstNameEmployee}{' '}
                                         {employee.lastNameEmployee}
                                         <button
@@ -149,7 +154,7 @@ const DetailServicePage = () => {
                                     <section className='flex mb-2 justify-center'>
                                         {[...Array(5)].map((_, index) => (
                                             <FaStar
-                                                key={index}
+                                                key={index + '-'}
                                                 size={30}
                                                 color={
                                                     index + 1 <= data.rating

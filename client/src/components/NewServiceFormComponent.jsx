@@ -12,7 +12,7 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
     const { session } = useContext(AuthContext);
 
     const noAuthenticated = () => {
-        if (!session) { 
+        if (!session) {
             toast('Debes de iniciar sesión para poder enviar el formulario', {
                 id: 'ok',
             });
@@ -277,7 +277,7 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
                             }
                         >
                             {serviceEntries.map((_, idx) => (
-                                <option key={idx} value={idx}>
+                                <option key={idx + '-day'} value={idx}>
                                     Día {idx + 1}
                                 </option>
                             ))}
@@ -321,11 +321,7 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
                     placeholder={`${totalAccumulatedPrice} €`}
                 />
                 <div className='mx-auto'>
-                    <button
-                        className='mr-4'
-                        type='submit'
-                        disabled={!session}
-                    >
+                    <button className='mr-4' type='submit' disabled={!session}>
                         Solicitar
                     </button>
                     <button onClick={resetInputs}>Limpiar</button>

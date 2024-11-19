@@ -86,7 +86,7 @@ const DetailServiceEmployeePage = () => {
                         <div className='flex mb-2 justify-center'>
                             {[...Array(5)].map((_, index) => (
                                 <FaStar
-                                    key={index}
+                                    key={data.id + '-' + index}
                                     size={30}
                                     color={
                                         index + 1 <= data.rating

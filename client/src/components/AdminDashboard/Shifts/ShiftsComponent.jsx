@@ -1,14 +1,11 @@
 import toast from 'react-hot-toast';
 import EditShiftRecordModal from './EditShiftRecordComponent';
-import { AuthContext } from '../../../context/AuthContext';
 import { VITE_API_URL } from '../../../../env.local.js';
 import { fetchAllShiftRecordsServices } from '../../../services/shiftRecordServices';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { FaStar, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 
 const ShiftsComponent = () => {
-    const { session } = useContext(AuthContext);
-
     const [details, setDetails] = useState([]);
     const [totals, setTotals] = useState([]);
     const [employeeId, setEmployeeId] = useState('');
@@ -127,7 +124,10 @@ const ShiftsComponent = () => {
                         Empleado:
                     </option>
                     {employeeList.map((employee, index) => (
-                        <option key={index} value={employee.id}>
+                        <option
+                            key={index + '-' + employee.id}
+                            value={employee.id}
+                        >
                             {`${employee.firstName} ${employee.lastName}`}
                         </option>
                     ))}
@@ -141,8 +141,8 @@ const ShiftsComponent = () => {
                     <option value='' disabled>
                         Servicio:
                     </option>
-                    {typeNoRepeated.map((type, index) => (
-                        <option key={index} value={type}>
+                    {typeNoRepeated.map((type) => (
+                        <option key={type} value={type}>
                             {type}
                         </option>
                     ))}
@@ -154,7 +154,10 @@ const ShiftsComponent = () => {
             </form>
             <ul className='cards'>
                 {totals.map((total, index) => (
-                    <li key={index} className='relative'>
+                    <li
+                        key={index + '-' + total.employeeId}
+                        className='relative'
+                    >
                         <h3>{`${total.firstName} ${total.lastName}`}</h3>
                         <p className='mb-2'>
                             Lleva trabajado: {total.totalHoursWorked} Horas y{' '}
@@ -164,7 +167,7 @@ const ShiftsComponent = () => {
                 ))}
             </ul>
             <ul className='cards'>
-                {details.map((item, index) => {
+                {details.map((item) => {
                     const clockIn = item.clockIn
                         ? new Date(item.clockIn).toLocaleString()
                         : null;
@@ -176,7 +179,7 @@ const ShiftsComponent = () => {
                         : null;
 
                     return (
-                        <li key={index} className='relative'>
+                        <li key={item.id} className='relative'>
                             <div className='icon-container'>
                                 {item.status === 'completed' ? (
                                     <FaCheckCircle className='text-green-500' />
@@ -209,7 +212,7 @@ const ShiftsComponent = () => {
                                 <div className='flex my-2'>
                                     {[...Array(5)].map((_, index) => (
                                         <FaStar
-                                            key={index}
+                                            key={`${item.id}-${index}`}
                                             size={30}
                                             color={
                                                 index + 1 <= item.rating
