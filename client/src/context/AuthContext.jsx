@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
-import { createContext, useState } from 'react';
+import { createContext, useState, useMemo } from 'react';
 
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-    const [session, setSession] = useState(localStorage.getItem('session') || null);
+    const [session, setSession] = useState(
+        localStorage.getItem('session') || null
+    );
 
     const authLogin = (token) => {
         setSession(token);
@@ -16,10 +18,13 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('session');
     };
 
+    const value = useMemo(
+        () => ({ session, authLogin, authLogout }),
+        [session]
+    );
+
     return (
-        <AuthContext.Provider value={{ session, authLogin, authLogout }}>
-            {children}
-        </AuthContext.Provider>
+        <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
     );
 };
 
