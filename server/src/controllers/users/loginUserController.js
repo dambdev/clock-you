@@ -35,21 +35,34 @@ const loginUserController = async (req, res, next) => {
             role: user.role,
         };
 
-        const data = jwt.sign(tokenInfo, SECRET, {
-            expiresIn: '1d',
+        const token = jwt.sign(tokenInfo, SECRET, {
+            expiresIn: '1h',
         });
 
-        res.cookie('authToken', data, {
+        const refreshToken = jwt.sign(tokenInfo, SECRET, {
+            expiresIn: '7d',
+        });
+
+        res.cookie('authToken', token, {
             httpOnly: true,
             secure: NODE_ENV === 'production',
             sameSite: 'strict',
-            maxAge: 1000 * 60 * 60 * 24,
-        });
-
-        res.send({
-            status: 'ok',
-            data,
-        });
+            maxAge: 1000 * 60 * 60,
+            domain: '.damb.dev',
+        })
+            .cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+                secure: NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: 1000 * 60 * 60 * 24 * 7,
+                domain: '.damb.dev',
+            })
+            .send({
+                status: 'ok',
+                message: `Bienvenid@ ${user.firstName}`,
+                token,
+                refreshToken,
+            });
     } catch (error) {
         next(error);
     }

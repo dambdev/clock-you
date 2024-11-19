@@ -17,6 +17,7 @@ import {
     registerUserAdminController,
     changeUserPasswordController,
     sendRecoverPasswordCodeController,
+    logoutUserController,
 } from '../controllers/users/index.js';
 
 const router = express.Router();
@@ -38,6 +39,8 @@ router.get(
 router.post('/users/register', registerUserController);
 
 router.post('/users/login', loginUserController);
+
+router.post('/users/logout', logoutUserController);
 
 router.post('/users/password/recover', sendRecoverPasswordCodeController);
 

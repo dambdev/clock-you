@@ -1,15 +1,12 @@
 import toast from 'react-hot-toast';
-import Cookies from 'js-cookie';
 import useUser from '../hooks/useUser';
-import { AuthContext } from '../context/AuthContext';
-import { useContext, useState } from 'react';
 import { fetchLoginUserServices } from '../services/userServices';
 import { Navigate, useNavigate, NavLink } from 'react-router-dom';
+import { useState } from 'react';
 
 const LoginPage = () => {
     const navigate = useNavigate();
 
-    const { authLogin } = useContext(AuthContext);
     const { user } = useUser();
 
     const [email, setEmail] = useState('');
@@ -29,17 +26,14 @@ const LoginPage = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        try {
-            await fetchLoginUserServices(email, password);
-
-            authLogin(Cookies.get('authToken'));
-
-            delayedNavigation('/');
-        } catch (error) {
-            toast.error(error.message, {
-                id: 'error',
-            });
-        }
+        toast.promise(fetchLoginUserServices(email, password), {
+            loading: 'Iniciando sesion...',
+            success: (response) => {
+                delayedNavigation('/');
+                return response.message;
+            },
+            error: (error) => error.message,
+        });
     };
 
     if (user) return <Navigate to='/' />;

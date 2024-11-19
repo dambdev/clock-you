@@ -2,6 +2,7 @@ import getUserController from './getUserController.js';
 import editUserController from './editUserController.js';
 import loginUserController from './loginUserController.js';
 import listUsersController from './listUsersController.js';
+import logoutUserController from './logoutUserController.js';
 import deleteUserController from './deleteUserController.js';
 import registerUserController from './registerUserController.js';
 import validateUserController from './validateUserController.js';
@@ -17,6 +18,7 @@ export {
     editUserController,
     loginUserController,
     listUsersController,
+    logoutUserController,
     deleteUserController,
     registerUserController,
     validateUserController,

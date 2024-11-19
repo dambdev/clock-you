@@ -105,6 +105,21 @@ export const fetchLoginUserServices = async (email, password) => {
     return body;
 };
 
+export const fetchLogoutUserServices = async () => {
+    const res = await fetch(`${VITE_API_URL}/users/logout`, {
+        method: 'POST',
+        credentials: 'include',
+    });
+
+    const body = await res.json();
+
+    if (body.status === 'error') {
+        throw new Error(body.message);
+    }
+
+    return body.message;
+};
+
 export const fetchProfileUserServices = async () => {
     const res = await fetch(`${VITE_API_URL}/user`, {
         credentials: 'include',

@@ -2,12 +2,18 @@ import useUser from '../../../hooks/useUser';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { FaUser, FaUserTie } from 'react-icons/fa';
+import toast from 'react-hot-toast';
 import { useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { fetchLogoutUserServices } from '../../../services/userServices';
 import './Header.css';
 
 const Header = () => {
+    const navigate = useNavigate();
+
     const { authLogout } = useContext(AuthContext);
     const { user } = useUser();
+
     const [menuBurguer, setMenuBurguer] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -65,6 +71,17 @@ const Header = () => {
             window.removeEventListener('resize', handleResize);
         };
     }, [menuBurguer, windowWidth]);
+
+    const handleLogout = async () => {
+        toast.promise(fetchLogoutUserServices(), {
+            loading: 'Cerrando sesión...',
+            success: (response) => response,
+            error: (error) => error.message,
+        });
+
+        authLogout();
+        navigate('/');
+    };
 
     return (
         <header id='mainHeader'>
@@ -127,7 +144,7 @@ const Header = () => {
                                 <NavLink
                                     onClick={() => {
                                         handleBurguer();
-                                        authLogout();
+                                        handleLogout();
                                     }}
                                     className='linkmainnav noBgr'
                                     to={'/'}
