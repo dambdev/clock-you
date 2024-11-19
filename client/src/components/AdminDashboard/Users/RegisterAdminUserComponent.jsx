@@ -6,7 +6,7 @@ import { fetchAllTypeOfServicesServices } from '../../../services/typeOfServiceS
 import toast from 'react-hot-toast';
 
 const RegisterAdminUserComponent = () => {
-    const { authToken } = useContext(AuthContext);
+    const { session } = useContext(AuthContext);
 
     const [data, setData] = useState([]);
     const [email, setEmail] = useState('');

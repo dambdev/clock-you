@@ -4,7 +4,7 @@ import { fetchProfileUserServices } from '../services/userServices';
 import { useContext, useEffect, useState } from 'react';
 
 const useUser = () => {
-    const { authToken } = useContext(AuthContext);
+    const { session } = useContext(AuthContext);
 
     const [user, setUser] = useState(null);
 
@@ -16,17 +16,17 @@ const useUser = () => {
                 setUser(user);
             } catch (err) {
                 toast.error(err.message, {
-                    id: 'useUser',
+                    id: 'ok',
                 });
             }
         };
 
-        if (authToken) {
+        if (session) {
             getUser();
         } else {
             setUser(null);
         }
-    }, [authToken]);
+    }, [session]);
 
     return { user };
 };

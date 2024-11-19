@@ -7,7 +7,7 @@ import { useEffect, useState, useContext } from 'react';
 import { FaStar, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 
 const ShiftsComponent = () => {
-    const { authToken } = useContext(AuthContext);
+    const { session } = useContext(AuthContext);
 
     const [details, setDetails] = useState([]);
     const [totals, setTotals] = useState([]);

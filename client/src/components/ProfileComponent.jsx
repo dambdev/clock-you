@@ -12,7 +12,7 @@ import {
 const ProfileComponent = ({ user }) => {
     const navigate = useNavigate();
 
-    const { authToken, authLogout } = useContext(AuthContext);
+    const { session, authLogout } = useContext(AuthContext);
 
     useEffect(() => {
         if (user) {
@@ -99,7 +99,8 @@ const ProfileComponent = ({ user }) => {
         }
     };
 
-    if (!authToken && !user) return null;
+    if (!session && !user) return null;
+    
 
     return (
         <section className='flex-1024'>

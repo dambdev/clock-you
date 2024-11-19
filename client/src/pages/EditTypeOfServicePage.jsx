@@ -14,7 +14,7 @@ const EditTypeOfServicePage = () => {
     const navigate = useNavigate();
 
     const { typeOfServiceId } = useParams();
-    const { authToken } = useContext(AuthContext);
+    const { session } = useContext(AuthContext);
 
     const [data, setData] = useState([]);
     const [description, setDescription] = useState('');

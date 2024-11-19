@@ -8,15 +8,13 @@ import ProfileComponent from '../components/ProfileComponent';
 import ServicesComponent from '../components/AdminDashboard/Services/ServicesComponent';
 import ContractsComponent from '../components/AdminDashboard/Contracts/ContractsComponent';
 import MyServicesComponent from '../components/EmployeeDashBoard/MyServicesComponent';
-import { AuthContext } from '../context/AuthContext';
-import { NavLink, Navigate, useLocation } from 'react-router-dom';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const DashboardPage = () => {
     const location = useLocation();
 
     const { user } = useUser();
-    const { authToken } = useContext(AuthContext);
 
     const [activeSection, setActiveSection] = useState('profile');
 
@@ -47,8 +45,6 @@ const DashboardPage = () => {
             </NavLink>
         );
     };
-
-    if (!authToken && !user) return <Navigate to='/' />;
 
     if (!user) return null;
 

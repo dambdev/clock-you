@@ -8,7 +8,7 @@ import { useEffect, useState, useContext } from 'react';
 const ContractsComponent = () => {
     const navigate = useNavigate();
 
-    const { authToken } = useContext(AuthContext);
+    const { session } = useContext(AuthContext);
 
     const [data, setData] = useState([]);
     const [status, setStatus] = useState('');
@@ -37,7 +37,7 @@ const ContractsComponent = () => {
             }
         };
         getServices();
-    }, [status, type, authToken]);
+    }, [status, type, session]);
 
     const typeNoRepeated = [...new Set(data.map((item) => item.type))].sort(
         (a, b) => a.localeCompare(b)

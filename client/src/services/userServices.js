@@ -123,7 +123,7 @@ export const fetchLogoutUserServices = async () => {
 export const fetchProfileUserServices = async () => {
     const res = await fetch(`${VITE_API_URL}/user`, {
         credentials: 'include',
-    });
+    }   );
 
     const body = await res.json();
 

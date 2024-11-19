@@ -1,7 +1,7 @@
 import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
-import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 import { useState, useContext } from 'react';
 import { fetchNewServiceServices } from '../services/serviceServices';
 import { VITE_START_TIME, VITE_END_TIME } from '../../env.local.js';
@@ -9,10 +9,10 @@ import { VITE_START_TIME, VITE_END_TIME } from '../../env.local.js';
 const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
     const navigate = useNavigate();
 
-    const { authToken } = useContext(AuthContext);
+    const { session } = useContext(AuthContext);
 
     const noAuthenticated = () => {
-        if (!authToken) {
+        if (!session) { 
             toast('Debes de iniciar sesión para poder enviar el formulario', {
                 id: 'ok',
             });
@@ -324,7 +324,7 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
                     <button
                         className='mr-4'
                         type='submit'
-                        disabled={!authToken}
+                        disabled={!session}
                     >
                         Solicitar
                     </button>

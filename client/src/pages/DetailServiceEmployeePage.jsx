@@ -9,7 +9,7 @@ const DetailServiceEmployeePage = () => {
     const location = useLocation();
 
     const { state: eventData } = location;
-    const { authToken } = useContext(AuthContext);
+    const { session } = useContext(AuthContext);
 
     const data = eventData;
 
@@ -70,7 +70,7 @@ const DetailServiceEmployeePage = () => {
                 <ShiftRecordComponent
                     shiftRecordId={data.shiftRecordId}
                     clockIn={data.clockIn}
-                    authToken={authToken}
+                    session={session}
                 />
             )}
             {data.clockIn && data.clockOut !== null && (

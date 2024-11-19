@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { AuthContext } from '../../../context/AuthContext';
 
 const ListUserComponent = () => {
-    const { authToken } = useContext(AuthContext);
+    const { session } = useContext(AuthContext);
 
     const [data, setData] = useState([]);
     const [city, setCity] = useState('');
@@ -33,7 +33,7 @@ const ListUserComponent = () => {
             try {
                 const response = await fetchAllUsersServices(
                     searchParamsToString,
-                    authToken
+                    session
                 );
 
                 setData(response);
@@ -46,7 +46,7 @@ const ListUserComponent = () => {
         };
 
         getAllUserList();
-    }, [city, job, active, role, authToken]);
+    }, [city, job, active, role, session]);
 
     const citiesNoRepeated = [
         ...new Set(

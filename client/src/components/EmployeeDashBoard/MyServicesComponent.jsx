@@ -8,7 +8,7 @@ import { fetchEmployeeAllServicesServices } from '../../services/serviceServices
 const MyServicesComponent = () => {
     const navigate = useNavigate();
 
-    const { authToken } = useContext(AuthContext);
+    const { session } = useContext(AuthContext);
 
     const [data, setData] = useState([]);
     const [status, setStatus] = useState('');
@@ -41,7 +41,7 @@ const MyServicesComponent = () => {
             }
         };
         getServices();
-    }, [status, authToken]);
+    }, [status, session]);
 
     const resetFilter = (e) => {
         e.preventDefault();

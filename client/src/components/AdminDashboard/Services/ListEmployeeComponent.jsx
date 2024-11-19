@@ -9,7 +9,7 @@ import { useState, useEffect, useContext } from 'react';
 const ListEmployeeComponent = ({ serviceId, onEmployeeAssigned }) => {
     const role = 'employee';
 
-    const { authToken } = useContext(AuthContext);
+    const { session } = useContext(AuthContext);
 
     const [data, setData] = useState([]);
     const [active, setActive] = useState('');
@@ -33,7 +33,7 @@ const ListEmployeeComponent = ({ serviceId, onEmployeeAssigned }) => {
         };
 
         getAllUserList();
-    }, [city, job, active, authToken]);
+    }, [city, job, active, session]);
 
     const citiesNoRepeated = [...new Set(data.map((item) => item.city))].sort(
         (a, b) => a.localeCompare(b)

@@ -11,7 +11,7 @@ const RatingServiceComponent = ({
     onRequestClose,
     onRatingSuccess,
 }) => {
-    const { authToken } = useContext(AuthContext);
+    const { session } = useContext(AuthContext);
 
     const [rating, setRating] = useState(null);
     const [hover, setHover] = useState(null);

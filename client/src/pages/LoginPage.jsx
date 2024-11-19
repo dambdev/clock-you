@@ -1,13 +1,14 @@
 import toast from 'react-hot-toast';
 import useUser from '../hooks/useUser';
+import { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 import { fetchLoginUserServices } from '../services/userServices';
 import { Navigate, useNavigate, NavLink } from 'react-router-dom';
-import { useState } from 'react';
-
 const LoginPage = () => {
     const navigate = useNavigate();
 
     const { user } = useUser();
+    const { authLogin } = useContext(AuthContext);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -29,6 +30,7 @@ const LoginPage = () => {
         toast.promise(fetchLoginUserServices(email, password), {
             loading: 'Iniciando sesion...',
             success: (response) => {
+                authLogin(response.status);
                 delayedNavigation('/');
                 return response.message;
             },

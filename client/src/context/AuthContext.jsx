@@ -1,24 +1,23 @@
-import Cookies from 'js-cookie';
 import PropTypes from 'prop-types';
 import { createContext, useState } from 'react';
 
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-    const [authToken, setAuthToken] = useState(
-        Cookies.get('authToken') || null
-    );
-    const [refreshToken, setRefreshToken] = useState(
-        Cookies.get('refreshToken') || null
-    );
+    const [session, setSession] = useState(localStorage.getItem('session') || null);
+
+    const authLogin = (token) => {
+        setSession(token);
+        localStorage.setItem('session', token);
+    };
 
     const authLogout = () => {
-        setAuthToken(null);
-        setRefreshToken(null);
+        setSession(null);
+        localStorage.removeItem('session');
     };
 
     return (
-        <AuthContext.Provider value={{ authToken, refreshToken, authLogout }}>
+        <AuthContext.Provider value={{ session, authLogin, authLogout }}>
             {children}
         </AuthContext.Provider>
     );

@@ -11,7 +11,7 @@ import { useState, useEffect, useContext } from 'react';
 
 const DetailServicePage = () => {
     const { serviceId } = useParams();
-    const { authToken } = useContext(AuthContext);
+    const { session } = useContext(AuthContext);
     const { user } = useUser();
 
     const [data, setData] = useState([]);
@@ -31,7 +31,7 @@ const DetailServicePage = () => {
         detailService();
     }, [serviceId, refresh]);
 
-    if (!authToken && !user) return <Navigate to='/' />;
+    if (!session && !user) return <Navigate to='/' />;
 
     const deleteShiftRecord = async (e, shiftRecordId) => {
         e.preventDefault();

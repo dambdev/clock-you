@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 import selectUserByEmailService from '../../services/users/selectUserByEmailService.js';
-import { SECRET, NODE_ENV } from '../../../env.js';
+import { SECRET, NODE_ENV, DOMAIN } from '../../../env.js';
 
 const loginUserController = async (req, res, next) => {
     try {
@@ -35,34 +35,25 @@ const loginUserController = async (req, res, next) => {
             role: user.role,
         };
 
-        const token = jwt.sign(tokenInfo, SECRET, {
-            expiresIn: '1h',
-        });
-
-        const refreshToken = jwt.sign(tokenInfo, SECRET, {
+        const dataToken = jwt.sign(tokenInfo, SECRET, {
             expiresIn: '7d',
         });
 
-        res.cookie('authToken', token, {
+
+        res.cookie('authToken', dataToken, {
             httpOnly: true,
             secure: NODE_ENV === 'production',
             sameSite: 'strict',
-            maxAge: 1000 * 60 * 60,
-            domain: '.damb.dev',
-        })
-            .cookie('refreshToken', refreshToken, {
-                httpOnly: true,
-                secure: NODE_ENV === 'production',
-                sameSite: 'strict',
-                maxAge: 1000 * 60 * 60 * 24 * 7,
-                domain: '.damb.dev',
-            })
-            .send({
-                status: 'ok',
-                message: `Bienvenid@ ${user.firstName}`,
-                token,
-                refreshToken,
-            });
+            maxAge: 1000 * 60 * 60 * 24 * 7,
+            domain: DOMAIN,
+            path: '/',
+        });
+
+
+        res.status(200).send({
+            status: 'ok',
+            message: `Bienvenid@ ${user.firstName}`,
+        });
     } catch (error) {
         next(error);
     }

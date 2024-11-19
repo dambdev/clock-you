@@ -4,7 +4,7 @@ import { useState, useContext } from 'react';
 import { fetchNewTypeOfServiceServices } from '../../../services/typeOfServiceServices';
 
 const RegisterNewTypeOfServiceController = () => {
-    const { authToken } = useContext(AuthContext);
+    const { session } = useContext(AuthContext);
 
     const [type, setType] = useState('');
     const [description, setDescription] = useState('');

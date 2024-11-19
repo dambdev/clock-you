@@ -13,7 +13,7 @@ const EditServicePage = () => {
     const navigate = useNavigate();
 
     const { serviceId } = useParams();
-    const { authToken } = useContext(AuthContext);
+    const { session } = useContext(AuthContext);
 
     const [data, setData] = useState([]);
     const [startDateTime, setStartDateTime] = useState('');
@@ -48,7 +48,7 @@ const EditServicePage = () => {
         };
 
         getService();
-    }, [serviceId, authToken]);
+    }, [serviceId, session]);
 
     const getTomorrowDate = () => {
         const tomorrow = new Date();

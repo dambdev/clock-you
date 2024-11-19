@@ -7,7 +7,7 @@ import { useEffect, useState, useContext } from 'react';
 import { FaStar, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 
 const OrdersComponent = () => {
-    const { authToken } = useContext(AuthContext);
+    const { session } = useContext(AuthContext);
 
     const [data, setData] = useState([]);
     const [status, setStatus] = useState('');

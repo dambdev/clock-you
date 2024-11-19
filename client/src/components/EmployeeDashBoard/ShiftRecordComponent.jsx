@@ -159,5 +159,5 @@ export default ShiftRecordComponent;
 ShiftRecordComponent.propTypes = {
     shiftRecordId: PropTypes.string.isRequired,
     clockIn: PropTypes.string.isRequired,
-    authToken: PropTypes.string.isRequired,
+    session: PropTypes.string.isRequired,
 };

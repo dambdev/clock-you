@@ -13,7 +13,7 @@ const EditShiftRecordComponent = ({
     onRequestClose,
     onEditSuccess,
 }) => {
-    const { authToken } = useContext(AuthContext);
+    const { session } = useContext(AuthContext);
 
     const [clockIn, setClockIn] = useState('');
     const [clockOut, setClockOut] = useState('');
@@ -49,7 +49,7 @@ const EditShiftRecordComponent = ({
         };
 
         getDetailShiftRecord();
-    }, [authToken]);
+    }, [session]);
 
     const handleEditShiftRecord = async (e) => {
         e.preventDefault();
