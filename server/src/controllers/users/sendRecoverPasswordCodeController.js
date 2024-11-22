@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import randomstring from 'randomstring';
+import crypto from 'crypto';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 import selectUserByEmailService from '../../services/users/selectUserByEmailService.js';
 import updateRecoverPasswordService from '../../services/users/updateRecoverPasswordService.js';
@@ -25,7 +25,7 @@ const sendRecoverPasswordCodeController = async (req, res, next) => {
                     'Si existe una cuenta con tu email recibirás un código de recuperación',
             });
 
-        const recoverPasswordCode = randomstring.generate(10);
+        const recoverPasswordCode = crypto.randomBytes(5).toString('hex');
 
         await updateRecoverPasswordService(email, recoverPasswordCode);
 

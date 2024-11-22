@@ -118,7 +118,8 @@ Clases Particulares, Entrenamientos Personales, Cuidado de Mascotas, Limpiezas A
 -   **GET** - `/user/` - Perfil del usuario logueado.
 -   **GET** - `/user/admin/:userId` - Admin obtiene el perfil de un usuario.
 -   **POST** - `/users/register` - Crea un nuevo usuario pendiente de activar.
--   **POST** - `/users/login` - Logea a un usuario retornando un token.
+-   **POST** - `/users/login` - Logea a un usuario retornando un token en una cookie.
+-   **POST** - `/users/logout` - Cierra la sesión de un usuario.
 -   **POST** - `/users/password/recover` - Envía al usuario un correo de recuperación de contraseña.
 -   **POST** - `/users/admin/register` - Admin crea un nuevo usuario tipo administrador o empleado.
 -   **POST** - `/users/avatar/:userId` - Usuario crea o edita su imágen de avatar.

@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import randomstring from 'randomstring';
+import crypto from 'crypto';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 import insertUserService from '../../services/users/insertUserService.js';
 
@@ -21,7 +21,7 @@ const registerUserController = async (req, res, next) => {
         const { email, password, firstName, lastName, dni, phone, job } =
             req.body;
 
-        const registrationCode = randomstring.generate(30);
+        const registrationCode = crypto.randomBytes(15).toString('hex');
 
         await insertUserService(
             email,

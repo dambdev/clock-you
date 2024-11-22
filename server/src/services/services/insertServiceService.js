@@ -1,6 +1,5 @@
 import crypto from 'crypto';
 import getPool from '../../db/getPool.js';
-import Randomstring from 'randomstring';
 import sendMailUtils from '../../utils/sendMailUtil.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 import { ADMIN_EMAIL, CLIENT_URL } from '../../../env.js';
@@ -66,7 +65,7 @@ const insertServiceService = async (
         [addressId, address, city, postCode]
     );
 
-    const validationCode = Randomstring.generate(30);
+    const validationCode = crypto.randomBytes(15).toString('hex');
 
     const serviceId = crypto.randomUUID();
 

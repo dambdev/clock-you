@@ -3,7 +3,6 @@ import sendMailUtils from '../../utils/sendMailUtil.js';
 import getPool from '../../db/getPool.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 import { CLIENT_URL } from '../../../env.js';
-import randomstring from 'randomstring';
 
 const insertAdminService = async (
     role,
@@ -28,7 +27,7 @@ const insertAdminService = async (
         generateErrorUtil('El email ya se encuentra registrado', 409);
     }
 
-    const recoverPasswordCode = randomstring.generate(10);
+    const recoverPasswordCode = crypto.randomBytes(5).toString('hex');
     const defaultPassword = crypto.randomUUID();
     const id = crypto.randomUUID();
 
