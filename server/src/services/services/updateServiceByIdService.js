@@ -1,7 +1,7 @@
 import getPool from '../../db/getPool.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 
-const updateServiceByIdService = async (
+const updateServiceByIdService = async ({
     serviceId,
     address,
     postCode,
@@ -11,8 +11,8 @@ const updateServiceByIdService = async (
     endDateTime,
     totalPrice,
     hours,
-    numberOfPeople
-) => {
+    numberOfPeople,
+}) => {
     const pool = await getPool();
 
     const [status] = await pool.query(

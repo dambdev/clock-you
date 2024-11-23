@@ -4,7 +4,7 @@ import getPool from '../../db/getPool.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 import { CLIENT_URL } from '../../../env.js';
 
-const insertAdminService = async (
+const insertAdminService = async ({
     role,
     email,
     firstName,
@@ -12,8 +12,8 @@ const insertAdminService = async (
     dni,
     phone,
     job,
-    city
-) => {
+    city,
+}) => {
     const pool = await getPool();
 
     const [user] = await pool.query(

@@ -1,6 +1,6 @@
 const { VITE_API_URL } = import.meta.env;
 
-export const fetchNewServiceServices = async (
+export const fetchNewServiceServices = async ({
     typeOfServiceId,
     startDateTime,
     endDateTime,
@@ -10,8 +10,8 @@ export const fetchNewServiceServices = async (
     postCode,
     city,
     comments,
-    totalPrice
-) => {
+    totalPrice,
+}) => {
     const res = await fetch(`${VITE_API_URL}/services/${typeOfServiceId}`, {
         method: 'POST',
         credentials: 'include',
@@ -121,7 +121,7 @@ export const fetchEmployeeAllServicesServices = async (
     return body.data;
 };
 
-export const fetchEditServiceServices = async (
+export const fetchEditServiceServices = async ({
     serviceId,
     comments,
     address,
@@ -131,8 +131,8 @@ export const fetchEditServiceServices = async (
     endDateTime,
     totalPrice,
     postCode,
-    numberOfPeople
-) => {
+    numberOfPeople,
+}) => {
     const res = await fetch(`${VITE_API_URL}/services/${serviceId}`, {
         method: 'PUT',
         credentials: 'include',

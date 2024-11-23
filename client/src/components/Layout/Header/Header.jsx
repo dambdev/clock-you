@@ -1,28 +1,27 @@
+import './Header.css';
+import toast from 'react-hot-toast';
 import useUser from '../../../hooks/useUser';
-import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { FaUser, FaUserTie } from 'react-icons/fa';
-import toast from 'react-hot-toast';
-import { useContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { fetchLogoutUserServices } from '../../../services/userServices';
-import './Header.css';
+import { useState, useEffect, useContext } from 'react';
 
 const Header = () => {
     const navigate = useNavigate();
 
-    const { authLogout } = useContext(AuthContext);
     const { user } = useUser();
+
+    const { authLogout } = useContext(AuthContext);
 
     const [menuBurguer, setMenuBurguer] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-    const userIcon =
-        user?.role === 'admin' ? (
-            <FaUserTie />
-        ) : user?.role === 'employee' ? (
-            <FaUser />
-        ) : null;
+    const userIcon = (() => {
+        if (user?.role === 'admin') return <FaUserTie />;
+        if (user?.role === 'employee') return <FaUser />;
+        return null;
+    })();
 
     function handleBurguer() {
         if (windowWidth < 1023) setMenuBurguer(!menuBurguer);
@@ -155,20 +154,13 @@ const Header = () => {
                         </>
                     )}
                 </ul>
-                <div
+                <button
                     onClick={handleBurguer}
                     className={menuBurguer ? 'menuburguer open' : 'menuburguer'}
-                    role='button'
-                    tabIndex={0}
-                    aria-expanded={menuBurguer}
-                    onKeyUp={(e) => {
-                        if (e.key === 'Enter') handleBurguer();
-                    }}
+                    aria-label='Toggle menu'
                 >
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+                    XXX
+                </button>
             </nav>
         </header>
     );

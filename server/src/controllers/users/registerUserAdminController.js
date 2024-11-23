@@ -12,7 +12,9 @@ const registerUserAdminController = async (req, res, next) => {
             dni: Joi.string().length(9).required(),
             job: Joi.string().max(25).optional(),
             city: Joi.string().max(25).optional(),
-            phone: Joi.string().pattern(/^\d{9}$/).required()
+            phone: Joi.string()
+                .pattern(/^\d{9}$/)
+                .required(),
         });
 
         const validation = schema.validate(req.body);
@@ -22,7 +24,7 @@ const registerUserAdminController = async (req, res, next) => {
         const { role, email, firstName, lastName, dni, phone, job, city } =
             req.body;
 
-        await insertAdminService(
+        await insertAdminService({
             role,
             email,
             firstName,
@@ -30,8 +32,8 @@ const registerUserAdminController = async (req, res, next) => {
             dni,
             phone,
             job,
-            city
-        );
+            city,
+        });
 
         res.send({
             status: 'ok',

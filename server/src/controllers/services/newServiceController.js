@@ -36,7 +36,7 @@ const newServiceController = async (req, res, next) => {
             totalPrice,
         } = req.body;
 
-        await insertServiceService(
+        await insertServiceService({
             typeOfServiceId,
             userId,
             startDateTime,
@@ -47,8 +47,8 @@ const newServiceController = async (req, res, next) => {
             city,
             postCode,
             comments,
-            totalPrice
-        );
+            totalPrice,
+        });
 
         res.send({
             status: 'ok',

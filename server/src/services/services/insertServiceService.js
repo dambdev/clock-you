@@ -4,7 +4,7 @@ import sendMailUtils from '../../utils/sendMailUtil.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 import { ADMIN_EMAIL, CLIENT_URL } from '../../../env.js';
 
-const insertServiceService = async (
+const insertServiceService = async ({
     typeOfServiceId,
     userId,
     startDateTime,
@@ -15,8 +15,8 @@ const insertServiceService = async (
     city,
     postCode,
     comments,
-    totalPrice
-) => {
+    totalPrice,
+}) => {
     const pool = await getPool();
 
     const [verify] = await pool.query(

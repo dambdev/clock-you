@@ -18,29 +18,41 @@ const DashboardPage = () => {
 
     const [activeSection, setActiveSection] = useState('profile');
 
+    const sectionComponents = {
+        profile: <ProfileComponent user={user} />,
+        chat: <ChatComponent user={user} />,
+        contracts: <ContractsComponent />,
+        services: <ServicesComponent />,
+        shifts: <ShiftsComponent />,
+        users: <UsersComponent />,
+        orders: <OrdersComponent />,
+        myservices: <MyServicesComponent />,
+    };
+
+    const sections = [
+        { key: 'profile', label: 'Perfil' },
+        { key: 'chat', label: 'Chat', role: ['admin', 'employee'] },
+        { key: 'contracts', label: 'Contratos', role: 'admin' },
+        { key: 'services', label: 'Servicios', role: 'admin' },
+        { key: 'shifts', label: 'Turnos', role: 'admin' },
+        { key: 'users', label: 'Usuarios', role: 'admin' },
+        { key: 'orders', label: 'Pedidos', role: 'client' },
+        { key: 'myservices', label: 'Servicios', role: 'employee' },
+    ];
+
     useEffect(() => {
         if (location.hash) {
             setActiveSection(location.hash.substring(1));
         }
     }, [location]);
 
-    const sectionComponents = {
-        profile: <ProfileComponent user={user} />,
-        chat: user?.role !== 'client' && <ChatComponent user={user} />,
-        users: user?.role === 'admin' && <UsersComponent />,
-        services: user?.role === 'admin' && <ServicesComponent />,
-        contracts: user?.role === 'admin' && <ContractsComponent />,
-        shifts: user?.role === 'admin' && <ShiftsComponent />,
-        orders: user?.role === 'client' && <OrdersComponent />,
-        myservices: user?.role === 'employee' && <MyServicesComponent />,
-    };
-
-    const renderNavLink = (section, label, extraClass = '') => {
+    const renderNavLink = (section, label) => {
         const isActive = activeSection === section;
-        return isActive ? (
-            <span className={`disabledLink ${extraClass}`}>{label}</span>
-        ) : (
-            <NavLink className={extraClass} to={`#${section}`}>
+        return (
+            <NavLink
+                to={`#${section}`}
+                className={isActive ? 'activeSelectedLink' : ''}
+            >
                 {label}
             </NavLink>
         );
@@ -52,55 +64,17 @@ const DashboardPage = () => {
         <>
             <AvatarComponent user={user} />
             <section className='manager-tabs'>
-                {renderNavLink(
-                    'profile',
-                    'Perfil',
-                    activeSection === 'profile' && 'activeSelectedLink'
-                )}
-                {user?.role !== 'client' &&
-                    renderNavLink(
-                        'chat',
-                        'Chat',
-                        activeSection === 'chat' && 'activeSelectedLink'
-                    )}
-                {user?.role === 'admin' && (
-                    <>
-                        {renderNavLink(
-                            'contracts',
-                            'Contratos',
-                            activeSection === 'contracts' &&
-                                'activeSelectedLink'
-                        )}
-                        {renderNavLink(
-                            'services',
-                            'Servicios',
-                            activeSection === 'services' && 'activeSelectedLink'
-                        )}
-                        {renderNavLink(
-                            'shifts',
-                            'Turnos',
-                            activeSection === 'shifts' && 'activeSelectedLink'
-                        )}
-                        {renderNavLink(
-                            'users',
-                            'Usuarios',
-                            activeSection === 'users' && 'activeSelectedLink'
-                        )}
-                    </>
-                )}
-                {user?.role === 'client' &&
-                    renderNavLink(
-                        'orders',
-                        'Pedidos',
-                        activeSection === 'orders' && 'activeSelectedLink'
-                    )}
-
-                {user?.role === 'employee' &&
-                    renderNavLink(
-                        'myservices',
-                        'Servicios',
-                        activeSection === 'myservices' && 'activeSelectedLink'
-                    )}
+                {sections.map(({ key, label, role }) => {
+                    if (
+                        !role ||
+                        (Array.isArray(role)
+                            ? role.includes(user?.role)
+                            : user?.role === role)
+                    ) {
+                        return renderNavLink(key, label);
+                    }
+                    return null;
+                })}
             </section>
             {sectionComponents[activeSection]}
         </>

@@ -32,7 +32,7 @@ export const fetchRegisterUserServices = async (
     return body.message;
 };
 
-export const fetchRegisterAdminUserServices = async (
+export const fetchRegisterAdminUserServices = async ({
     email,
     firstName,
     lastName,
@@ -40,8 +40,8 @@ export const fetchRegisterAdminUserServices = async (
     phone,
     job,
     city,
-    role
-) => {
+    role,
+}) => {
     const res = await fetch(`${VITE_API_URL}/users/admin/register`, {
         method: 'POST',
         credentials: 'include',
@@ -123,7 +123,7 @@ export const fetchLogoutUserServices = async () => {
 export const fetchProfileUserServices = async () => {
     const res = await fetch(`${VITE_API_URL}/user`, {
         credentials: 'include',
-    }   );
+    });
 
     const body = await res.json();
 

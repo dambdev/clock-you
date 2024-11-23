@@ -34,7 +34,7 @@ const editServiceController = async (req, res, next) => {
             numberOfPeople,
         } = req.body;
 
-        await updateServiceByIdService(
+        await updateServiceByIdService({
             serviceId,
             address,
             postCode,
@@ -44,8 +44,8 @@ const editServiceController = async (req, res, next) => {
             endDateTime,
             totalPrice,
             hours,
-            numberOfPeople
-        );
+            numberOfPeople,
+        });
 
         res.send({
             status: 'ok',
