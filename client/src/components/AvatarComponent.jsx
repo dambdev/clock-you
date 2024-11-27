@@ -5,7 +5,7 @@ import { VITE_API_URL } from '../../env.local.js';
 import { fetchEditAvatarUserServices } from '../services/userServices.js';
 
 const AvatarComponent = ({ user }) => {
-    const [avatar, setAvatar] = useState(null);
+    const [avatar, setAvatar] = useState('');
     const [previewUrl, setPreviewUrl] = useState(null);
     const [enableEditAvatar, setEnableEditAvatar] = useState(false);
 
@@ -33,8 +33,9 @@ const AvatarComponent = ({ user }) => {
                     return error.message;
                 },
             });
-            setAvatar(null);
-            setEnableEditAvatar(!enableEditAvatar);
+            setEnableEditAvatar(false);
+        } else {
+            setEnableEditAvatar(true);
         }
     };
 

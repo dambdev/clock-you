@@ -154,13 +154,14 @@ const Header = () => {
                         </>
                     )}
                 </ul>
-                <button
+                <div
                     onClick={handleBurguer}
                     className={menuBurguer ? 'menuburguer open' : 'menuburguer'}
-                    aria-label='Toggle menu'
                 >
-                    XXX
-                </button>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </nav>
         </header>
     );

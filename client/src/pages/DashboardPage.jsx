@@ -30,7 +30,7 @@ const DashboardPage = () => {
     };
 
     const sections = [
-        { key: 'profile', label: 'Perfil' },
+        { key: 'profile', label: 'Mis Datos' },
         { key: 'chat', label: 'Chat', role: ['admin', 'employee'] },
         { key: 'contracts', label: 'Contratos', role: 'admin' },
         { key: 'services', label: 'Servicios', role: 'admin' },

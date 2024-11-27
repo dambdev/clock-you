@@ -253,11 +253,8 @@ export const fetchEditAvatarUserServices = async (userId, avatar) => {
     formData.append('avatar', avatar);
 
     const res = await fetch(`${VITE_API_URL}/user/avatar/${userId}`, {
-        method: 'POST',
+        method: 'PATCH',
         credentials: 'include',
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
         body: formData,
     });
 

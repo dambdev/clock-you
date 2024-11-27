@@ -51,7 +51,7 @@ router.post(
     registerUserAdminController
 );
 
-router.post(
+router.patch(
     '/user/avatar/:userId',
     authUser,
     userExists,

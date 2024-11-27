@@ -94,6 +94,7 @@ const ShiftRecordComponent = ({ shiftRecordId, clockIn }) => {
                 },
             }
         );
+        delayedNavigation('/user#myservices');
         setLoading(false);
     };
 
