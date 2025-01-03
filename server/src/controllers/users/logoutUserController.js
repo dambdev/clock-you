@@ -5,7 +5,7 @@ const logoutUserController = (req, res, next) => {
 
     res.send({
         status: 'ok',
-        message: 'Sesión cerrada correctamente',
+        message: 'Hasta pronto!',
     });
 };
 
