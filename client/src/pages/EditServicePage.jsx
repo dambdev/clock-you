@@ -101,18 +101,18 @@ const EditServicePage = () => {
             .replace('T', ' ');
 
         toast.promise(
-            fetchEditServiceServices(
+            fetchEditServiceServices({
                 serviceId,
                 comments,
                 address,
                 hours,
                 city,
-                formattedStartDateTime,
-                formattedEndDateTime,
+                startDateTime: formattedStartDateTime,
+                endDateTime: formattedEndDateTime,
                 totalPrice,
                 postCode,
-                numberOfPeople
-            ),
+                numberOfPeople,
+            }),
             {
                 loading: 'Editando servicio...',
                 success: (response) => {

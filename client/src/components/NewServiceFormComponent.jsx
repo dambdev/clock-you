@@ -99,18 +99,18 @@ const NewServiceFormComponent = ({ typeOfServiceId, price }) => {
             .replace('T', ' ');
 
         toast.promise(
-            fetchNewServiceServices(
+            fetchNewServiceServices({
                 typeOfServiceId,
-                formattedStartDateTime,
-                formattedEndDateTime,
-                entry.numberOfPeople,
-                entry.hours,
+                startDateTime: formattedStartDateTime,
+                endDateTime: formattedEndDateTime,
+                numberOfPeople: entry.numberOfPeople,
+                hours: entry.hours,
                 address,
                 postCode,
                 city,
-                entry.comments,
-                entry.totalPrice
-            ),
+                comments: entry.comments,
+                totalPrice: entry.totalPrice,
+            }),
             {
                 loading: 'Creando servicio...',
                 success: (response) => {
