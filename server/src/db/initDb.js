@@ -1,26 +1,24 @@
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
-import getPool from './getPool.js';
 import {
+    ADMIN_DNI,
     ADMIN_EMAIL,
-    ADMIN_PASSWORD,
     ADMIN_FIRST_NAME,
     ADMIN_LAST_NAME,
-    ADMIN_DNI,
+    ADMIN_PASSWORD,
     ADMIN_PHONE,
 } from '../../env.js';
+import getPool from './getPool.js';
 
 const initDb = async () => {
     try {
         const pool = await getPool();
 
-        console.log('Borrando tablas...');
+        console.log('Borrando base de datos...');
+        await pool.query(`DROP DATABASE IF EXISTS ${MYSQL_DB}`);
 
-        await pool.query(
-            `
-            DROP TABLE IF EXISTS shiftRecords, services, typeOfServices, users, addresses
-            `
-        );
+        console.log('Creando base de datos...');
+        await pool.query(`CREATE DATABASE IF NOT EXISTS ${MYSQL_DB}`);
 
         console.log('Creando tablas...');
 

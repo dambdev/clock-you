@@ -1,21 +1,13 @@
 import mysql from 'mysql2/promise';
-import { MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB } from '../../env.js';
+import { MYSQL_DB, MYSQL_HOST, MYSQL_PASS, MYSQL_USER } from '../../env.js';
 
 let pool;
 
 const getPool = async () => {
     try {
         if (!pool) {
-            const poolTemp = mysql.createPool({
-                host: MYSQL_HOST,
-                user: MYSQL_USER,
-                password: MYSQL_PASS,
+            pool = mysql.createPool({
             });
-
-            await poolTemp.query('CREATE DATABASE IF NOT EXISTS ??', [
-                MYSQL_DB,
-            ]);
-            await poolTemp.end();
 
             pool = mysql.createPool({
                 connectionLimit: 10,
