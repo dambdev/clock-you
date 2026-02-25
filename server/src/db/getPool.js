@@ -11,7 +11,7 @@ const getPool = async () => {
 
             pool = mysql.createPool({
                 connectionLimit: 10,
-                host: MYSQL_HOST,
+                socketPath: '/var/run/mysqld/mysqld.sock', // Usar Unix Socket para mejor rendimiento
                 user: MYSQL_USER,
                 password: MYSQL_PASS,
                 database: MYSQL_DB,

@@ -13,7 +13,7 @@
   "license": "ISC",
   "description": "Es una aplicación de empresas de Servicios personales diversos como Clases Particulares, Entrenamientos Personales, Cuidado de Mascotas, Limpiezas A Domicilio, Masajes, Mantenimientos Del Hogar etc… En definitiva, está pensado para empresas que ofertan servicios personalizados a clientes particulares. El fuerte y atractivo de esta aplicación sería hacer más fácil y rápido la búsqueda del servicio y poder disfrutar de un control centralizado del personal que se encuentra en diversas localizaciones y poder brindarle un Servicio de RRHH totalmente digitalizado e intuitivo. ",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "exceljs": "^4.4.0",
@@ -23,7 +23,7 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "mysql2": "^3.12.0",
-    "nodemailer": "^6.10.0",
+    "nodemailer": "^8.0.1",
     "sharp": "^0.33.5",
     "socket.io": "^4.8.1"
   }

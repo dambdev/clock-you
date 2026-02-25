@@ -5,6 +5,8 @@ import generateErrorUtil from '../../utils/generateErrorUtil.js';
 import selectUserByEmailService from '../../services/users/selectUserByEmailService.js';
 import { SECRET, NODE_ENV, DOMAIN } from '../../../env.js';
 
+const authLogTs = () => new Date().toISOString().slice(0, 19).replace('T', ' ');
+
 const loginUserController = async (req, res, next) => {
     try {
         const schema = Joi.object().keys({
@@ -24,11 +26,15 @@ const loginUserController = async (req, res, next) => {
 
         if (user) validPassword = await bcrypt.compare(password, user.password);
 
-        if (!user || !validPassword)
+        if (!user || !validPassword) {
+            console.warn(`${authLogTs()} [AUTH] Intento de login fallido - Contraseña incorrecta: ${email}`);
             generateErrorUtil('Usuario o contraseña incorrecto.', 401);
+        }
 
         if (!user.active)
             generateErrorUtil('Usuario pendiente de activacion', 403);
+
+        console.log(`${authLogTs()} [AUTH] Login exitoso: ${user.email} (${user.role})`);
 
         const tokenInfo = {
             id: user.id,
@@ -55,6 +61,9 @@ const loginUserController = async (req, res, next) => {
             message: `Bienvenid@ ${user.firstName}`,
         });
     } catch (error) {
+        if (req.body?.email) {
+            console.error(`${authLogTs()} [AUTH] Error en autenticación para ${req.body.email}:`, error?.message || error);
+        }
         next(error);
     }
 };
