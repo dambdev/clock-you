@@ -11,6 +11,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
+        "postbuild": "test ! -f /etc/nginx/lua/insert_nonce_placeholders.sh || bash /etc/nginx/lua/insert_nonce_placeholders.sh \"$(pwd)/dist\"",
         "lint": "eslint .",
         "preview": "vite preview"
     },
