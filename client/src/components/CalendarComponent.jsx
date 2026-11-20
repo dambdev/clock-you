@@ -9,7 +9,7 @@ const CalendarComponent = ({ events, onSelectEvent, defaultView }) => {
     const localizer = dayjsLocalizer(dayjs);
     dayjs.locale('es');
     const eventStyle = (event) => {
-        let backgroundColor = '';
+        let backgroundColor;
         switch (event.status) {
             case 'accepted':
                 backgroundColor = 'orange';
@@ -41,7 +41,7 @@ const CalendarComponent = ({ events, onSelectEvent, defaultView }) => {
 
     const dayStyle = (date) => {
         const day = date.getDay();
-        let backgroundColor = '';
+        let backgroundColor;
 
         if (day === 0) {
             backgroundColor = 'lightcoral';
